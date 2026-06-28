@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SeaResource" format=3 uid="uid://dq0jlpndenq14"]
+
+[ext_resource type="PackedScene" uid="uid://djmtro320t0je" path="res://scenes/props/ShellResource.tscn" id="1_jdhav"]
+[ext_resource type="Script" uid="uid://dj0ysv7p8qw2o" path="res://scripts/systems/SeaResource.cs" id="1_olecg"]
+[ext_resource type="Texture2D" uid="uid://rb5mprufwyah" path="res://assets/textures/ui_deco/shells.png" id="1_xi2kx"]
+
+[resource]
+script = ExtResource("1_olecg")
+Id = "shell"
+DisplayName = "SHELL"
+Icon = ExtResource("1_xi2kx")
+ResourceRarity = 3
+BaseValue = 5
+Weight = 3.0
+SpawnZones = PackedStringArray("Zone_Shallow")
+MaxDepth = 8.0
+ResourceScene = ExtResource("1_jdhav")
+MinScale = 0.8
+MaxScale = 1.2
+SpawnPeakDistance = 100.0
+SpawnSigma = 200.0
+SpawnCount = 25

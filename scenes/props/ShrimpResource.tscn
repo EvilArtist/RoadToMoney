@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://ccuirbomuk4me"]
+
+[ext_resource type="PackedScene" uid="uid://cwv1h33ly37a" path="res://assets/models/shrimp.glb" id="1_b5wcl"]
+[ext_resource type="Script" uid="uid://b3iuebbhl8i5f" path="res://scripts/systems/ResourceMove.cs" id="1_k4icc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_k4icc"]
+radius = 3.0
+
+[node name="ShrimpResource" type="Node3D" unique_id=1780341110]
+script = ExtResource("1_k4icc")
+
+[node name="Sketchfab_Scene" parent="." unique_id=648739571 instance=ExtResource("1_b5wcl")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -4.5, 18, 13)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1747775621]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1513423870]
+shape = SubResource("SphereShape3D_k4icc")

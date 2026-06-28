@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://xvdr6vbggcvp"]
+
+[ext_resource type="Script" uid="uid://b3iuebbhl8i5f" path="res://scripts/systems/ResourceMove.cs" id="1_u1c7r"]
+[ext_resource type="PackedScene" uid="uid://dkbf8bfpt8edr" path="res://assets/models/resources/sailfish.glb" id="1_u44uw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_u1c7r"]
+radius = 5.0
+
+[node name="Sailfish" type="Node3D" unique_id=1882248455]
+script = ExtResource("1_u1c7r")
+
+[node name="Sketchfab_Scene" parent="." unique_id=362686749 instance=ExtResource("1_u44uw")]
+transform = Transform3D(-0.01, 0, -8.7422775e-10, 0, 0.01, 0, 8.7422775e-10, 0, -0.01, 0, -4, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=329000470]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=810168787]
+shape = SubResource("SphereShape3D_u1c7r")

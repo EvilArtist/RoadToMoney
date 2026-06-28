@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://4oe7pq86d1n6"]
+
+[ext_resource type="Script" uid="uid://0xtc54epvhc2" path="res://scripts/ui/SplashScreen.cs" id="1_7fm2c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_abrmh"]
+bg_color = Color(1, 1, 1, 0.080000006)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1qo5c"]
+bg_color = Color(1, 0.8392157, 0.34901962, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="SplashScreen" type="Control" unique_id=1254836509]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7fm2c")
+
+[node name="Background" type="ColorRect" parent="." unique_id=580977051]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.043137256, 0.11764706, 0.18039216, 1)
+
+[node name="LogoLabel" type="Label" parent="." unique_id=1617412563]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 90
+text = "ROAD TO MONEY"
+
+[node name="LoadingBar" type="ProgressBar" parent="." unique_id=502326943]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 140.0
+offset_top = -140.0
+offset_right = -140.0
+offset_bottom = -120.0
+theme_override_styles/background = SubResource("StyleBoxFlat_abrmh")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1qo5c")
+
+[node name="StatusLabel" type="Label" parent="LoadingBar" unique_id=100683714]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading..."

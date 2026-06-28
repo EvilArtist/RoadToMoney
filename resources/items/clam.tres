@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="SeaResource" format=3 uid="uid://dcjgypcc8rduv"]
+
+[ext_resource type="PackedScene" uid="uid://bikl3govcvodl" path="res://scenes/props/ClamResource.tscn" id="1_avl27"]
+[ext_resource type="Script" uid="uid://dj0ysv7p8qw2o" path="res://scripts/systems/SeaResource.cs" id="1_ewxky"]
+[ext_resource type="Texture2D" uid="uid://b0oyn4uc4a63q" path="res://assets/textures/ui_deco/clam.png" id="1_yoblc"]
+
+[resource]
+script = ExtResource("1_ewxky")
+Id = "clam"
+DisplayName = "CLAM"
+Icon = ExtResource("1_yoblc")
+BaseValue = 18
+Weight = 2.0
+SpawnZones = PackedStringArray("Zone_Shallow")
+MinDepth = 5.0
+MaxDepth = 15.0
+CatchDifficulty = 0
+ResourceScene = ExtResource("1_avl27")
+MinScale = 0.8
+MaxScale = 1.2
+SpawnPeakDistance = 200.0
+SpawnSigma = 200.0
+SpawnCount = 25

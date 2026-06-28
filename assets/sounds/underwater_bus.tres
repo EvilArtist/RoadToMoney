@@ -1,0 +1,7 @@
+[gd_resource type="AudioEffectEQ" format=3 uid="uid://jdx7qry4ps0f"]
+
+[resource]
+resource_name = "EQ"
+band_db/32_hz = -4.0
+band_db/100_hz = -6.0
+band_db/320_hz = -3.0

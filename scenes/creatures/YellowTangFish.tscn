@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cfc0vlswi4uwf"]
+
+[ext_resource type="Script" uid="uid://6rn3htcsfhmq" path="res://scripts/creatures/CreatureAI.cs" id="1_6a46i"]
+[ext_resource type="PackedScene" uid="uid://bsuuu0vywgbya" path="res://assets/models/creatures/yellow_tang_fish.glb" id="1_ng8t5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6a46i"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gc8wj"]
+radius = 5.0
+
+[node name="YellowTangFish" type="CharacterBody3D" unique_id=772192887]
+script = ExtResource("1_6a46i")
+
+[node name="Sketchfab_Scene" parent="." unique_id=124555077 instance=ExtResource("1_ng8t5")]
+transform = Transform3D(-15, 0, -2.264937e-06, 0, 15, 0, 2.264937e-06, 0, -15, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=416304905]
+shape = SubResource("CapsuleShape3D_6a46i")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1004586643]
+
+[node name="DetectionShape" type="CollisionShape3D" parent="Area3D" unique_id=1403648004]
+shape = SubResource("SphereShape3D_gc8wj")

@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SeaResource" format=3 uid="uid://bl53iufaayrku"]
+
+[ext_resource type="Texture2D" uid="uid://beb8uwcvqgvea" path="res://assets/textures/ui_deco/shark.png" id="1_68ik0"]
+[ext_resource type="PackedScene" uid="uid://brkgyblk2s3ct" path="res://scenes/props/Shark.tscn" id="2_68ik0"]
+[ext_resource type="Script" uid="uid://dj0ysv7p8qw2o" path="res://scripts/systems/SeaResource.cs" id="3_w5won"]
+
+[resource]
+script = ExtResource("3_w5won")
+Id = "shark"
+DisplayName = "SHARK"
+Icon = ExtResource("1_68ik0")
+ResourceRarity = 3
+BaseValue = 1000
+Weight = 50.0
+SpawnZones = PackedStringArray("Zone_Abyss")
+MinDepth = 60.0
+MaxDepth = 200.0
+CatchDifficulty = 1.6
+ResourceScene = ExtResource("2_68ik0")
+MinScale = 1.2
+MaxScale = 1.8
+CanMove = true
+MinSpeed = 10.0
+MaxSpeed = 12.0
+TurnIntervalMin = 20.0
+SpawnPeakDistance = 1000.0
+SpawnSigma = 100.0
+SpawnCount = 2
+FearRadius = 15.0
+CanFlee = true
+MinHeight = 15

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://tabnrbqu3oag"]
+
+[ext_resource type="Script" uid="uid://b3iuebbhl8i5f" path="res://scripts/systems/ResourceMove.cs" id="1_baara"]
+[ext_resource type="PackedScene" uid="uid://bgcjg170auo8l" path="res://assets/models/resources/octopus.glb" id="2_baara"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_oiswi"]
+radius = 5.0
+
+[node name="OctopusResource" type="Node3D" unique_id=1206268749]
+script = ExtResource("1_baara")
+
+[node name="Sketchfab_Scene" parent="." unique_id=806900509 instance=ExtResource("2_baara")]
+transform = Transform3D(-3, 0, -2.6226832e-07, 0, 3, 0, 2.6226832e-07, 0, -3, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1519459883]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=375242915]
+shape = SubResource("SphereShape3D_oiswi")

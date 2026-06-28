@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://ceow7qnf0wtfg"]
+
+[ext_resource type="PackedScene" uid="uid://ctudmj8fpo1ke" path="res://assets/models/decor/staghorn_coral.glb" id="1_nv8vt"]
+
+[node name="StaghornCoral" type="Node3D" unique_id=921879400]
+
+[node name="Sketchfab_Scene" parent="." unique_id=2031483893 instance=ExtResource("1_nv8vt")]
+transform = Transform3D(0.1, 0, 0, 0, 0.092718385, -0.03746066, 0, 0.03746066, 0.092718385, 0, 6, 0)

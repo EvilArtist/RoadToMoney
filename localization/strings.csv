@@ -1,0 +1,55 @@
+keys,en,vi
+GAME_TITLE,ROAD TO MONEY,BAO GIỜ MỚI GIÀU
+PLAY,Play,Chơi
+RESUME,Resume,Tiếp tục
+SHOP,Shop,Cửa hàng
+UPGRADE,Upgrade,Nâng cấp
+SETTING,Setting,Cài đặt
+EXIT,Exit,Thoát
+SETTINGS_TITLE,SETTINGS,CÀI ĐẶT
+MUSIC,Music,Nhạc
+SFX,SFX,Hiệu ứng
+LANGUAGE,Language,Ngôn ngữ
+BACK,Back,Quay lại
+SHOP_TITLE,Shop — Sell Your Catch,Cửa hàng — Bán hải sản
+UPGRADES_TITLE,Upgrades,Nâng cấp
+SELL_ALL,Sell All,Bán hết
+BAG_EMPTY,Bag is empty,Túi đang trống
+TOTAL,Total,Tổng
+LOADING,Loading...,Đang tải...
+LOADING_FAIL,Load failed!,Đã có lỗi xảy ra!
+READY,Ready!,Đã sẵn sàng!
+DROWNED,You drowned.,Bạn đã chết đuối.
+MISSED,Missed!,DKM Trượt rồi!
+LOW_OXYGEN,Low oxygen!,Sắp hết oxy rồi, ngoi lên thôi!
+BAG_FULL,Bag is full! Cannot collect this item,Túi đầy cmnr! không chứa thêm được đâu.
+SPACE_TO_SWIM,Press 'Space' to start Diving,Nhấn phím cách để lặn xuống.
+INTERACTION_GUID,Press 'E' to Catch it,Nhấn phím E để tóm lấy nó.
+HAND,Hand,Bắt cá hai tay
+NET,Net,Lưới nhỏ
+SPEAR,Spear Gun,Mũi lao nhỏ
+VACUUM,Vacuum Trap,Lưới chân không
+ELECTRONIC,Electronic Gun,Súng điện
+STORAGE_BAG,Storage Bag,Giỏ cá
+DIVING_LIGHT,Diving Light,Đèn lặn
+OXYGEN,Oxygen,Bình thở
+CATCHING_TOOL,Catching Tool,Công cụ bắt cá
+CLAM,Clam,Ốc biển
+CRAB,Crab,Cua biển
+SQUID,Squid,Mực
+SHRIMP,Shrimp,Tôm biển
+SHELL,Shell,Sò biển
+BREAM,Bream Fish,Cá tráp
+BASS,Bass Fish,Cá vược
+TUNA,Tuna Fish,Cá ngừ
+OCTOPUS,Octopus,Bạch tuộc
+SAIL,Sailfish,Cá kiếm
+SHARK,Shark,Cá mập
+FLASH,Flash Light,Đèn Pin 
+LED,LED Dive Light,Đèn lặn LED
+TORCH,Expedition Torch,Đèn pha thám hiểm
+MINI,Mini Air Tank,Bình khí nén Mini
+STEEL,Steel Tank,Bình Thép,
+ALUMINUM,Aluminum Tank,Bình nhôm cao áp
+COMPOSITE,Composite Tank,Bình composite
+BREATH,Breath,Nín thở

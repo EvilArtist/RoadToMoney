@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="SeaResource" format=3 uid="uid://fv3varepek37"]
+
+[ext_resource type="Script" uid="uid://dj0ysv7p8qw2o" path="res://scripts/systems/SeaResource.cs" id="1_a6t1x"]
+[ext_resource type="PackedScene" uid="uid://dnwn7ekqmj1sr" path="res://scenes/props/LargeFishResource.tscn" id="1_b0fy8"]
+[ext_resource type="Texture2D" uid="uid://djurrnvygklus" path="res://assets/textures/ui_deco/large-fish.webp" id="1_rp3uc"]
+
+[resource]
+script = ExtResource("1_a6t1x")
+Id = "bream"
+DisplayName = "BREAM"
+Icon = ExtResource("1_rp3uc")
+ResourceRarity = 2
+BaseValue = 250
+Weight = 15.0
+SpawnZones = PackedStringArray("Zone_Abyss")
+MinDepth = 60.0
+MaxDepth = 120.0
+CatchDifficulty = 1.4
+ResourceScene = ExtResource("1_b0fy8")
+MinHeight = 8
+MinScale = 1.2
+MaxScale = 1.8
+CanMove = true
+MinSpeed = 1.5
+MaxSpeed = 2.0
+SpawnPeakDistance = 1000.0
+SpawnSigma = 100.0
+FearRadius = 15.0
+CanFlee = true

@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://bpgbcjibbmfc0"]
+
+[ext_resource type="Script" uid="uid://cosictqoc8a8d" path="res://scripts/ui/SettingsMenu.cs" id="1_settings"]
+[ext_resource type="Script" uid="uid://ds8cwatgulxxq" path="res://scripts/ui/MenuRope.cs" id="2_rope"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_row"]
+content_margin_left = 20.0
+content_margin_top = 8.0
+content_margin_right = 20.0
+content_margin_bottom = 8.0
+bg_color = Color(0.09019608, 0.23137255, 0.36078432, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="SettingsMenu" type="CanvasLayer" unique_id=1370350924]
+script = ExtResource("1_settings")
+
+[node name="DimBackground" type="ColorRect" parent="." unique_id=2064441843]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.2)
+
+[node name="MenuCenter" type="CenterContainer" parent="." unique_id=880604648]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+
+[node name="Node2D" type="Node2D" parent="MenuCenter" unique_id=1641648445]
+position = Vector2(0, -217)
+
+[node name="TitleLabel" type="Label" parent="MenuCenter/Node2D" unique_id=357195916]
+custom_minimum_size = Vector2(0, 67)
+offset_left = 1035.0
+offset_top = 681.0
+offset_right = 1524.0
+offset_bottom = 758.0
+theme_override_colors/font_outline_color = Color(0.88768137, 0.4693535, 0.28289723, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 56
+text = "SETTINGS_TITLE"
+horizontal_alignment = 1
+
+[node name="RopLayer" type="Node2D" parent="MenuCenter" unique_id=956207888]
+script = ExtResource("2_rope")
+ButtonListPath = NodePath("../RowList")
+
+[node name="RowList" type="VBoxContainer" parent="MenuCenter" unique_id=833294516]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 2
+
+[node name="MusicRow" type="PanelContainer" parent="MenuCenter/RowList" unique_id=1105041561]
+custom_minimum_size = Vector2(360, 46)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_row")
+
+[node name="Row" type="HBoxContainer" parent="MenuCenter/RowList/MusicRow" unique_id=1886410117]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuCenter/RowList/MusicRow/Row" unique_id=611622916]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "MUSIC"
+vertical_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="MenuCenter/RowList/MusicRow/Row" unique_id=327267585]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.8
+
+[node name="SfxRow" type="PanelContainer" parent="MenuCenter/RowList" unique_id=902262098]
+custom_minimum_size = Vector2(360, 46)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_row")
+
+[node name="Row" type="HBoxContainer" parent="MenuCenter/RowList/SfxRow" unique_id=1502668256]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuCenter/RowList/SfxRow/Row" unique_id=606075069]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "SFX"
+vertical_alignment = 1
+
+[node name="SfxSlider" type="HSlider" parent="MenuCenter/RowList/SfxRow/Row" unique_id=1169586035]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="LanguageRow" type="PanelContainer" parent="MenuCenter/RowList" unique_id=491925000]
+custom_minimum_size = Vector2(360, 46)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_row")
+
+[node name="Row" type="HBoxContainer" parent="MenuCenter/RowList/LanguageRow" unique_id=232096007]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuCenter/RowList/LanguageRow/Row" unique_id=1364120207]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "LANGUAGE"
+vertical_alignment = 1
+
+[node name="LanguageOption" type="OptionButton" parent="MenuCenter/RowList/LanguageRow/Row" unique_id=851113403]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 2
+popup/item_0/text = "English"
+popup/item_0/id = 0
+popup/item_1/text = "Tiếng Việt"
+popup/item_1/id = 1
+
+[node name="BackButton" type="Button" parent="MenuCenter/RowList" unique_id=1099736389]
+custom_minimum_size = Vector2(360, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "BACK"

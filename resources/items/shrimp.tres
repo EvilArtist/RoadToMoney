@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="SeaResource" format=3 uid="uid://c8jt7duy8k5v7"]
+
+[ext_resource type="Script" uid="uid://dj0ysv7p8qw2o" path="res://scripts/systems/SeaResource.cs" id="1_0wqgu"]
+[ext_resource type="Texture2D" uid="uid://c2ixng1tfvw6f" path="res://assets/textures/ui_deco/shrimp.png" id="1_nmrgs"]
+[ext_resource type="PackedScene" uid="uid://ccuirbomuk4me" path="res://scenes/props/ShrimpResource.tscn" id="1_ofju7"]
+
+[resource]
+script = ExtResource("1_0wqgu")
+Id = "shrimp"
+DisplayName = "SHRIMP"
+Icon = ExtResource("1_nmrgs")
+BaseValue = 22
+Weight = 4.0
+SpawnZones = PackedStringArray("Zone_Reef")
+MinDepth = 10.0
+MaxDepth = 30.0
+CatchDifficulty = 0.75
+ResourceScene = ExtResource("1_ofju7")
+MinScale = 0.9
+MaxScale = 1.1
+CanMove = true
+MinSpeed = 0.4
+MaxSpeed = 0.8
+SpawnPeakDistance = 300.0
+SpawnSigma = 100.0
+SpawnCount = 20
+CanFlee = true
+MinHeight = 1

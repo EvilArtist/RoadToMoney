@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="SeaResource" format=3 uid="uid://dob6lcrwak58h"]
+
+[ext_resource type="Texture2D" uid="uid://pgrvkc08871n" path="res://assets/textures/ui_deco/sail.webp" id="1_jja2n"]
+[ext_resource type="PackedScene" uid="uid://xvdr6vbggcvp" path="res://scenes/props/Sailfish.tscn" id="2_8ltt1"]
+[ext_resource type="Script" uid="uid://dj0ysv7p8qw2o" path="res://scripts/systems/SeaResource.cs" id="3_kjt1w"]
+
+[resource]
+script = ExtResource("3_kjt1w")
+Id = "sail"
+DisplayName = "SAIL"
+Icon = ExtResource("1_jja2n")
+ResourceRarity = 3
+BaseValue = 200
+Weight = 13.0
+SpawnZones = PackedStringArray("Zone_Abyss")
+MinDepth = 70.0
+MaxDepth = 150.0
+CatchDifficulty = 1.35
+ResourceScene = ExtResource("2_8ltt1")
+MinHeight = 7
+CanMove = true
+MinSpeed = 1.5
+MaxSpeed = 2.0
+SpawnPeakDistance = 1000.0
+SpawnSigma = 100.0
+SpawnCount = 8
+FearRadius = 15.0
+CanFlee = true

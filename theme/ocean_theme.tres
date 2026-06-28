@@ -1,0 +1,95 @@
+[gd_resource type="Theme" format=3 uid="uid://c253s7i0y0gsq"]
+
+[ext_resource type="FontFile" uid="uid://djicuts2k826g" path="res://assets/fonts/Nunito-Black.ttf" id="1_uqnho"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j2vib"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.09320182, 0.20906562, 0.36074692, 0.35000002)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vpvbr"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.12156863, 0.3019608, 0.47058824, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uqnho"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.09019608, 0.23137255, 0.36078432, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bmlcm"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.05882353, 0.16078432, 0.2509804, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sliderFill"]
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.88768137, 0.4693535, 0.28289723, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sliderBg"]
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.05882353, 0.16078432, 0.2509804, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[resource]
+default_font = ExtResource("1_uqnho")
+default_font_size = 18
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/colors/font_disabled_color = Color(0.94100165, 0.96489865, 0.9804042, 0.3)
+Button/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 18
+Button/styles/disabled = SubResource("StyleBoxFlat_j2vib")
+Button/styles/focus = SubResource("StyleBoxFlat_vpvbr")
+Button/styles/hover = SubResource("StyleBoxFlat_vpvbr")
+Button/styles/normal = SubResource("StyleBoxFlat_uqnho")
+Button/styles/pressed = SubResource("StyleBoxFlat_bmlcm")
+HSlider/constants/center_grabber = 1
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_sliderFill")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_sliderFill")
+HSlider/styles/slider = SubResource("StyleBoxFlat_sliderBg")
+Label/colors/font_color = Color(0.9411765, 0.9647059, 0.98039216, 1)
+Label/font_sizes/font_size = 18
+OptionButton/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+OptionButton/colors/font_disabled_color = Color(0.94100165, 0.96489865, 0.9804042, 0.3)
+OptionButton/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+OptionButton/colors/font_pressed_color = Color(1, 1, 1, 1)
+OptionButton/font_sizes/font_size = 18
+OptionButton/styles/disabled = SubResource("StyleBoxFlat_j2vib")
+OptionButton/styles/focus = SubResource("StyleBoxFlat_vpvbr")
+OptionButton/styles/hover = SubResource("StyleBoxFlat_vpvbr")
+OptionButton/styles/normal = SubResource("StyleBoxFlat_uqnho")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_bmlcm")

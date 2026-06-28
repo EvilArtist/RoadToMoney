@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://djmtro320t0je"]
+
+[ext_resource type="PackedScene" uid="uid://dlasdm81pseu3" path="res://scenes/props/shell.tscn" id="1_ap74k"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ap74k"]
+radius = 5.0
+
+[node name="ShellResource" type="Node3D" unique_id=1685359910]
+
+[node name="Sketchfab_Scene" parent="." unique_id=1143454833 instance=ExtResource("1_ap74k")]
+transform = Transform3D(1.0000001, 0, 0, 0, -0.42261833, 0.90630776, 0, -0.90630776, -0.42261833, 0, -1, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=401601670]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=447679387]
+shape = SubResource("SphereShape3D_ap74k")

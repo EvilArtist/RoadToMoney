@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://ddgqno58w22bs"]
+
+[ext_resource type="Shader" uid="uid://cifotxlpppnb2" path="res://assets/shaders/god_ray.gdshader" id="1_057ub"]
+[ext_resource type="Texture2D" uid="uid://dqrvl7okhpykk" path="res://resources/textures/god_ray_noise.tres" id="2_msplv"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_057ub")
+shader_parameter/ray_color = Color(0.54901963, 0.8235294, 1, 1)
+shader_parameter/ray_alpha = 0.18
+shader_parameter/scroll_speed = 0.06
+shader_parameter/flicker_speed = 0.9
+shader_parameter/flicker_amp = 0.35
+shader_parameter/edge_softness = 2.5
+shader_parameter/top_fade = 0.18
+shader_parameter/bottom_fade = 0.45
+shader_parameter/noise_tex = ExtResource("2_msplv")
+shader_parameter/noise_scale = 1.2
+shader_parameter/noise_contrast = 2.8
+shader_parameter/max_visibility = 30.0

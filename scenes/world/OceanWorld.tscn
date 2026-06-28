@@ -1,0 +1,219 @@
+[gd_scene format=3 uid="uid://dayrt1gev48j0"]
+
+[ext_resource type="Script" uid="uid://c8xybyj1iinll" path="res://scripts/systems/CreatureSpawner.cs" id="1_8s7h6"]
+[ext_resource type="Script" uid="uid://dlpwdltghua7k" path="res://scripts/systems/ResourceSpawner.cs" id="1_ht4wx"]
+[ext_resource type="PackedScene" uid="uid://c6u54p4xkn3cj" path="res://scenes/Player.tscn" id="1_pusko"]
+[ext_resource type="Script" uid="uid://bw6cn3rwumwtf" path="res://scripts/player/SwimController.cs" id="2_ii6h3"]
+[ext_resource type="Script" uid="uid://brkcc1mw7pcmc" path="res://scripts/creatures/SchoolController.cs" id="2_u4vjb"]
+[ext_resource type="Shader" uid="uid://cwmlmq6xdmm7x" path="res://assets/shaders/water_surface.gdshader" id="3_gexqs"]
+[ext_resource type="Script" uid="uid://cqurbkbrxtyta" path="res://scripts/systems/EnvironmentSpawner.cs" id="4_ib201"]
+[ext_resource type="Script" uid="uid://d3t4a52mq3cdf" path="res://scripts/textures/GodRaySystem.cs" id="6_x0jcb"]
+[ext_resource type="Material" uid="uid://ddgqno58w22bs" path="res://materials/god_ray_mat.tres" id="7_gfv14"]
+[ext_resource type="PackedScene" uid="uid://cpxy1rj66gj41" path="res://scenes/ui/HUD.tscn" id="7_nc563"]
+[ext_resource type="Script" uid="uid://bhbdwmfxgbibn" path="res://scripts/textures/GodRayDepthSync.cs" id="8_jhdib"]
+[ext_resource type="PackedScene" uid="uid://clhbifrjgl1a3" path="res://scenes/ui/ShopScreen.tscn" id="8_tjqtq"]
+[ext_resource type="PackedScene" uid="uid://b1nm4jk4ama62" path="res://scenes/enviroment/UnderwaterParticles.tscn" id="9_gfv14"]
+[ext_resource type="PackedScene" uid="uid://sssppvid7suo" path="res://scenes/ui/UpgradeScreen.tscn" id="9_mysti"]
+[ext_resource type="Script" uid="uid://cf7q4iuwqcoeu" path="res://scripts/world/UnderwaterParticles.cs" id="10_jhdib"]
+[ext_resource type="Shader" uid="uid://do7tmohww2gx7" path="res://assets/shaders/seabed.gdshader" id="10_ytbfc"]
+[ext_resource type="PackedScene" uid="uid://b8vgbgv1hjg2o" path="res://scenes/enviroment/OceanCurrentSystem.tscn" id="11_te21s"]
+[ext_resource type="Script" uid="uid://diwackohakvom" path="res://scripts/world/OceanCurrentSystem.cs" id="12_i1w1m"]
+[ext_resource type="PackedScene" uid="uid://d2n01nr1y72pd" path="res://scenes/ui/MenuScreen.tscn" id="18_jjgy1"]
+[ext_resource type="Resource" uid="uid://c5u1fpu4outt0" path="res://resources/upgrades/bag.tres" id="18_mitul"]
+[ext_resource type="Resource" uid="uid://bgj0y5qfcqqw4" path="res://resources/upgrades/tool.tres" id="19_3s4lt"]
+[ext_resource type="Script" uid="uid://luqmihhmc80k" path="res://scripts/world/ZoneBounds.cs" id="19_i1w1m"]
+[ext_resource type="Resource" uid="uid://boqx2d3wtaxie" path="res://resources/upgrades/light.tres" id="20_5taxl"]
+[ext_resource type="Resource" uid="uid://bbqqxiuxxois5" path="res://resources/upgrades/oxygen.tres" id="21_y04q8"]
+[ext_resource type="PackedScene" uid="uid://bpgbcjibbmfc0" path="res://scenes/ui/SettingMenu.tscn" id="23_5taxl"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pusko"]
+sky_horizon_color = Color(0.55, 0.72, 0.85, 1)
+ground_horizon_color = Color(0.55, 0.72, 0.85, 1)
+
+[sub_resource type="Sky" id="Sky_ii6h3"]
+sky_material = SubResource("ProceduralSkyMaterial_pusko")
+
+[sub_resource type="Environment" id="Environment_ii6h3"]
+background_mode = 2
+sky = SubResource("Sky_ii6h3")
+ambient_light_source = 3
+ambient_light_energy = 0.3
+glow_enabled = true
+glow_intensity = 0.8
+glow_bloom = 0.3
+fog_enabled = true
+fog_light_color = Color(0.019607844, 0.078431375, 0.14901961, 1)
+fog_sun_scatter = 0.2
+fog_density = 0.03
+fog_aerial_perspective = 0.4
+fog_sky_affect = 0.45
+fog_depth_curve = 1.6
+fog_depth_begin = 1.0
+fog_depth_end = 8.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gexqs"]
+size = Vector2(4000, 4000)
+subdivide_width = 600
+subdivide_depth = 600
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ht4wx"]
+render_priority = 0
+shader = ExtResource("3_gexqs")
+shader_parameter/shallow_color = Color(0.04, 0.28, 0.48, 0.88)
+shader_parameter/deep_color = Color(0.02, 0.1, 0.22, 0.95)
+shader_parameter/wave_speed = 0.7
+shader_parameter/wave_scale = 0.22
+shader_parameter/fresnel_power = 4.0
+shader_parameter/sky_tint = Vector3(0.55, 0.72, 0.85)
+shader_parameter/view_depth = 0.0
+shader_parameter/wave_choppiness = 0.6
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mysti"]
+size = Vector2(800, 400)
+subdivide_width = 100
+subdivide_depth = 100
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ib201"]
+render_priority = 0
+shader = ExtResource("10_ytbfc")
+shader_parameter/sand_color = Color(0.55, 0.43, 0.29, 1)
+shader_parameter/rock_color = Color(0.35, 0.3, 0.25, 1)
+shader_parameter/slope_strength = 8.0
+shader_parameter/noise_scale = 0.12
+shader_parameter/depth_darkening = 0.4
+shader_parameter/seam_blend_width = 40.0
+shader_parameter/seam_smooth_strength = 0.85
+shader_parameter/seam_local_z = -200.0
+shader_parameter/caustics_strength = 0.5
+shader_parameter/caustics_scale = 0.1
+shader_parameter/caustics_speed = 0.25
+shader_parameter/sand_color_b = Color(0.6, 0.5, 0.35, 1)
+shader_parameter/color_variation = 0.3
+shader_parameter/color_noise_scale = 0.008
+shader_parameter/ripple_strength = 0.25
+shader_parameter/ripple_scale = 0.08
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kjkjc"]
+size = Vector3(800, 2, 400)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ib201"]
+size = Vector3(400, 1, 400)
+
+[node name="OceanWorld" type="Node3D" unique_id=540253303]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=140500108]
+environment = SubResource("Environment_ii6h3")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=406679573]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 0, 0)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="OceanZoneManager" type="Node3D" parent="." unique_id=25634195]
+
+[node name="CreatureSpawner" type="Node3D" parent="." unique_id=1372720674]
+script = ExtResource("1_8s7h6")
+
+[node name="FishSchool" type="Node3D" parent="CreatureSpawner" unique_id=1244773973]
+script = ExtResource("2_u4vjb")
+
+[node name="ResourceSpawner" type="Node3D" parent="." unique_id=830247517]
+script = ExtResource("1_ht4wx")
+
+[node name="EnvironmentSpawner3D" type="Node3D" parent="." unique_id=73668911]
+script = ExtResource("4_ib201")
+
+[node name="OceanSurface" type="Node3D" parent="." unique_id=1288870592]
+
+[node name="WaterPlane" type="MeshInstance3D" parent="OceanSurface" unique_id=1700765181]
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_gexqs")
+surface_material_override/0 = SubResource("ShaderMaterial_ht4wx")
+
+[node name="Enviorment" type="Node3D" parent="." unique_id=905707577]
+
+[node name="GodRaySystem" type="Node3D" parent="Enviorment" unique_id=780771953]
+script = ExtResource("6_x0jcb")
+TiltMax = 35.0
+GodRayMaterial = ExtResource("7_gfv14")
+PlayerPath = NodePath("../../Player")
+ActiveDepth = 0.5
+SunPath = NodePath("../../Sun")
+
+[node name="DepthSync" type="Node3D" parent="Enviorment/GodRaySystem" unique_id=503647031]
+script = ExtResource("8_jhdib")
+PlayerPath = NodePath("../../../Player")
+GodRayMaterial = ExtResource("7_gfv14")
+
+[node name="UnderwaterParticles" parent="Enviorment" unique_id=564730994 node_paths=PackedStringArray("Player") instance=ExtResource("9_gfv14")]
+script = ExtResource("10_jhdib")
+Player = NodePath("../../Player")
+
+[node name="OceanCurrentSystem" parent="Enviorment" unique_id=73393814 instance=ExtResource("11_te21s")]
+script = ExtResource("12_i1w1m")
+
+[node name="Marker3D" type="Marker3D" parent="Enviorment/OceanCurrentSystem" unique_id=2077718514]
+
+[node name="Player" parent="." unique_id=1603171894 instance=ExtResource("1_pusko")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+motion_mode = 1
+script = ExtResource("2_ii6h3")
+
+[node name="Hud" parent="." unique_id=1969765306 instance=ExtResource("7_nc563")]
+
+[node name="ShopScreen" parent="." unique_id=722386409 instance=ExtResource("8_tjqtq")]
+visible = false
+
+[node name="UpgradeScreen" parent="." unique_id=728021611 instance=ExtResource("9_mysti")]
+visible = false
+Categories = [ExtResource("18_mitul"), ExtResource("19_3s4lt"), ExtResource("20_5taxl"), ExtResource("21_y04q8")]
+
+[node name="MenuScreen" parent="." unique_id=1258737499 instance=ExtResource("18_jjgy1")]
+
+[node name="SettingsMenu" parent="." unique_id=151416738 instance=ExtResource("23_5taxl")]
+visible = false
+
+[node name="OceanFloor" type="Node3D" parent="." unique_id=2077176654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+
+[node name="OceanRightFloor" type="Node3D" parent="OceanFloor" unique_id=1292872612]
+transform = Transform3D(1, 0, 0, 0, 0.9902682, -0.13917312, 0, 0.13917312, 0.9902682, 0, 0, 0)
+
+[node name="SeabedMesh" type="MeshInstance3D" parent="OceanFloor/OceanRightFloor" unique_id=635118605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 200)
+mesh = SubResource("PlaneMesh_mysti")
+surface_material_override/0 = SubResource("ShaderMaterial_ib201")
+
+[node name="SeabedBody" type="StaticBody3D" parent="OceanFloor/OceanRightFloor" unique_id=406814200]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OceanFloor/OceanRightFloor/SeabedBody" unique_id=1855645104]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -400, 1, 200)
+shape = SubResource("BoxShape3D_kjkjc")
+
+[node name="OceanLeftFloor" type="Node3D" parent="OceanFloor" unique_id=1691245033]
+transform = Transform3D(1, 0, 0, 0, 0.99026805, 0.1391731, 0, -0.1391731, 0.99026805, 0, 0, 0)
+
+[node name="SeabedMesh" type="MeshInstance3D" parent="OceanFloor/OceanLeftFloor" unique_id=1305514353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -200)
+mesh = SubResource("PlaneMesh_mysti")
+surface_material_override/0 = SubResource("ShaderMaterial_ib201")
+
+[node name="SeabedBody" type="StaticBody3D" parent="OceanFloor/OceanLeftFloor" unique_id=1689627874]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OceanFloor/OceanLeftFloor/SeabedBody" unique_id=1677197253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -400, 1, -200)
+shape = SubResource("BoxShape3D_kjkjc")
+
+[node name="TestFloor" type="StaticBody3D" parent="." unique_id=604195592]
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestFloor" unique_id=1653240495]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -90, 0)
+shape = SubResource("BoxShape3D_ib201")
+
+[node name="ZoneBounds" type="Node3D" parent="." unique_id=47870775]
+script = ExtResource("19_i1w1m")
+SizeX = 820.0
+SizeZ = 820.0
+BottomY = -70.0
+WallColor = Color(0.42358288, 0.6799758, 0.7845677, 1)

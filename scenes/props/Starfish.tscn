@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b2cu0fd2ngnv5"]
+
+[ext_resource type="PackedScene" uid="uid://cqsilgdiwvthq" path="res://assets/models/decor/starfish.glb" id="1_f6uor"]
+
+[node name="Starfish" type="Node3D" unique_id=1538723861]
+
+[node name="Sketchfab_Scene" parent="." unique_id=369740212 instance=ExtResource("1_f6uor")]

@@ -1,0 +1,26 @@
+Music & Effect: 
+Ocean's Fury - Piano: OpiSounds
+
+Water Splash: DRAGON-STUDIO
+Bubble: Freesound Community
+Dive Underwater: DRAGON-STUDIO
+AGUA LLAVE_underwater: AleMaldonadoC
+catch_common: DRAGON-STUDIO
+catch_uncommon: Yodguard
+catch_rare: humordome
+catch_epic: Freesound Community
+
+
+Model:
+Yellow Tang Coral Fish: Mikhail Nesterov
+Japanese Freshwater Crab: ffish.asia / floraZia.com
+Noble Scallop, Mimachlamys nobilis: ffish.asia / floraZia.com
+Snail: ffish.asia / floraZia.com
+Tuna Fish: GoldenZtuff
+Bass Fish: Šimon Ustal
+Bream Fish: BlueMesh
+Shrimp: BlueMesh
+Shark: seth the yutyrannus
+Octopus: kenchoo
+SailFish: Mateus Schwaab
+Rock: GSXNet

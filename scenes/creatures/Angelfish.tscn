@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dvug6h2issxbf"]
+
+[ext_resource type="Script" uid="uid://6rn3htcsfhmq" path="res://scripts/creatures/CreatureAI.cs" id="1_nisr3"]
+[ext_resource type="PackedScene" uid="uid://bmxoqq0ru0tr" path="res://assets/models/creatures/angelfish.glb" id="2_x2dix"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f8206"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fwmth"]
+radius = 5.0
+
+[node name="Angelfish" type="CharacterBody3D" unique_id=2088095653]
+script = ExtResource("1_nisr3")
+
+[node name="Sketchfab_Scene" parent="." unique_id=1579453436 instance=ExtResource("2_x2dix")]
+transform = Transform3D(-4, 0, -3.496911e-07, 0, 4, 0, 3.496911e-07, 0, -4, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=299987585]
+shape = SubResource("CapsuleShape3D_f8206")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=523256556]
+
+[node name="DetectionShape" type="CollisionShape3D" parent="Area3D" unique_id=539626138]
+shape = SubResource("SphereShape3D_fwmth")

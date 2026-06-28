@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://ee611u80m0ok"]
+
+[ext_resource type="Script" uid="uid://6rn3htcsfhmq" path="res://scripts/creatures/CreatureAI.cs" id="1_cinp3"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cinp3"]
+radius = 0.15
+height = 0.5
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7xh2a"]
+radius = 0.2
+height = 0.4
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_oigmt"]
+
+[node name="Fish" type="CharacterBody3D" unique_id=1836764019]
+script = ExtResource("1_cinp3")
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=152892158]
+mesh = SubResource("CapsuleMesh_cinp3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1008741252]
+shape = SubResource("CapsuleShape3D_7xh2a")
+
+[node name="DetectionArea" type="Area3D" parent="." unique_id=598163976]
+
+[node name="DetectionShape" type="CollisionShape3D" parent="DetectionArea" unique_id=295772740]
+shape = SubResource("SphereShape3D_oigmt")

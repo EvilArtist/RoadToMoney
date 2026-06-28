@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dao5miurwada2"]
+
+[ext_resource type="PackedScene" uid="uid://ey64kwh50oy6" path="res://assets/models/decor/grass_clover.glb" id="1_kvj25"]
+
+[node name="GrassCloverPatch" type="Node3D" unique_id=1069184660]
+
+[node name="Sketchfab_Scene" parent="." unique_id=1131899690 instance=ExtResource("1_kvj25")]

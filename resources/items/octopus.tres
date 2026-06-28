@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="SeaResource" format=3 uid="uid://dri713utpbutd"]
+
+[ext_resource type="Script" uid="uid://dj0ysv7p8qw2o" path="res://scripts/systems/SeaResource.cs" id="1_3ss6n"]
+[ext_resource type="Texture2D" uid="uid://soakqa5m383w" path="res://assets/textures/ui_deco/octopus.png" id="1_dbkkq"]
+[ext_resource type="PackedScene" uid="uid://tabnrbqu3oag" path="res://scenes/props/OctopusResource.tscn" id="2_ak0l1"]
+
+[resource]
+script = ExtResource("1_3ss6n")
+Id = "octopus"
+DisplayName = "OCTOPUS"
+Icon = ExtResource("1_dbkkq")
+ResourceRarity = 1
+BaseValue = 100
+Weight = 6.0
+SpawnZones = PackedStringArray("Zone_Deep")
+MinDepth = 40.0
+MaxDepth = 70.0
+CatchDifficulty = 0.9
+ResourceScene = ExtResource("2_ak0l1")
+MinScale = 0.9
+MaxScale = 1.1
+CanMove = true
+MinSpeed = 0.6
+MaxSpeed = 1.2
+SpawnPeakDistance = 600.0
+SpawnSigma = 100.0
+SpawnCount = 15
+FearRadius = 7.0
+CanFlee = true

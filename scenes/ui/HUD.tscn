@@ -1,0 +1,147 @@
+[gd_scene format=3 uid="uid://cpxy1rj66gj41"]
+
+[ext_resource type="Script" uid="uid://xrs8n3yeyu5s" path="res://scripts/ui/HUD.cs" id="1_kw0id"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+bg_color = Color(0.050708726, 0.09985284, 0.16007765, 0)
+border_color = Color(0.8001019, 0.8001019, 0.8001019, 0)
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
+bg_color = Color(1, 1, 1, 0.08)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o2_fill"]
+bg_color = Color(0.31, 0.76, 0.97, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bag_fill"]
+bg_color = Color(0.5, 0.8, 0.75, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="Hud" type="CanvasLayer" unique_id=1969765306]
+script = ExtResource("1_kw0id")
+
+[node name="BottomRow" type="HBoxContainer" parent="." unique_id=1378153102]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -96.0
+offset_top = 24.0
+offset_right = -28.0
+offset_bottom = 48.0
+grow_horizontal = 0
+theme_override_constants/separation = 24
+
+[node name="DepthLabel" type="Label" parent="BottomRow" unique_id=1811868896]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.85)
+theme_override_font_sizes/font_size = 17
+text = "— m"
+
+[node name="CoinsLabel" type="Label" parent="BottomRow" unique_id=1301289081]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 0.85)
+theme_override_font_sizes/font_size = 16
+text = "🪙0₫"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="InventoryRow" type="HBoxContainer" parent="." unique_id=1584428484]
+anchors_preset = -1
+anchor_right = 1.0
+offset_top = 40.0
+offset_bottom = 100.0
+alignment = 1
+
+[node name="HudPanel" type="PanelContainer" parent="." unique_id=643653530]
+offset_right = 223.0
+offset_bottom = 133.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="HudPanel" unique_id=809697153]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="O2Row" type="HBoxContainer" parent="HudPanel/VBox" unique_id=835689322]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="O2Icon" type="Label" parent="HudPanel/VBox/O2Row" unique_id=2026213063]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.31, 0.76, 0.97, 0.9)
+theme_override_font_sizes/font_size = 16
+text = "⭕"
+vertical_alignment = 1
+
+[node name="O2BarBg" type="PanelContainer" parent="HudPanel/VBox/O2Row" unique_id=1777403358]
+custom_minimum_size = Vector2(110, 4)
+custom_maximum_size = Vector2(-1, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_bar_bg")
+
+[node name="O2Bar" type="ProgressBar" parent="HudPanel/VBox/O2Row/O2BarBg" unique_id=623954307]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_o2_fill")
+value = 90.0
+show_percentage = false
+
+[node name="O2ValLabel" type="Label" parent="HudPanel/VBox/O2Row" unique_id=1896260502]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.45)
+text = "90%"
+horizontal_alignment = 2
+
+[node name="BagRow" type="HBoxContainer" parent="HudPanel/VBox" unique_id=1969203914]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BagIcon" type="Label" parent="HudPanel/VBox/BagRow" unique_id=1752529953]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.8, 0.75, 0.9)
+theme_override_font_sizes/font_size = 16
+text = "🛒"
+vertical_alignment = 1
+
+[node name="BagBarBg" type="PanelContainer" parent="HudPanel/VBox/BagRow" unique_id=1578429032]
+custom_minimum_size = Vector2(110, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_bar_bg")
+
+[node name="BagBar" type="ProgressBar" parent="HudPanel/VBox/BagRow/BagBarBg" unique_id=1390405170]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bag_fill")
+value = 5.0
+show_percentage = false
+
+[node name="BagValLabel" type="Label" parent="HudPanel/VBox/BagRow" unique_id=320594569]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.45)
+theme_override_font_sizes/font_size = 16
+text = "0.5kg"
+horizontal_alignment = 2

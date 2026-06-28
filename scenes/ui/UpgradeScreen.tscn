@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://sssppvid7suo"]
+
+[ext_resource type="Script" uid="uid://d4gkxg0cidcvx" path="res://scripts/ui/UpgradeScreen.cs" id="1_upg"]
+[ext_resource type="Script" uid="uid://ds8cwatgulxxq" path="res://scripts/ui/MenuRope.cs" id="2_rope"]
+
+[node name="UpgradeScreen" type="CanvasLayer" unique_id=2050411429]
+script = ExtResource("1_upg")
+
+[node name="Overlay" type="ColorRect" parent="." unique_id=1289043511]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.45)
+
+[node name="MenuCenter" type="CenterContainer" parent="." unique_id=1154161007]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Stack" type="VBoxContainer" parent="MenuCenter" unique_id=1566025431]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="MenuCenter/Stack" unique_id=993888581]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0.88768137, 0.4693535, 0.28289723, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 40
+text = "UPGRADES_TITLE"
+horizontal_alignment = 1
+
+[node name="CoinsRow" type="HBoxContainer" parent="MenuCenter/Stack" unique_id=1812542913]
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="CoinIcon" type="Label" parent="MenuCenter/Stack/CoinsRow" unique_id=1676536039]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
+theme_override_font_sizes/font_size = 18
+text = "🪙"
+vertical_alignment = 1
+
+[node name="CoinsLabel" type="Label" parent="MenuCenter/Stack/CoinsRow" unique_id=104580617]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "0₫"
+
+[node name="RopLayer" type="Node2D" parent="MenuCenter/Stack" unique_id=266176667]
+script = ExtResource("2_rope")
+ButtonListPath = NodePath("../BarList")
+
+[node name="BarList" type="VBoxContainer" parent="MenuCenter/Stack" unique_id=956988818]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="BackButton" type="Button" parent="MenuCenter/Stack/BarList" unique_id=320193130]
+custom_minimum_size = Vector2(360, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "BACK"

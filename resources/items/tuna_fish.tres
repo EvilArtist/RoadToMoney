@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="SeaResource" format=3 uid="uid://cgg0007yjohtj"]
+
+[ext_resource type="Texture2D" uid="uid://daprybcxg846" path="res://assets/textures/ui_deco/tuna.webp" id="1_b07lt"]
+[ext_resource type="PackedScene" uid="uid://c4v2sbwjpka0u" path="res://scenes/props/TunaFish.tscn" id="1_ujhq0"]
+[ext_resource type="Script" uid="uid://dj0ysv7p8qw2o" path="res://scripts/systems/SeaResource.cs" id="2_b07lt"]
+
+[resource]
+script = ExtResource("2_b07lt")
+Id = "tuna"
+DisplayName = "TUNA"
+Icon = ExtResource("1_b07lt")
+ResourceRarity = 2
+BaseValue = 200
+Weight = 13.0
+SpawnZones = PackedStringArray("Zone_Abyss")
+MinDepth = 70.0
+MaxDepth = 150.0
+CatchDifficulty = 1.35
+ResourceScene = ExtResource("1_ujhq0")
+CanMove = true
+MinSpeed = 1.5
+MaxSpeed = 2.0
+SpawnPeakDistance = 1000.0
+SpawnSigma = 100.0
+FearRadius = 15.0
+CanFlee = true
+MinHeight = 7

@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="SeaResource" format=3 uid="uid://buv7k5m5fdgow"]
+
+[ext_resource type="Script" uid="uid://dj0ysv7p8qw2o" path="res://scripts/systems/SeaResource.cs" id="1_6v6xp"]
+[ext_resource type="PackedScene" uid="uid://bvix3s1oyiy7o" path="res://scenes/props/SquidResource.tscn" id="1_bfqpk"]
+[ext_resource type="Texture2D" uid="uid://c0xje7ogn43mu" path="res://assets/textures/ui_deco/squid.png" id="1_q6dql"]
+
+[resource]
+script = ExtResource("1_6v6xp")
+Id = "squid"
+DisplayName = "SQUID"
+Icon = ExtResource("1_q6dql")
+ResourceRarity = 2
+BaseValue = 80
+Weight = 7.0
+SpawnZones = PackedStringArray("Zone_Deep")
+MinDepth = 35.0
+MaxDepth = 60.0
+CatchDifficulty = 1.0
+ResourceScene = ExtResource("1_bfqpk")
+MinHeight = 2
+MinScale = 0.9
+MaxScale = 1.1
+CanMove = true
+MinSpeed = 0.6
+MaxSpeed = 1.2
+SpawnPeakDistance = 600.0
+SpawnSigma = 100.0
+SpawnCount = 15
+FearRadius = 7.0
+CanFlee = true

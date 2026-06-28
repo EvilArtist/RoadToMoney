@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://c8j7aasmf5c5c"]
+
+[ext_resource type="PackedScene" uid="uid://0vwmg0ei20xa" path="res://scenes/props/GrassPatch.tscn" id="1_0nu81"]
+[ext_resource type="PackedScene" uid="uid://dao5miurwada2" path="res://scenes/props/GrassCloverPatch.tscn" id="1_s5im0"]
+
+[node name="GrassGroup" type="Node3D" unique_id=857064208]
+
+[node name="GrassCloverPatch" parent="." unique_id=1069184660 instance=ExtResource("1_s5im0")]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, -4.0235868, 0, 0.07137251)
+
+[node name="GrassPatch5" parent="." unique_id=1836373453 instance=ExtResource("1_0nu81")]
+transform = Transform3D(0.79695576, 0, 0.06972459, 0, 0.8, 0, -0.06972459, 0, 0.79695576, 2.3247967, 0, -4.5220966)
+
+[node name="GrassPatch4" parent="." unique_id=1816682544 instance=ExtResource("1_0nu81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.5350718, 0, -5.0772367)
+
+[node name="GrassPatch" parent="." unique_id=1654777861 instance=ExtResource("1_0nu81")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.78862, 0, 1.9329281)
+
+[node name="GrassPatch2" parent="." unique_id=486942146 instance=ExtResource("1_0nu81")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1436076, 0, 2.0276544)
+
+[node name="GrassPatch3" parent="." unique_id=545833994 instance=ExtResource("1_0nu81")]
+transform = Transform3D(-0.9, 0, -7.86805e-08, 0, 0.9, 0, 7.86805e-08, 0, -0.9, 0.07642269, 0, -0.5)
+
+[node name="GrassCloverPatch2" parent="." unique_id=1003200550 instance=ExtResource("1_s5im0")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -6.3726673, 0, -2.604879)
+
+[node name="GrassCloverPatch3" parent="." unique_id=1733142671 instance=ExtResource("1_s5im0")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 4.9873095, 0, -4.4513893)
+
+[node name="GrassCloverPatch4" parent="." unique_id=999351992 instance=ExtResource("1_s5im0")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 5.7630606, 0, -2.3016715)
+
+[node name="GrassCloverPatch5" parent="." unique_id=1395514933 instance=ExtResource("1_s5im0")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 5.1634116, 0, -0.78687406)
+
+[node name="GrassCloverPatch6" parent="." unique_id=1355691613 instance=ExtResource("1_s5im0")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0.037539482, 0, -7.0227575)
+
+[node name="GrassCloverPatch7" parent="." unique_id=1953414707 instance=ExtResource("1_s5im0")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 1.5855932, 0, -2.0946155)
+
+[node name="GrassCloverPatch8" parent="." unique_id=682994345 instance=ExtResource("1_s5im0")]
+transform = Transform3D(2.9, 0, 0, 0, 2.9, 0, 0, 0, 2.9, -6.0144987, 0, -1.1775415)
+
+[node name="GrassCloverPatch9" parent="." unique_id=87717856 instance=ExtResource("1_s5im0")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 2.1794453, 0, -7.1239605)
+
+[node name="GrassCloverPatch10" parent="." unique_id=1316691245 instance=ExtResource("1_s5im0")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -6.2786317, 0, -4.583867)
+
+[node name="GrassCloverPatch11" parent="." unique_id=1216828955 instance=ExtResource("1_s5im0")]
+transform = Transform3D(3.1, 0, 0, 0, 3.1, 0, 0, 0, 3.1, 4.1866097, 0, -2.280845)

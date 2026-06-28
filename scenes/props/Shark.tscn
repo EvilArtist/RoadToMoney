@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://brkgyblk2s3ct"]
+
+[ext_resource type="Script" uid="uid://b3iuebbhl8i5f" path="res://scripts/systems/ResourceMove.cs" id="1_b3jgi"]
+[ext_resource type="PackedScene" uid="uid://bqhxfst2me5gj" path="res://assets/models/resources/shark.glb" id="2_b3jgi"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_lc5tb"]
+radius = 8.0
+
+[node name="SharkResource" type="Node3D" unique_id=371266753]
+script = ExtResource("1_b3jgi")
+
+[node name="Sketchfab_Scene" parent="." unique_id=317773153 instance=ExtResource("2_b3jgi")]
+transform = Transform3D(-1.5, 0, -1.3113416e-07, 0, 1.5, 0, 1.3113416e-07, 0, -1.5, 0, 0, -0.2933421)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=538523737]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1834824591]
+shape = SubResource("SphereShape3D_lc5tb")
+debug_color = Color(0, 0.60038817, 0.7021107, 0.82000005)

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cpqlylo78iu1a"]
+
+[ext_resource type="Script" uid="uid://b3iuebbhl8i5f" path="res://scripts/systems/ResourceMove.cs" id="1_6mtdo"]
+[ext_resource type="PackedScene" uid="uid://cg58fhfp0x0y" path="res://assets/models/small_fish.glb" id="1_erlfb"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6mtdo"]
+radius = 5.0
+
+[node name="SmallFishResource" type="Node3D" unique_id=584935560]
+script = ExtResource("1_6mtdo")
+
+[node name="Sketchfab_Scene" parent="." unique_id=1343495766 instance=ExtResource("1_erlfb")]
+transform = Transform3D(-8.7422775e-10, 0, -0.02, 0, 0.02, 0, 0.02, 0, -8.7422775e-10, 2, 0.5, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1917806639]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1686716560]
+shape = SubResource("SphereShape3D_6mtdo")

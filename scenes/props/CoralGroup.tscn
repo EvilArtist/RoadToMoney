@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cbs4q1dt78lt4"]
+
+[ext_resource type="PackedScene" uid="uid://qwehcdiwa8cg" path="res://assets/models/creatures/coral.glb" id="1_b206n"]
+[ext_resource type="PackedScene" uid="uid://dgkv7r4e5wpt6" path="res://assets/models/creatures/coral_1.glb" id="2_3bvl1"]
+[ext_resource type="PackedScene" uid="uid://c611jmcpd5uv3" path="res://assets/models/creatures/coral_2.glb" id="3_sll6n"]
+[ext_resource type="PackedScene" uid="uid://b2gw3xmpn6vxm" path="res://assets/models/creatures/brain_coral.glb" id="4_sll6n"]
+[ext_resource type="PackedScene" uid="uid://cloijg7oxsyr5" path="res://assets/models/creatures/brain_coral_2.glb" id="5_exi3v"]
+[ext_resource type="PackedScene" uid="uid://dkcxdi3kra6j2" path="res://assets/models/creatures/mushroom_coral.glb" id="6_exi3v"]
+
+[node name="CoralGroup" type="Node3D" unique_id=1538629981]
+
+[node name="Sketchfab_Scene" parent="." unique_id=460083986 instance=ExtResource("1_b206n")]
+transform = Transform3D(9.271839, 3.7460659, 0, -3.6347916, 8.996426, 2.419219, 0.90625536, -2.2430608, 9.702957, 0.842, -1.607, 0.292)
+
+[node name="Sketchfab_Scene2" parent="." unique_id=441612031 instance=ExtResource("2_3bvl1")]
+transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 0.079, -1, -0.087)
+
+[node name="Sketchfab_Scene3" parent="." unique_id=2090899355 instance=ExtResource("3_sll6n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.963, 0, 12.091)
+visible = false
+
+[node name="Sketchfab_Scene4" parent="." unique_id=1275540803 instance=ExtResource("4_sll6n")]
+transform = Transform3D(-2.1855694e-08, -0.5, 0, 0.5, -2.1855694e-08, 0, 0, 0, 0.5, 0, 0, -11.831)
+visible = false
+
+[node name="Sketchfab_Scene5" parent="." unique_id=1155393994 instance=ExtResource("5_exi3v")]
+transform = Transform3D(0.022699526, -0.044550326, 0, 0.044550326, 0.022699526, 0, 0, 0, 0.05, -0.033525467, -2.0528812, 3.1136596)
+
+[node name="Sketchfab_Scene6" parent="." unique_id=282146086 instance=ExtResource("6_exi3v")]
+transform = Transform3D(1, 0, 0, 0, 0.9998478, -0.017452406, 0, 0.017452408, 0.9998477, 5.8, -9, -3.099)

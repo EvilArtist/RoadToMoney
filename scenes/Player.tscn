@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://c6u54p4xkn3cj"]
+
+[ext_resource type="Texture2D" uid="uid://buf7xn0r6lf3k" path="res://assets/textures/bubble.png" id="1_70d11"]
+[ext_resource type="Shader" uid="uid://ctwngeuncdgjg" path="res://assets/shaders/underwater.gdshader" id="1_p0vlq"]
+[ext_resource type="Script" uid="uid://jjwdojtm22bc" path="res://scripts/player/OxygenSystem.cs" id="2_3li8b"]
+[ext_resource type="Script" uid="uid://du0j54wfiuqg2" path="res://scenes/player/BubbleEmitter.cs" id="2_cw2d6"]
+[ext_resource type="Script" uid="uid://dvwl1tvi4vtjk" path="res://scripts/player/CollectionInteraction.cs" id="2_mdl7e"]
+[ext_resource type="Script" uid="uid://ohey1npu4w06" path="res://scripts/player/StorageBag.cs" id="3_mdl7e"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mdl7e"]
+
+[sub_resource type="Gradient" id="Gradient_khinc"]
+offsets = PackedFloat32Array(0, 0.22878624, 0.5499463, 0.84210527, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.35000002, 1, 1, 1, 0.65000004, 0.95468724, 0.98669523, 1, 0.15, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bruh7"]
+gradient = SubResource("Gradient_khinc")
+
+[sub_resource type="Curve" id="Curve_6eyey"]
+_data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0, Vector2(0.3, 0.5), 0.0, 0.0, 0, 0, Vector2(0.7, 0.8), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_d3wef"]
+curve = SubResource("Curve_6eyey")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mdl7e"]
+lifetime_randomness = 1.0
+direction = Vector3(0, 1, 0)
+spread = 40.0
+initial_velocity_min = 0.29999998
+initial_velocity_max = 0.79999995
+gravity = Vector3(0, 0.5, 0)
+scale_min = 0.04
+scale_max = 0.08
+scale_curve = SubResource("CurveTexture_d3wef")
+scale_over_velocity_min = 0.099999994
+scale_over_velocity_max = 0.19999999
+color = Color(0.95468724, 0.98669523, 1, 0.35000002)
+color_ramp = SubResource("GradientTexture1D_bruh7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o4126"]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("1_70d11")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_lkdrv"]
+material = SubResource("StandardMaterial3D_o4126")
+size = Vector2(0.05, 0.05)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v6fml"]
+shader = ExtResource("1_p0vlq")
+shader_parameter/depth = 0.0
+shader_parameter/water_color = Color(0, 0.15, 0.3, 1)
+shader_parameter/wave_strength = 0.008
+shader_parameter/wave_speed = 1.5
+shader_parameter/absorption_coeff = Vector3(0.9, 0.35, 0.12)
+shader_parameter/max_tint = 0.15
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5q5h1"]
+radius = 2.0
+
+[node name="Player" type="CharacterBody3D" unique_id=1603171894]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=114625875]
+shape = SubResource("SphereShape3D_mdl7e")
+
+[node name="CameraRig" type="Node3D" parent="." unique_id=2077980694]
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig" unique_id=1168636561]
+
+[node name="BubbleTrail" type="GPUParticles3D" parent="CameraRig" unique_id=505917522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.5)
+emitting = false
+amount = 30
+lifetime = 4.0
+one_shot = true
+preprocess = 0.5
+process_material = SubResource("ParticleProcessMaterial_mdl7e")
+draw_pass_1 = SubResource("QuadMesh_lkdrv")
+script = ExtResource("2_cw2d6")
+
+[node name="DivingLight" type="SpotLight3D" parent="CameraRig" unique_id=1662563261]
+spot_angle = 23.126375
+
+[node name="UnderwaterOverlay" type="CanvasLayer" parent="CameraRig" unique_id=2015033023]
+
+[node name="UnderwaterTint" type="ColorRect" parent="CameraRig/UnderwaterOverlay" unique_id=802820154]
+material = SubResource("ShaderMaterial_v6fml")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.15, 0.3, 0)
+
+[node name="CollectionArea" type="Area3D" parent="." unique_id=464730328]
+script = ExtResource("2_mdl7e")
+
+[node name="CatchShape" type="CollisionShape3D" parent="CollectionArea" unique_id=1770032474]
+shape = SubResource("SphereShape3D_5q5h1")
+debug_color = Color(0, 0.60038817, 0.70000815, 0.85200006)
+
+[node name="HandTool" type="Node3D" parent="." unique_id=1352348869]
+
+[node name="OxygenSystem" type="Node3D" parent="." unique_id=1204660510]
+script = ExtResource("2_3li8b")
+
+[node name="StorageBag" type="Node3D" parent="." unique_id=392234843]
+script = ExtResource("3_mdl7e")

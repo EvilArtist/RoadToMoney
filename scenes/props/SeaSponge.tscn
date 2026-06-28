@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cw5s3hmt3pcfk"]
+
+[ext_resource type="PackedScene" uid="uid://pk38kci388lf" path="res://assets/models/decor/sea_sponge.glb" id="1_e2bop"]
+
+[node name="SeaSponge" type="Node3D" unique_id=1300845761]
+
+[node name="Sketchfab_Scene" parent="." unique_id=2024781467 instance=ExtResource("1_e2bop")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dlasdm81pseu3"]
+
+[ext_resource type="PackedScene" uid="uid://c30fm6fbjnmq1" path="res://assets/models/shell.glb" id="1_xgepg"]
+
+[node name="Sketchfab_Scene" unique_id=1143454833 instance=ExtResource("1_xgepg")]
+
+[node name="Cube_2" parent="Sketchfab_model/root/GLTF_SceneRootNode" parent_id_path=PackedInt32Array(1567593889) index="0" unique_id=110151061]
+visible = false

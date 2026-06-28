@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://mj2ppadl733x"]
+
+[ext_resource type="PackedScene" uid="uid://c75jjlgg5nm0a" path="res://assets/models/decor/long_ledges_reef_community.glb" id="1_8d4op"]
+
+[node name="LedgeReefCluster" type="Node3D" unique_id=1957070219]
+
+[node name="Sketchfab_Scene" parent="." unique_id=1930098516 instance=ExtResource("1_8d4op")]

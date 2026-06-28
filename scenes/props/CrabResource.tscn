@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c55uk2p1lsgnq"]
+
+[ext_resource type="PackedScene" uid="uid://bvdbh0junvyil" path="res://assets/models/crab.glb" id="1_xlaiu"]
+[ext_resource type="Script" uid="uid://b3iuebbhl8i5f" path="res://scripts/systems/ResourceMove.cs" id="2_fuf6k"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fuf6k"]
+radius = 3.0
+
+[node name="CrabResource" type="Node3D" unique_id=2113372096]
+script = ExtResource("2_fuf6k")
+
+[node name="Sketchfab_Scene" parent="." unique_id=352533363 instance=ExtResource("1_xlaiu")]
+transform = Transform3D(-8.742278e-08, 0, 2, 0, 2, 0, -2, 0, -8.742278e-08, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=540185191]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=717058064]
+shape = SubResource("SphereShape3D_fuf6k")

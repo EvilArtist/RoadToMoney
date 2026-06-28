@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://sju7iah7ihi5"]
+
+[ext_resource type="PackedScene" uid="uid://b7xpn5y3amck7" path="res://assets/models/creatures/sea_turtle.glb" id="1_5g16l"]
+[ext_resource type="Script" uid="uid://6rn3htcsfhmq" path="res://scripts/creatures/CreatureAI.cs" id="1_7cdwq"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cfmpx"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7cdwq"]
+radius = 3.0
+
+[node name="SeaTurtle" type="CharacterBody3D" unique_id=1934101912]
+script = ExtResource("1_7cdwq")
+
+[node name="Sketchfab_Scene" parent="." unique_id=341220175 instance=ExtResource("1_5g16l")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=37542312]
+shape = SubResource("CapsuleShape3D_cfmpx")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=361780694]
+
+[node name="DetectionShape" type="CollisionShape3D" parent="Area3D" unique_id=216379290]
+shape = SubResource("SphereShape3D_7cdwq")

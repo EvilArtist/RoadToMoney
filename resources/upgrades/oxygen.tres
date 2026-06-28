@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="UpgradeCategoryData" format=3 uid="uid://bbqqxiuxxois5"]
+
+[ext_resource type="Script" uid="uid://cvdxeexwfhcmu" path="res://scripts/resources/UpgradeItemData.cs" id="1_vdp3m"]
+[ext_resource type="Script" uid="uid://cvt4741u76owd" path="res://scripts/resources/UpgradeCategoryData.cs" id="2_cr1yn"]
+
+[sub_resource type="Resource" id="Resource_nvnyn"]
+script = ExtResource("1_vdp3m")
+Description = "BREATH"
+Value = 60.0
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_ob22b"]
+script = ExtResource("1_vdp3m")
+Cost = 150
+Description = "MINI"
+Value = 90.0
+Level = 1
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_vdp3m"]
+script = ExtResource("1_vdp3m")
+Cost = 400
+Description = "STEEL"
+Value = 150.0
+Level = 2
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_cr1yn"]
+script = ExtResource("1_vdp3m")
+Cost = 900
+Description = "ALUMINUM"
+Value = 250.0
+Level = 3
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_okxsv"]
+script = ExtResource("1_vdp3m")
+Cost = 2000
+Description = "COMPOSITE"
+Value = 400.0
+Level = 4
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[resource]
+script = ExtResource("2_cr1yn")
+CategoryKey = "oxygen"
+DisplayName = "OXYGEN"
+Icon = "🤿"
+UpgradeItems = [SubResource("Resource_nvnyn"), SubResource("Resource_ob22b"), SubResource("Resource_vdp3m"), SubResource("Resource_cr1yn"), SubResource("Resource_okxsv")]

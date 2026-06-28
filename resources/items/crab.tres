@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="SeaResource" format=3 uid="uid://c60p4ovjyqwak"]
+
+[ext_resource type="Texture2D" uid="uid://cqj8y24wnb30i" path="res://assets/textures/ui_deco/crab.png" id="1_hx3pu"]
+[ext_resource type="PackedScene" uid="uid://c55uk2p1lsgnq" path="res://scenes/props/CrabResource.tscn" id="1_ospvv"]
+[ext_resource type="Script" uid="uid://dj0ysv7p8qw2o" path="res://scripts/systems/SeaResource.cs" id="1_v5jpt"]
+
+[resource]
+script = ExtResource("1_v5jpt")
+Id = "crab"
+DisplayName = "CRAB"
+Icon = ExtResource("1_hx3pu")
+ResourceRarity = 1
+BaseValue = 45
+Weight = 5.0
+SpawnZones = PackedStringArray("Zone_Reef")
+MinDepth = 15.0
+MaxDepth = 40.0
+CatchDifficulty = 0.5
+ResourceScene = ExtResource("1_ospvv")
+CanMove = true
+WanderRadius = 5.0
+SpawnPeakDistance = 400.0
+SpawnSigma = 100.0
+SpawnCount = 15
+CanFlee = true
+MinHeight = 0

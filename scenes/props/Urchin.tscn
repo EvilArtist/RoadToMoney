@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://14tmfhtrbbed"]
+
+[ext_resource type="PackedScene" uid="uid://yr8eaup73u4q" path="res://assets/models/decor/urchin.glb" id="1_7fx5s"]
+
+[node name="Urchin" type="Node3D" unique_id=979465375]
+
+[node name="Sketchfab_Scene" parent="." unique_id=1420780472 instance=ExtResource("1_7fx5s")]
+transform = Transform3D(0.1, 0, 0, 0, 0.07071068, 0.07071068, 0, -0.07071068, 0.07071068, 0, -0.8, 2)

@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="UpgradeCategoryData" format=3 uid="uid://bgj0y5qfcqqw4"]
+
+[ext_resource type="Script" uid="uid://cvdxeexwfhcmu" path="res://scripts/resources/UpgradeItemData.cs" id="1_dm3e8"]
+[ext_resource type="Script" uid="uid://cvt4741u76owd" path="res://scripts/resources/UpgradeCategoryData.cs" id="2_rb8fd"]
+
+[sub_resource type="Resource" id="Resource_aw4no"]
+script = ExtResource("1_dm3e8")
+Description = "Hand"
+Value = 1.5
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_6t6lm"]
+script = ExtResource("1_dm3e8")
+Cost = 200
+Description = "NET"
+Value = 3.0
+Level = 1
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_dm3e8"]
+script = ExtResource("1_dm3e8")
+Cost = 1800
+Description = "SPEAR"
+Value = 6.0
+Level = 2
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_rb8fd"]
+script = ExtResource("1_dm3e8")
+Cost = 3000
+Description = "VACUUM"
+Value = 10.0
+Level = 3
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_abrmh"]
+script = ExtResource("1_dm3e8")
+Cost = 5000
+Description = "ELECTRONIC"
+Value = 15.0
+Level = 4
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[resource]
+script = ExtResource("2_rb8fd")
+CategoryKey = "tool"
+DisplayName = "CATCHING_TOOL"
+Icon = "🔱"
+UpgradeItems = [SubResource("Resource_aw4no"), SubResource("Resource_6t6lm"), SubResource("Resource_dm3e8"), SubResource("Resource_rb8fd"), SubResource("Resource_abrmh")]

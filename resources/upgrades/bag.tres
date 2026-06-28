@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="UpgradeCategoryData" format=3 uid="uid://c5u1fpu4outt0"]
+
+[ext_resource type="Script" uid="uid://cvdxeexwfhcmu" path="res://scripts/resources/UpgradeItemData.cs" id="1_nuc7k"]
+[ext_resource type="Script" uid="uid://cvt4741u76owd" path="res://scripts/resources/UpgradeCategoryData.cs" id="2_m4n2o"]
+
+[sub_resource type="Resource" id="Resource_n34cg"]
+script = ExtResource("1_nuc7k")
+Description = "10kg"
+Value = 10.0
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_lkrv2"]
+script = ExtResource("1_nuc7k")
+Cost = 100
+Description = "20kg"
+Value = 20.0
+Level = 1
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_yw44q"]
+script = ExtResource("1_nuc7k")
+Cost = 300
+Description = "30kg"
+Value = 30.0
+Level = 2
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_xxkso"]
+script = ExtResource("1_nuc7k")
+Cost = 700
+Description = "45kg"
+Value = 45.0
+Level = 3
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_s7f74"]
+script = ExtResource("1_nuc7k")
+Cost = 1500
+Description = "60kg"
+Value = 60.0
+Level = 4
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[resource]
+script = ExtResource("2_m4n2o")
+CategoryKey = "bag"
+DisplayName = "STORAGE_BAG"
+Icon = "💰"
+UpgradeItems = [SubResource("Resource_n34cg"), SubResource("Resource_lkrv2"), SubResource("Resource_yw44q"), SubResource("Resource_xxkso"), SubResource("Resource_s7f74")]

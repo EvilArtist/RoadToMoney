@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="UpgradeCategoryData" format=3 uid="uid://boqx2d3wtaxie"]
+
+[ext_resource type="Script" uid="uid://cvdxeexwfhcmu" path="res://scripts/resources/UpgradeItemData.cs" id="1_aj6gg"]
+[ext_resource type="Script" uid="uid://cvt4741u76owd" path="res://scripts/resources/UpgradeCategoryData.cs" id="2_n108c"]
+
+[sub_resource type="Resource" id="Resource_y7ssn"]
+script = ExtResource("1_aj6gg")
+Description = "None"
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_rhkkm"]
+script = ExtResource("1_aj6gg")
+Cost = 250
+Description = "FLASH"
+Value = 15.0
+Level = 1
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_aj6gg"]
+script = ExtResource("1_aj6gg")
+Cost = 800
+Description = "LED"
+Value = 30.0
+Level = 2
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[sub_resource type="Resource" id="Resource_n108c"]
+script = ExtResource("1_aj6gg")
+Cost = 2000
+Description = "TORCH"
+Value = 50.0
+Level = 3
+metadata/_custom_type_script = "uid://cvdxeexwfhcmu"
+
+[resource]
+script = ExtResource("2_n108c")
+CategoryKey = "light"
+DisplayName = "DIVING_LIGHT"
+Icon = "🔦"
+UpgradeItems = [SubResource("Resource_y7ssn"), SubResource("Resource_rhkkm"), SubResource("Resource_aj6gg"), SubResource("Resource_n108c")]

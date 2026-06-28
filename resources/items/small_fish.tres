@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="SeaResource" format=3 uid="uid://ba63u0a71yta3"]
+
+[ext_resource type="Texture2D" uid="uid://dwvtg1kski2ke" path="res://assets/textures/ui_deco/small-fish.png" id="1_83xpn"]
+[ext_resource type="PackedScene" uid="uid://cpqlylo78iu1a" path="res://scenes/props/SmallFishResource.tscn" id="1_q15tf"]
+[ext_resource type="Script" uid="uid://dj0ysv7p8qw2o" path="res://scripts/systems/SeaResource.cs" id="1_wf1oc"]
+
+[resource]
+script = ExtResource("1_wf1oc")
+Id = "bass"
+DisplayName = "BASS"
+Icon = ExtResource("1_83xpn")
+BaseValue = 30
+Weight = 10.0
+SpawnZones = PackedStringArray("Zone_Shallow", "Zone_Reef", "Zone_Deep")
+MaxDepth = 50.0
+CatchDifficulty = 1.2
+ResourceScene = ExtResource("1_q15tf")
+MinHeight = 5.0
+MinScale = 0.8
+MaxScale = 1.2
+CanMove = true
+MinSpeed = 1.0
+SpawnPeakDistance = 750.0
+SpawnSigma = 100.0
+SpawnCount = 15
+FearRadius = 10.0
+CanFlee = true

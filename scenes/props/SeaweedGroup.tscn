@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://0sy7qub6xdqx"]
+
+[ext_resource type="PackedScene" uid="uid://cbeudlteietdn" path="res://assets/models/creatures/animated_kelp.glb" id="1_1thhv"]
+[ext_resource type="Script" uid="uid://du0jyusvdp50o" path="res://scripts/world/SeaweedGroup.cs" id="1_e05jb"]
+[ext_resource type="PackedScene" uid="uid://dw4dd7pg6q14b" path="res://assets/models/creatures/kelp_2.glb" id="2_e05jb"]
+
+[node name="SeaweedGroup" type="Node3D" unique_id=1623861876]
+script = ExtResource("1_e05jb")
+
+[node name="Sketchfab_Scene" parent="." unique_id=1809035638 instance=ExtResource("1_1thhv")]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+
+[node name="Sketchfab_Scene2" parent="." unique_id=197523262 instance=ExtResource("1_1thhv")]
+transform = Transform3D(0.031203944, -0.0040526846, 0.0388573, 0.00643978, 0.049583558, 0, -0.038533665, 0.005004649, 0.03146602, -0.1, -0.3, 0)
+
+[node name="Sketchfab_Scene3" parent="." unique_id=1429972449 instance=ExtResource("1_1thhv")]
+transform = Transform3D(0.04890738, 0.010395586, 0, -0.010395586, 0.04890738, 0, 0, 0, 0.05, 0.1, -0.3, 0)
+
+[node name="Sketchfab_Scene4" parent="." unique_id=2033992414 instance=ExtResource("2_e05jb")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+
+[node name="Sketchfab_Scene5" parent="." unique_id=1768799922 instance=ExtResource("2_e05jb")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 1, 0, 3)
+
+[node name="Sketchfab_Scene6" parent="." unique_id=1652874605 instance=ExtResource("2_e05jb")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -1, 0, -3)

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bvix3s1oyiy7o"]
+
+[ext_resource type="Script" uid="uid://b3iuebbhl8i5f" path="res://scripts/systems/ResourceMove.cs" id="1_oiswi"]
+[ext_resource type="PackedScene" uid="uid://bpduycb7u1x7i" path="res://assets/models/squid.glb" id="1_rnn4o"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_oiswi"]
+radius = 5.0
+
+[node name="SquidResource" type="Node3D" unique_id=1206268749]
+script = ExtResource("1_oiswi")
+
+[node name="Sketchfab_Scene" parent="." unique_id=147414518 instance=ExtResource("1_rnn4o")]
+transform = Transform3D(14, 0, 0, 0, 14, 0, 0, 0, 14, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1519459883]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=375242915]
+shape = SubResource("SphereShape3D_oiswi")
