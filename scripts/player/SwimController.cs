@@ -317,7 +317,9 @@ public partial class SwimController : CharacterBody3D
 		float sunT = Mathf.Clamp(depth / SunCutoffDepth, 0f, 1f);
 		if (sun != null)
 		{
-			float targetSunEnergy = Mathf.Lerp(1.2f, 0.0f, sunT); // về thẳng 0, không có sàn
+			// float targetSunEnergy = Mathf.Lerp(1.2f, 0.0f, sunT); // về thẳng 0, không có sàn
+			float dayBaseSunEnergy = DayNightManager.Instance?.GetSunEnergyForTime() ?? 1.2f;
+			float targetSunEnergy  = Mathf.Lerp(dayBaseSunEnergy, 0.0f, sunT);
 			sun.LightEnergy = Mathf.Lerp(sun.LightEnergy, targetSunEnergy, 0.08f);
 		}
 
@@ -330,7 +332,8 @@ public partial class SwimController : CharacterBody3D
 		// đã max upgrade". Ép cứng ở đây để chắc chắn.
 		_worldEnv.AmbientLightSource = Godot.Environment.AmbientSource.Color;
 		_worldEnv.AmbientLightColor  = new Color(0.55f, 0.75f, 0.9f);
-		_worldEnv.AmbientLightEnergy = Mathf.Lerp(0.85f, 0.35f, ambientCurve);  // sàn 0.35
+		float dayBaseAmbient = DayNightManager.Instance?.GetAmbientEnergyForTime() ?? 0.85f;
+		_worldEnv.AmbientLightEnergy = Mathf.Lerp(dayBaseAmbient, 0.35f, ambientCurve); 
 
 		// ── Background: ẩn Sky procedural khi lặn xuống ─────────────────────
 		// Sky không bị fog-theo-khoảng-cách chi phối, nên dù density cao,

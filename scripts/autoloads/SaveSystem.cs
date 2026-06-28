@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using System;
 
 public partial class SaveSystem : Node
 {
@@ -35,6 +36,10 @@ public partial class SaveSystem : Node
 				["coins"]       = EconomyManager.Instance.Coins,
 				["totalEarned"] = EconomyManager.Instance.TotalEarned,
 				["totalDives"]  = GameManager.Instance.TotalDives
+			},
+			["world"] = new Dictionary
+			{
+				["epoch"] = DayNightManager.Instance.GetEpoch().ToString("o") // ISO 8601
 			},
 			["upgrades"]  = upgrades,
 			["inventory"] = inventory
@@ -80,6 +85,13 @@ public partial class SaveSystem : Node
 
 		foreach (var key in invDict.Keys)
 			EconomyManager.Instance.AddToInventory(key.AsString(), invDict[key].AsInt32());
+		
+		if (data.ContainsKey("world"))
+		{
+			var world = data["world"].AsGodotDictionary();
+			if (DateTime.TryParse(world["epoch"].AsString(), out var epoch))
+				DayNightManager.Instance.LoadEpoch(epoch);
+		}
 	}
 
 	private bool TryRestoreBackup()

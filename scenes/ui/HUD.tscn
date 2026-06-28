@@ -95,6 +95,7 @@ custom_minimum_size = Vector2(110, 4)
 custom_maximum_size = Vector2(-1, 10)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_bar_bg")
 
 [node name="O2Bar" type="ProgressBar" parent="HudPanel/VBox/O2Row/O2BarBg" unique_id=623954307]
@@ -126,8 +127,10 @@ vertical_alignment = 1
 
 [node name="BagBarBg" type="PanelContainer" parent="HudPanel/VBox/BagRow" unique_id=1578429032]
 custom_minimum_size = Vector2(110, 5)
+custom_maximum_size = Vector2(-1, 10)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_bar_bg")
 
 [node name="BagBar" type="ProgressBar" parent="HudPanel/VBox/BagRow/BagBarBg" unique_id=1390405170]
@@ -135,7 +138,7 @@ custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_bag_fill")
-value = 5.0
+value = 50.0
 show_percentage = false
 
 [node name="BagValLabel" type="Label" parent="HudPanel/VBox/BagRow" unique_id=320594569]

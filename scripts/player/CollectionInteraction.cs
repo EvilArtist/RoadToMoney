@@ -167,7 +167,6 @@ public partial class CollectionInteraction : Area3D
 			? metaNode.GetMeta("catch_difficulty").AsSingle()
 			: 0.3f; // fallback
 		float catchChance = Mathf.Clamp(bonus - difficulty + 1.0f, 0.05f, 1.0f);
-		GD.Print($"Try To Catch: Bonus:{bonus} difficulty: {difficulty}, change: {catchChance}");
 		return GD.Randf() < catchChance;
 	}
 

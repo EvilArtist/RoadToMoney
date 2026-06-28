@@ -17,7 +17,10 @@ public partial class EventBus : Node
 	public event Action              GameSaved;
 	public event Action PlayerDrowned;
 	public event Action<string, Vector3> ResourceCaughtFx; 
-	public event Action<Vector3>         CatchMissed;      
+	public event Action<Vector3>         CatchMissed;
+	public event Action<float>                DayTimeChanged;   // giờ hiện tại (0-24)
+	public event Action<int>                  DayChanged;       // số ngày mới
+	public event Action<DayNightManager.Period> DayPeriodChanged; // đổi buổi (Sáng/Trưa/Chiều/Tối)  
 
 	public override void _Ready()
 	{
@@ -38,4 +41,7 @@ public partial class EventBus : Node
 	public void EmitPlayerDrowned() => PlayerDrowned?.Invoke();
 	public void EmitResourceCaughtFx(string id, Vector3 pos) => ResourceCaughtFx?.Invoke(id, pos);
 	public void EmitCatchMissed(Vector3 pos)                 => CatchMissed?.Invoke(pos);
+	public void EmitDayTimeChanged(float hour)                       => DayTimeChanged?.Invoke(hour);
+	public void EmitDayChanged(int day)                              => DayChanged?.Invoke(day);
+	public void EmitDayPeriodChanged(DayNightManager.Period period)  => DayPeriodChanged?.Invoke(period);
 }

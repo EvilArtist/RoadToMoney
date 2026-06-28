@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dayrt1gev48j0"]
 
+[ext_resource type="Script" uid="uid://p7m74nok1t8a" path="res://scripts/world/SkyController.cs" id="1_5taxl"]
 [ext_resource type="Script" uid="uid://c8xybyj1iinll" path="res://scripts/systems/CreatureSpawner.cs" id="1_8s7h6"]
 [ext_resource type="Script" uid="uid://dlpwdltghua7k" path="res://scripts/systems/ResourceSpawner.cs" id="1_ht4wx"]
 [ext_resource type="PackedScene" uid="uid://c6u54p4xkn3cj" path="res://scenes/Player.tscn" id="1_pusko"]
@@ -104,10 +105,16 @@ size = Vector3(400, 1, 400)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=140500108]
 environment = SubResource("Environment_ii6h3")
 
+[node name="SkyController" type="Node3D" parent="." unique_id=415377194]
+script = ExtResource("1_5taxl")
+MoonLightEnergy = 0.5
+
 [node name="Sun" type="DirectionalLight3D" parent="." unique_id=406679573]
 transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 0, 0)
 light_energy = 1.2
 shadow_enabled = true
+
+[node name="Moon" type="DirectionalLight3D" parent="." unique_id=1631990669]
 
 [node name="OceanZoneManager" type="Node3D" parent="." unique_id=25634195]
 
