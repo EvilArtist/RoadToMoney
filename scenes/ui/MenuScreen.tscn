@@ -17,26 +17,24 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.2)
 
-[node name="MenuCenter" type="CenterContainer" parent="." unique_id=1066721779]
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-
-[node name="Node2D" type="Node2D" parent="MenuCenter" unique_id=1727000512]
-position = Vector2(0, -217)
-
-[node name="TitleLabel" type="Label" parent="MenuCenter/Node2D" unique_id=1176196031]
+[node name="TitleLabel" type="Label" parent="." unique_id=1176196031]
 custom_minimum_size = Vector2(0, 67)
-offset_left = 1035.0
-offset_top = 681.0
-offset_right = 1524.0
-offset_bottom = 758.0
+offset_left = 1105.0
+offset_top = 404.0
+offset_right = 1455.0
+offset_bottom = 481.0
+grow_horizontal = 2
 theme_override_colors/font_outline_color = Color(0.88768137, 0.4693535, 0.28289723, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 56
 text = "GAME_TITLE"
 horizontal_alignment = 1
+
+[node name="MenuCenter" type="CenterContainer" parent="." unique_id=1066721779]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
 
 [node name="RopLayer" type="Node2D" parent="MenuCenter" unique_id=266176666]
 script = ExtResource("2_bwjac")
@@ -68,6 +66,11 @@ text = "UPGRADE"
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "FIELD_GUIDE"
+
+[node name="CreditsButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1321023339]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "CREDITS"
 
 [node name="SettingButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1537051848]
 z_index = 2

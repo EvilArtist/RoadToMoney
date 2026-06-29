@@ -44,7 +44,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 90
-text = "ROAD TO MONEY"
+text = "GAME_TITLE"
 
 [node name="LoadingBar" type="ProgressBar" parent="." unique_id=502326943]
 layout_mode = 1
