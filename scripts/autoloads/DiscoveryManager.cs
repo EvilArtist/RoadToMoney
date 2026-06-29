@@ -4,17 +4,16 @@ using System.Collections.Generic;
 /// <summary>
 /// DiscoveryEntry — trạng thái "đã khám phá" cho 1 loại SeaResource.
 ///
-/// LƯU Ý: bản pseudocode gốc dùng `Date FirstCaughtDate`, nhưng Godot/C# không có
-/// kiểu `Date` export được. Thay vào đó ta lưu `FirstCaughtDay` (số ngày, lấy từ
-/// DayNightManager.CurrentDay — đã có sẵn cho Book #12) và `FirstCaughtPeriod`
-/// (Sáng/Trưa/Chiều/Tối) — đúng tinh thần "Bắt lần đầu: Ngày N, {period}" mà UI cần.
+/// Lưu thời điểm bắt lần đầu dưới dạng Unix timestamp (giờ THỰC của máy người chơi,
+/// lấy từ Time.GetUnixTimeFromSystem() — giống cách SaveSystem đang lưu "timestamp"),
+/// vì Godot/C# không export được kiểu System.DateTime trực tiếp trên Resource.
+/// UI (BookScreen) sẽ convert lại thành DateTime để hiển thị theo định dạng ngôn ngữ.
 /// </summary>
 [GlobalClass]
 public partial class DiscoveryEntry : Resource
 {
 	[Export] public bool Discovered { get; set; } = false;
-	[Export] public int  FirstCaughtDay { get; set; } = 0;
-	[Export] public DayNightManager.Period FirstCaughtPeriod { get; set; } = DayNightManager.Period.Morning;
+	[Export] public long FirstCaughtUnixTime { get; set; } = 0;
 	[Export] public int  TimesCaught { get; set; } = 0;
 }
 
@@ -61,9 +60,8 @@ public partial class DiscoveryManager : Node
 		bool isFirst = !entry.Discovered;
 		if (isFirst)
 		{
-			entry.Discovered         = true;
-			entry.FirstCaughtDay     = DayNightManager.Instance.CurrentDay;
-			entry.FirstCaughtPeriod  = DayNightManager.Instance.CurrentPeriod;
+			entry.Discovered           = true;
+			entry.FirstCaughtUnixTime  = (long)Time.GetUnixTimeFromSystem();
 		}
 		entry.TimesCaught += qty;
 		return isFirst;

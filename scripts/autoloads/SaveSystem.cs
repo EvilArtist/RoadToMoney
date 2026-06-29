@@ -34,10 +34,9 @@ public partial class SaveSystem : Node
 		{
 			discoveries[kv.Key] = new Dictionary
 			{
-				["discovered"]   = kv.Value.Discovered,
-				["day"]          = kv.Value.FirstCaughtDay,
-				["period"]       = (int)kv.Value.FirstCaughtPeriod,
-				["timesCaught"]  = kv.Value.TimesCaught
+				["discovered"]          = kv.Value.Discovered,
+				["firstCaughtUnixTime"] = kv.Value.FirstCaughtUnixTime,
+				["timesCaught"]         = kv.Value.TimesCaught
 			};
 		}
 
@@ -120,10 +119,11 @@ public partial class SaveSystem : Node
 				var entryDict = discDict[key].AsGodotDictionary();
 				entries[key.AsString()] = new DiscoveryEntry
 				{
-					Discovered        = entryDict["discovered"].AsBool(),
-					FirstCaughtDay    = entryDict["day"].AsInt32(),
-					FirstCaughtPeriod = (DayNightManager.Period)entryDict["period"].AsInt32(),
-					TimesCaught       = entryDict["timesCaught"].AsInt32()
+					Discovered          = entryDict["discovered"].AsBool(),
+					FirstCaughtUnixTime = entryDict.ContainsKey("firstCaughtUnixTime")
+						? entryDict["firstCaughtUnixTime"].AsInt64()
+						: 0L, // save cũ (trước khi đổi sang real-time) — không có mốc giờ thật, để 0
+					TimesCaught         = entryDict["timesCaught"].AsInt32()
 				};
 			}
 

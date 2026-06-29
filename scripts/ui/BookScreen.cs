@@ -1,5 +1,7 @@
 using Godot;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 /// <summary>
 /// BookScreen — Book #12: Sổ tay hải sản / Field Guide.
@@ -182,8 +184,7 @@ public partial class BookScreen : CanvasLayer
 		infoLabel.Modulate = ColorCatchInfo;
 		if (entry.Discovered)
 		{
-			string periodLabel = Tr(DayNightManager.Instance.GetPeriodLabelKey(entry.FirstCaughtPeriod));
-			infoLabel.Text = $"{Tr("FIRST_CAUGHT")}: {Tr("DAY_SHORT")} {entry.FirstCaughtDay}, {periodLabel}\n×{entry.TimesCaught}";
+			infoLabel.Text = $"{Tr("FIRST_CAUGHT")}: {FormatFirstCaught(entry.FirstCaughtUnixTime)}\n×{entry.TimesCaught}";
 		}
 		else
 		{
@@ -202,6 +203,20 @@ public partial class BookScreen : CanvasLayer
 		SeaResource.Rarity.Epic     => "RARITY_EPIC",
 		_                           => "RARITY_COMMON",
 	};
+
+	// Ngày giờ THỰC lúc bắt lần đầu (không phải epoch trong game) — đổi định dạng
+	// theo ngôn ngữ hiện tại (SettingsManager.Language: "vi" | "en").
+	// vi: 29/06/2026 13:12   |   en: Jun 29, 2026 01:12 PM
+	private static string FormatFirstCaught(long unixTime)
+	{
+		if (unixTime <= 0) return "—"; // save cũ (trước bản cập nhật real-time) không có mốc giờ thật
+
+		var dt = DateTimeOffset.FromUnixTimeSeconds(unixTime).LocalDateTime;
+		bool isVi = SettingsManager.Instance.Language == "vi";
+		return isVi
+			? dt.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture)
+			: dt.ToString("MMM d, yyyy hh:mm tt", CultureInfo.InvariantCulture);
+	}
 
 	// ── Button handlers ───────────────────────────────────────────────────────
 
