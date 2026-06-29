@@ -9,7 +9,7 @@ catch_common: DRAGON-STUDIO
 catch_uncommon: Yodguard
 catch_rare: humordome
 catch_epic: Freesound Community
-
+catch_miss: OxidVideos
 
 Model:
 Yellow Tang Coral Fish: Mikhail Nesterov
@@ -24,3 +24,4 @@ Shark: seth the yutyrannus
 Octopus: kenchoo
 SailFish: Mateus Schwaab
 Rock: GSXNet
+Seagull: simonaskLDE

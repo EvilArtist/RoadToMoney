@@ -16,7 +16,7 @@ public partial class SkyController : Node3D
 
 	private DirectionalLight3D _sun;
 	private DirectionalLight3D _moon;
-	private ProceduralSkyMaterial _skyMat;
+	private ShaderMaterial _skyMat; 
 	private ShaderMaterial _waterMaterial;
 
 	public override void _Ready()
@@ -24,23 +24,19 @@ public partial class SkyController : Node3D
 		_sun  = GetNodeOrNull<DirectionalLight3D>(SunPath);
 		_moon = GetNodeOrNull<DirectionalLight3D>(MoonPath);
 
-		GD.Print($"[SkyController] Sun found: {_sun != null} | Moon found: {_moon != null}");
 
 		var worldEnv = GetTree().Root.FindChild("WorldEnvironment", true, false) as WorldEnvironment;
 		if (worldEnv != null)
-			_skyMat = worldEnv.Environment.Sky.SkyMaterial as ProceduralSkyMaterial;
+			_skyMat = worldEnv.Environment.Sky.SkyMaterial as ShaderMaterial;
 
-		GD.Print($"[SkyController] SkyMaterial found: {_skyMat != null}");
 
 		var waterPlane = GetTree().Root.FindChild("WaterPlane", true, false) as MeshInstance3D;
 		if (waterPlane != null)
 			_waterMaterial = waterPlane.GetSurfaceOverrideMaterial(0) as ShaderMaterial;
 
-		GD.Print($"[SkyController] WaterMaterial found: {_waterMaterial != null}");
 
 		if (_sun == null)
 		{
-			GD.PrintErr("[SkyController] Sun null — dừng, không subscribe event. Kiểm tra NodePath/vị trí node SkyController trong scene tree.");
 			return; // tránh NullReferenceException ở OnDayTimeChanged
 		}
 
@@ -52,14 +48,12 @@ public partial class SkyController : Node3D
 		}
 
 		EventBus.Instance.DayTimeChanged += OnDayTimeChanged;
-		GD.Print("[SkyController] Subscribed to DayTimeChanged.");
 		OnDayTimeChanged(DayNightManager.Instance.CurrentHour);
 	}
 
 	private void OnDayTimeChanged(float hour)
 	{
 		var period = DayNightManager.Instance.CurrentPeriod;
-		GD.Print($"[SkyController] hour={hour:F2} period={period} skyMatNull={_skyMat == null} waterMatNull={_waterMaterial == null}");
 
 		// ── Rotation ──────────────────────────────────────────────────────────
 		float sunAngleDeg = (hour / 24f) * 360f - 90f;
@@ -88,12 +82,15 @@ public partial class SkyController : Node3D
 		// ── Màu sky ───────────────────────────────────────────────────────────
 		if (_skyMat != null)
 		{
-			var (top, horizon) = GetSkyColorsForHour(hour, period);
-			_skyMat.SkyTopColor        = _skyMat.SkyTopColor.Lerp(top, 0.08f);
-			_skyMat.SkyHorizonColor    = _skyMat.SkyHorizonColor.Lerp(horizon, 0.08f);
-			_skyMat.GroundHorizonColor = _skyMat.GroundHorizonColor.Lerp(horizon, 0.08f);
-		}
+			float curCloud     = _skyMat.GetShaderParameter("cloud_coverage").AsSingle();
+			float curWhiteMix  = _skyMat.GetShaderParameter("cloud_white_mix").AsSingle();
 
+			float targetCloud    = GetCloudCoverageForPeriod(period);
+			float targetWhiteMix = period == DayNightManager.Period.Noon ? 1f : 0f;
+
+			_skyMat.SetShaderParameter("cloud_coverage", Mathf.Lerp(curCloud, targetCloud, 0.05f));
+			_skyMat.SetShaderParameter("cloud_white_mix", Mathf.Lerp(curWhiteMix, targetWhiteMix, 0.05f));
+		}
 		// ── Màu mặt biển ──────────────────────────────────────────────────────
 		// CHỈ đổi shallow_color/deep_color/sky_tint — KHÔNG đụng view_depth
 		// (SwimController vẫn set view_depth riêng theo độ sâu mỗi physics frame).
@@ -111,6 +108,14 @@ public partial class SkyController : Node3D
 				curTint.Lerp(new Vector3(tint.R, tint.G, tint.B), 0.05f));
 		}
 	}
+	// Method GetCloudCoverageForPeriod — tăng hẳn lên, đặc biệt Sáng/Chiều
+	private float GetCloudCoverageForPeriod(DayNightManager.Period period) => period switch
+	{
+		DayNightManager.Period.Morning   => 0.75f,
+		DayNightManager.Period.Noon      => 0.55f, // mây trắng, để nhẹ hơn cho trời quang
+		DayNightManager.Period.Afternoon => 0.80f, // chiều mây dày nhất, nhuốm hoàng hôn rõ
+		_                                  => 0f,
+	};
 
 	private (Color top, Color horizon) GetSkyColorsForHour(float hour, DayNightManager.Period period)
 	{

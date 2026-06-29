@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://copqp6tagnl7v"]
+
+[ext_resource type="Script" uid="uid://cqdqp23v5rn3k" path="res://scripts/world/Bird.cs" id="1_ce1ng"]
+[ext_resource type="PackedScene" uid="uid://dh7sv1vjx2wv" path="res://assets/models/decor/seagull.glb" id="2_g1mep"]
+
+[node name="Bird" type="Node3D" unique_id=1176405829]
+script = ExtResource("1_ce1ng")
+
+[node name="Sketchfab_Scene" parent="." unique_id=1945525651 instance=ExtResource("2_g1mep")]
+transform = Transform3D(-0.3, 0, -2.6226834e-08, 0, 0.3, 0, 2.6226834e-08, 0, -0.3, 0, 0, 0)

@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cvuu8fd53gxfk"]
 
+[ext_resource type="PackedScene" uid="uid://copqp6tagnl7v" path="res://scenes/props/Bird.tscn" id="1_o2kn8"]
 [ext_resource type="PackedScene" uid="uid://c6u54p4xkn3cj" path="res://scenes/Player.tscn" id="1_ptb5a"]
 
 [sub_resource type="Environment" id="Environment_ptb5a"]
@@ -7,6 +8,9 @@
 [sub_resource type="BoxMesh" id="BoxMesh_o2kn8"]
 
 [node name="TestWorld" type="Node3D" unique_id=1305825352]
+
+[node name="Bird" parent="." unique_id=1176405829 instance=ExtResource("1_o2kn8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, -200)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1094497717]
 environment = SubResource("Environment_ptb5a")
@@ -18,3 +22,7 @@ transform = Transform3D(20, 0, 0, 0, 0.5, 0, 0, 0, 20, 0, -2, 0)
 mesh = SubResource("BoxMesh_o2kn8")
 
 [node name="Player" parent="." unique_id=1603171894 instance=ExtResource("1_ptb5a")]
+visible = false
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1896901542]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3573556, -0.45228893, -0.050828606)

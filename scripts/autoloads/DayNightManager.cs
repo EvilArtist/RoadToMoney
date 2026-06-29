@@ -26,12 +26,13 @@ public partial class DayNightManager : Node
 	public int CurrentDay => (DateTime.Now.Date - _epoch.Date).Days + 1;
 
 	private DateTime _epoch;
+	private double timezone = 0.0;
 
 	public override void _Ready()
 	{
 		Instance    = this;
 		ProcessMode = ProcessModeEnum.Always;
-		_epoch      = DateTime.Now; // mặc định lần đầu chạy — SaveSystem sẽ override qua LoadEpoch()
+		_epoch      = DateTime.Now.AddHours(timezone); // mặc định lần đầu chạy — SaveSystem sẽ override qua LoadEpoch()
 		RefreshFromSystemClock();
 	}
 
@@ -39,7 +40,7 @@ public partial class DayNightManager : Node
 
 	private void RefreshFromSystemClock()
 	{
-		var now = DateTime.Now;
+		var now = DateTime.Now.AddHours(timezone);
 		CurrentHour = now.Hour + now.Minute / 60f + now.Second / 3600f;
 
 		EventBus.Instance.EmitDayTimeChanged(CurrentHour);

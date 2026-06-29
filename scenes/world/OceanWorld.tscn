@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://c8xybyj1iinll" path="res://scripts/systems/CreatureSpawner.cs" id="1_8s7h6"]
 [ext_resource type="Script" uid="uid://dlpwdltghua7k" path="res://scripts/systems/ResourceSpawner.cs" id="1_ht4wx"]
 [ext_resource type="PackedScene" uid="uid://c6u54p4xkn3cj" path="res://scenes/Player.tscn" id="1_pusko"]
+[ext_resource type="Shader" uid="uid://bmwop3weccdur" path="res://assets/shaders/sky.gdshader" id="1_y04q8"]
 [ext_resource type="Script" uid="uid://bw6cn3rwumwtf" path="res://scripts/player/SwimController.cs" id="2_ii6h3"]
 [ext_resource type="Script" uid="uid://brkcc1mw7pcmc" path="res://scripts/creatures/SchoolController.cs" id="2_u4vjb"]
 [ext_resource type="Shader" uid="uid://cwmlmq6xdmm7x" path="res://assets/shaders/water_surface.gdshader" id="3_gexqs"]
@@ -26,13 +27,22 @@
 [ext_resource type="Resource" uid="uid://boqx2d3wtaxie" path="res://resources/upgrades/light.tres" id="20_5taxl"]
 [ext_resource type="Resource" uid="uid://bbqqxiuxxois5" path="res://resources/upgrades/oxygen.tres" id="21_y04q8"]
 [ext_resource type="PackedScene" uid="uid://bpgbcjibbmfc0" path="res://scenes/ui/SettingMenu.tscn" id="23_5taxl"]
+[ext_resource type="Script" uid="uid://c76x67mjrj5c7" path="res://scripts/world/BirdFlockSpawner.cs" id="28_6eb1d"]
+[ext_resource type="PackedScene" uid="uid://copqp6tagnl7v" path="res://scenes/props/Bird.tscn" id="29_getg4"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pusko"]
-sky_horizon_color = Color(0.55, 0.72, 0.85, 1)
-ground_horizon_color = Color(0.55, 0.72, 0.85, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5taxl"]
+shader = ExtResource("1_y04q8")
+shader_parameter/sky_top_color = Color(0.25, 0.55, 0.85, 1)
+shader_parameter/sky_horizon_color = Color(0.55, 0.72, 0.85, 1)
+shader_parameter/ground_horizon_color = Color(0.55, 0.72, 0.85, 1)
+shader_parameter/ground_bottom_color = Color(0.1, 0.1, 0.12, 1)
+shader_parameter/cloud_coverage = 0.0
+shader_parameter/cloud_speed = 0.012
+shader_parameter/cloud_color = Color(1, 1, 1, 1)
+shader_parameter/star_visibility = 0.0
 
 [sub_resource type="Sky" id="Sky_ii6h3"]
-sky_material = SubResource("ProceduralSkyMaterial_pusko")
+sky_material = SubResource("ShaderMaterial_5taxl")
 
 [sub_resource type="Environment" id="Environment_ii6h3"]
 background_mode = 2
@@ -224,3 +234,8 @@ SizeX = 820.0
 SizeZ = 820.0
 BottomY = -70.0
 WallColor = Color(0.42358288, 0.6799758, 0.7845677, 1)
+
+[node name="BirdFlockSpawner" type="Node3D" parent="." unique_id=99702590]
+script = ExtResource("28_6eb1d")
+BirdScene = ExtResource("29_getg4")
+FlockSize = 9

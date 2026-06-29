@@ -29,6 +29,7 @@ SaveSystem="*uid://tcrnusapgt87"
 AudioManager="*uid://dxkwctwduso5r"
 SettingManager="*uid://dtvy1wrtonrav"
 SettingsManager="*uid://dtvy1wrtonrav"
+DayNightManager="*uid://dqj3no6j3dylc"
 
 [display]
 
