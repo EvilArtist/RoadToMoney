@@ -18,12 +18,17 @@ public partial class ThankYouScreen : CanvasLayer
 
 	private const string CreatorName = "Evil Artist";
 
+	// TODO: thay bằng link donate thật (Ko-fi / Buy Me a Coffee / Patreon / PayPal.me / ...).
+	private const string DonateUrl = "https://your-donate-link.example.com";
+
 	// ── Node refs ────────────────────────────────────────────────────────────
 	private Control       _crawlViewport;
 	private VBoxContainer _crawlContent;
+	private Button        _supportButton;
 	private Button        _skipButton;
 
 	private Tween _crawlTween;
+	private Tween _supportPulseTween;
 
 	// ── Màu chữ — cùng tinh thần các screen khác (trắng mờ theo độ quan trọng) ──
 	private static readonly Color ColorTitle      = new Color(1f, 0.8392157f, 0.34901962f, 1f); // vàng cam, giống LoadingBar fill
@@ -33,15 +38,77 @@ public partial class ThankYouScreen : CanvasLayer
 	private static readonly Color ColorName       = new Color(1f, 1f, 1f, 0.85f);
 	private static readonly Color ColorEnd        = new Color(1f, 1f, 1f, 0.4f);
 
+	private static readonly Color SupportBg        = new Color(1f, 1f, 1f, 1f);          // nền trắng
+	private static readonly Color SupportBgHover   = new Color(1f, 0.93f, 0.93f, 1f);     // trắng hơi ánh hồng khi hover
+	private static readonly Color SupportText      = new Color(0.82f, 0.1f, 0.12f, 1f);   // chữ đỏ
+	private static readonly Color SupportTextHover = new Color(0.95f, 0.05f, 0.08f, 1f);  // đỏ sáng hơn khi hover
+
 	public override void _Ready()
 	{
 		_crawlViewport = GetNode<Control>       ("CrawlViewport");
 		_crawlContent  = GetNode<VBoxContainer>  ("CrawlViewport/CrawlContent");
-		_skipButton    = GetNode<Button>         ("SkipButton");
+		_supportButton = GetNode<Button>         ("BottomBar/SupportButton");
+		_skipButton    = GetNode<Button>         ("BottomBar/SkipButton");
 
-		_skipButton.Pressed += OnBack;
+		_supportButton.Pressed += OnSupport;
+		_skipButton.Pressed    += OnBack;
+
+		StyleSupportButton();
+		CallDeferred(nameof(StartSupportPulse)); // chờ layout xong để pivot scale đúng tâm nút
 
 		Visible = false;
+	}
+
+	// Nút "Support me" nổi bật: nền trắng, chữ đỏ đậm — tương phản mạnh với toàn bộ
+	// theme tối của game để không ai lướt qua mà không thấy.
+	private void StyleSupportButton()
+	{
+		var normal = new StyleBoxFlat
+		{
+			BgColor = SupportBg,
+			CornerRadiusTopLeft = 10, CornerRadiusTopRight = 10,
+			CornerRadiusBottomLeft = 10, CornerRadiusBottomRight = 10,
+			ContentMarginLeft = 16, ContentMarginRight = 16,
+			ContentMarginTop = 8, ContentMarginBottom = 8,
+			ShadowSize = 6,
+			ShadowColor = new Color(0.82f, 0.1f, 0.12f, 0.45f),
+		};
+
+		var hover = (StyleBoxFlat)normal.Duplicate();
+		hover.BgColor = SupportBgHover;
+
+		var pressed = (StyleBoxFlat)normal.Duplicate();
+		pressed.BgColor = SupportBgHover;
+		pressed.ShadowSize = 2;
+
+		_supportButton.AddThemeStyleboxOverride("normal", normal);
+		_supportButton.AddThemeStyleboxOverride("hover", hover);
+		_supportButton.AddThemeStyleboxOverride("pressed", pressed);
+		_supportButton.AddThemeStyleboxOverride("focus", normal);
+
+		_supportButton.AddThemeColorOverride("font_color", SupportText);
+		_supportButton.AddThemeColorOverride("font_hover_color", SupportTextHover);
+		_supportButton.AddThemeColorOverride("font_pressed_color", SupportTextHover);
+		_supportButton.AddThemeColorOverride("font_focus_color", SupportText);
+	}
+
+	// Pulse nhẹ liên tục (scale to/nhỏ) để hút mắt người chơi về nút donate
+	// mà không gây chói/khó chịu — biên độ nhỏ (6%), nhịp chậm (1.2s/chu kỳ).
+	private void StartSupportPulse()
+	{
+		_supportButton.PivotOffset = _supportButton.Size / 2f;
+
+		_supportPulseTween?.Kill();
+		_supportPulseTween = CreateTween().SetLoops();
+		_supportPulseTween.TweenProperty(_supportButton, "scale", new Vector2(1.06f, 1.06f), 0.6f)
+			.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+		_supportPulseTween.TweenProperty(_supportButton, "scale", Vector2.One, 0.6f)
+			.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+	}
+
+	private void OnSupport()
+	{
+		OS.ShellOpen(DonateUrl);
 	}
 
 	// ── Show / hide ───────────────────────────────────────────────────────────

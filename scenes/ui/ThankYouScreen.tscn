@@ -32,18 +32,29 @@ offset_right = 600.0
 grow_horizontal = 2
 theme_override_constants/separation = 4
 
-[node name="SkipButton" type="Button" parent="."]
+[node name="BottomBar" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -180.0
+offset_left = -480.0
 offset_top = -80.0
 offset_right = -40.0
 offset_bottom = -40.0
 grow_horizontal = 0
 grow_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="SupportButton" type="Button" parent="BottomBar"]
+custom_minimum_size = Vector2(280, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "THANKYOU_SUPPORT"
+
+[node name="SkipButton" type="Button" parent="BottomBar"]
+custom_minimum_size = Vector2(140, 40)
+layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "THANKYOU_SKIP"
