@@ -11,6 +11,7 @@ public partial class MenuScreen : CanvasLayer
 	private Button _shopButton;
 	private Button _upgradeButton;
 	private Button _bookButton;
+	private Button _creditsButton;
 	private Button _settingButton;
 	private Button _exitButton;
 
@@ -22,6 +23,7 @@ public partial class MenuScreen : CanvasLayer
 		_shopButton    = GetNode<Button>("MenuCenter/ButtonList/ShopButton");
 		_upgradeButton = GetNode<Button>("MenuCenter/ButtonList/UpgradeButton");
 		_bookButton    = GetNode<Button>("MenuCenter/ButtonList/BookButton");
+		_creditsButton = GetNode<Button>("MenuCenter/ButtonList/CreditsButton");
 		_settingButton = GetNode<Button>("MenuCenter/ButtonList/SettingButton");
 		_exitButton    = GetNode<Button>("MenuCenter/ButtonList/ExitButton");
 
@@ -29,6 +31,7 @@ public partial class MenuScreen : CanvasLayer
 		_shopButton.Pressed    += OnShop;
 		_upgradeButton.Pressed += OnUpgrade;
 		_bookButton.Pressed    += OnBook;
+		_creditsButton.Pressed += OnCredits;
 		_settingButton.Pressed += OnSetting;
 		_exitButton.Pressed    += OnExit;
 
@@ -120,6 +123,13 @@ public partial class MenuScreen : CanvasLayer
 		Hide();
 		var bookScreen = GetTree().Root.FindChild("BookScreen", true, false) as BookScreen;
 		bookScreen?.Show();
+	}
+
+	private void OnCredits()
+	{
+		Hide();
+		var thankYouScreen = GetTree().Root.FindChild("ThankYouScreen", true, false) as ThankYouScreen;
+		thankYouScreen?.Show();
 	}
 
 	private void OnSetting()

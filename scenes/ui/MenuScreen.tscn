@@ -69,6 +69,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "FIELD_GUIDE"
 
+[node name="CreditsButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1321023339]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "CREDITS"
+
 [node name="SettingButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1537051848]
 z_index = 2
 layout_mode = 2

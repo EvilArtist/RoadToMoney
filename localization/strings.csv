@@ -18,6 +18,7 @@ BAG_EMPTY,Bag is empty,Túi đang trống
 TOTAL,Total,Tổng
 LOADING,Loading...,Đang tải...
 LOADING_FAIL,Load failed!,Đã có lỗi xảy ra!
+CREDITS,Credits,Lời cảm ơn
 FIELD_GUIDE,Field Guide,Sổ tay
 FIELD_GUIDE_TITLE,Field Guide — Sea Life,Sổ tay — Hải sản
 FIELD_GUIDE_PROGRESS,Discovered,Đã khám phá
@@ -63,3 +64,16 @@ STEEL,Steel Tank,Bình Thép,
 ALUMINUM,Aluminum Tank,Bình nhôm cao áp
 COMPOSITE,Composite Tank,Bình composite
 BREATH,Breath,Nín thở
+THANKYOU_TITLE,Thank You,Lời Tri Ân
+THANKYOU_INTRO,"Road To Money simulates the daily life of a sea diver who hunts for seafood to earn money for his family. We know you could get rich quick, but in the end you'll realize the most relaxing moment isn't selling your catch and spending the money — it's losing yourself in the ocean, listening to the water flow past your ears, watching schools of fish drift around a vibrant coral reef.
+
+Thank you for experiencing this game.","Road To Money là Game mô phỏng công việc hàng ngày của người thợ lặn biển bắt hải sản, kiếm tiền cho gia đình. Chúng tôi biết bạn có thể kiếm tiền nhanh, nhưng cuối cùng bạn nhận ra rằng giây phút thư giãn nhất không phải là bán hải sản và tiêu số tiền đó, mà chính là những giây phút hòa mình vào đại dương, nghe tiếng nước biển chảy qua tai, nhìn những đàn cá bơi lội quanh rạn san hô sặc sỡ.
+
+Cảm ơn bạn đã trải nghiệm trò chơi này."
+THANKYOU_CREDITS_HEADER,With heartfelt thanks to everyone who helped bring this project to life,Chúng tôi xin trân trọng cảm ơn những người đã góp phần hoàn thành dự án
+THANKYOU_IDEA,Idea,Ý tưởng
+THANKYOU_DEV,Development,Phát triển
+THANKYOU_MODEL_3D,3D Models,Mô hình 3D
+THANKYOU_SOUND_MUSIC,Sound & Music,Âm thanh & Nhạc
+THANKYOU_SKIP,Skip,Bỏ qua
+THANKYOU_END,The End,Hết
