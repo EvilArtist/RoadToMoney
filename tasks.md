@@ -170,7 +170,7 @@
 - [ ] Tạo `MainMenu.tscn`
 - [ ] Tạo `SettingsScreen.tscn`
 - [ ] Tạo `PauseMenu.tscn`
-- [ ] Tạo `Logbook.tscn` — bestiary
+- [x] Tạo `Logbook.tscn` — bestiary (→ `BookScreen.tscn`, Book #12 — Field Guide / Sổ tay hải sản)
 - [ ] Animated scene transitions
 - [ ] Game over screen khi hết oxygen
 

@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://clhbifrjgl1a3" path="res://scenes/ui/ShopScreen.tscn" id="8_tjqtq"]
 [ext_resource type="PackedScene" uid="uid://b1nm4jk4ama62" path="res://scenes/enviroment/UnderwaterParticles.tscn" id="9_gfv14"]
 [ext_resource type="PackedScene" uid="uid://sssppvid7suo" path="res://scenes/ui/UpgradeScreen.tscn" id="9_mysti"]
+[ext_resource type="PackedScene" uid="uid://vu5cue9go30ea" path="res://scenes/ui/BookScreen.tscn" id="9_bookv1"]
 [ext_resource type="Script" uid="uid://cf7q4iuwqcoeu" path="res://scripts/world/UnderwaterParticles.cs" id="10_jhdib"]
 [ext_resource type="Shader" uid="uid://do7tmohww2gx7" path="res://assets/shaders/seabed.gdshader" id="10_ytbfc"]
 [ext_resource type="PackedScene" uid="uid://b8vgbgv1hjg2o" path="res://scenes/enviroment/OceanCurrentSystem.tscn" id="11_te21s"]
@@ -184,6 +185,9 @@ visible = false
 [node name="UpgradeScreen" parent="." unique_id=728021611 instance=ExtResource("9_mysti")]
 visible = false
 Categories = [ExtResource("18_mitul"), ExtResource("19_3s4lt"), ExtResource("20_5taxl"), ExtResource("21_y04q8")]
+
+[node name="BookScreen" parent="." unique_id=506178233 instance=ExtResource("9_bookv1")]
+visible = false
 
 [node name="MenuScreen" parent="." unique_id=1258737499 instance=ExtResource("18_jjgy1")]
 

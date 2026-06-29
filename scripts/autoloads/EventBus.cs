@@ -21,6 +21,7 @@ public partial class EventBus : Node
 	public event Action<float>                DayTimeChanged;   // giờ hiện tại (0-24)
 	public event Action<int>                  DayChanged;       // số ngày mới
 	public event Action<DayNightManager.Period> DayPeriodChanged; // đổi buổi (Sáng/Trưa/Chiều/Tối)  
+	public event Action<string>                 DiscoveryUnlocked; // resourceId vừa được khám phá lần đầu (Book #12)
 
 	public override void _Ready()
 	{
@@ -44,4 +45,5 @@ public partial class EventBus : Node
 	public void EmitDayTimeChanged(float hour)                       => DayTimeChanged?.Invoke(hour);
 	public void EmitDayChanged(int day)                              => DayChanged?.Invoke(day);
 	public void EmitDayPeriodChanged(DayNightManager.Period period)  => DayPeriodChanged?.Invoke(period);
+	public void EmitDiscoveryUnlocked(string resourceId)             => DiscoveryUnlocked?.Invoke(resourceId);
 }
