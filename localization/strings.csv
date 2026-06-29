@@ -18,6 +18,17 @@ BAG_EMPTY,Bag is empty,Túi đang trống
 TOTAL,Total,Tổng
 LOADING,Loading...,Đang tải...
 LOADING_FAIL,Load failed!,Đã có lỗi xảy ra!
+FIELD_GUIDE,Field Guide,Sổ tay
+FIELD_GUIDE_TITLE,Field Guide — Sea Life,Sổ tay — Hải sản
+FIELD_GUIDE_PROGRESS,Discovered,Đã khám phá
+NEW_DISCOVERY,New discovery,Khám phá mới
+NOT_DISCOVERED_YET,Not discovered yet,Chưa khám phá
+FIRST_CAUGHT,First caught,Bắt lần đầu
+DAY_SHORT,Day,Ngày
+RARITY_COMMON,Common,Phổ biến
+RARITY_UNCOMMON,Uncommon,Hiếm
+RARITY_RARE,Rare,Quý hiếm
+RARITY_EPIC,Epic,Huyền thoại
 READY,Ready!,Đã sẵn sàng!
 DROWNED,You drowned.,Bạn đã chết đuối.
 MISSED,Missed!,DKM Trượt rồi!

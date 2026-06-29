@@ -27,6 +27,20 @@ public partial class SaveSystem : Node
 		{
 			inventory[kv.Key] = kv.Value;
 		}
+
+		var discoveries = new Dictionary();
+
+		foreach (var kv in DiscoveryManager.Instance.GetAllEntries())
+		{
+			discoveries[kv.Key] = new Dictionary
+			{
+				["discovered"]   = kv.Value.Discovered,
+				["day"]          = kv.Value.FirstCaughtDay,
+				["period"]       = (int)kv.Value.FirstCaughtPeriod,
+				["timesCaught"]  = kv.Value.TimesCaught
+			};
+		}
+
 		var data = new Dictionary
 		{
 			["version"]   = Version,
@@ -42,7 +56,8 @@ public partial class SaveSystem : Node
 				["epoch"] = DayNightManager.Instance.GetEpoch().ToString("o") // ISO 8601
 			},
 			["upgrades"]  = upgrades,
-			["inventory"] = inventory
+			["inventory"] = inventory,
+			["discoveries"] = discoveries
 		};
 
 		string tmpPath = SavePath + ".tmp";
@@ -91,6 +106,28 @@ public partial class SaveSystem : Node
 			var world = data["world"].AsGodotDictionary();
 			if (DateTime.TryParse(world["epoch"].AsString(), out var epoch))
 				DayNightManager.Instance.LoadEpoch(epoch);
+		}
+
+		// Book #12 — backward-compatible: save cũ chưa có key "discoveries" thì bỏ qua,
+		// sổ tay sẽ bắt đầu trống (không crash, không mất save cũ).
+		if (data.ContainsKey("discoveries"))
+		{
+			var discDict = data["discoveries"].AsGodotDictionary();
+			var entries  = new System.Collections.Generic.Dictionary<string, DiscoveryEntry>();
+
+			foreach (var key in discDict.Keys)
+			{
+				var entryDict = discDict[key].AsGodotDictionary();
+				entries[key.AsString()] = new DiscoveryEntry
+				{
+					Discovered        = entryDict["discovered"].AsBool(),
+					FirstCaughtDay    = entryDict["day"].AsInt32(),
+					FirstCaughtPeriod = (DayNightManager.Period)entryDict["period"].AsInt32(),
+					TimesCaught       = entryDict["timesCaught"].AsInt32()
+				};
+			}
+
+			DiscoveryManager.Instance.LoadEntries(entries);
 		}
 	}
 
