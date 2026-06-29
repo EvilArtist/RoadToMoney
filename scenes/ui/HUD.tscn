@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://cpxy1rj66gj41"]
 
 [ext_resource type="Script" uid="uid://xrs8n3yeyu5s" path="res://scripts/ui/HUD.cs" id="1_kw0id"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui_icons/icon_shop.png" id="2_shop"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui_icons/icon_upgrade.png" id="3_upgrade"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui_icons/icon_book.png" id="4_book"]
+[ext_resource type="Texture2D" path="res://assets/textures/ui_icons/icon_menu.png" id="5_menu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 content_margin_left = 14.0
@@ -32,6 +36,8 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iconbtn"]
 
 [node name="Hud" type="CanvasLayer" unique_id=1969765306]
 script = ExtResource("1_kw0id")
@@ -148,3 +154,39 @@ theme_override_colors/font_color = Color(1, 1, 1, 0.45)
 theme_override_font_sizes/font_size = 16
 text = "0.5kg"
 horizontal_alignment = 2
+
+[node name="BottomIconBar" type="HBoxContainer" parent="." unique_id=111000001]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -80.0
+offset_right = 220.0
+offset_bottom = -16.0
+grow_vertical = 0
+theme_override_constants/separation = 8
+visible = false
+
+[node name="ShopIconBtn" type="TextureButton" parent="BottomIconBar" unique_id=111000002]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+texture_normal = ExtResource("2_shop")
+stretch_mode = 2
+
+[node name="UpgradeIconBtn" type="TextureButton" parent="BottomIconBar" unique_id=111000003]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+texture_normal = ExtResource("3_upgrade")
+stretch_mode = 2
+
+[node name="BookIconBtn" type="TextureButton" parent="BottomIconBar" unique_id=111000004]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+texture_normal = ExtResource("4_book")
+stretch_mode = 2
+
+[node name="MenuIconBtn" type="TextureButton" parent="BottomIconBar" unique_id=111000005]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+texture_normal = ExtResource("5_menu")
+stretch_mode = 2

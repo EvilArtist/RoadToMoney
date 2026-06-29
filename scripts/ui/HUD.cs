@@ -5,10 +5,12 @@ using Godot;
 /// Node paths khớp với HUD.tscn mới.
 ///
 /// Features:
-///  - O2 bar: fill xanh → đỏ khi &lt; 25%, pulse animation
+///  - O2 bar: fill xanh → đỏ khi < 25%, pulse animation
 ///  - Bag bar: fill teal, label "x.x/yy kg"
 ///  - Depth: số lớn, ẩn khi trên mặt nước
 ///  - Coins: góc phải cùng row với depth
+///  - BottomIconBar: 4 icon buttons (Shop, Upgrade, Book, Menu)
+///    chỉ hiển thị khi đang trên mặt nước (Surface state)
 /// </summary>
 public partial class HUD : CanvasLayer
 {
@@ -19,6 +21,13 @@ public partial class HUD : CanvasLayer
 	private Label       _bagValLabel;
 	private Label       _depthLabel;
 	private Label       _coinsLabel;
+
+	// Bottom icon bar
+	private Control        _bottomIconBar;
+	private TextureButton  _shopIconBtn;
+	private TextureButton  _upgradeIconBtn;
+	private TextureButton  _bookIconBtn;
+	private TextureButton  _menuIconBtn;
 
 	// Death overlay nodes (tạo dynamic trong _Ready)
 	private ColorRect _deathOverlay;
@@ -56,10 +65,21 @@ public partial class HUD : CanvasLayer
 		_coinsLabel  = GetNode<Label>      ("BottomRow/CoinsLabel");
 		_inventoryRow = GetNode<HBoxContainer>("InventoryRow");
 
+		// ── Bottom icon bar ──────────────────────────────────────────────────
+		_bottomIconBar  = GetNode<Control>       ("BottomIconBar");
+		_shopIconBtn    = GetNode<TextureButton> ("BottomIconBar/ShopIconBtn");
+		_upgradeIconBtn = GetNode<TextureButton> ("BottomIconBar/UpgradeIconBtn");
+		_bookIconBtn    = GetNode<TextureButton> ("BottomIconBar/BookIconBtn");
+		_menuIconBtn    = GetNode<TextureButton> ("BottomIconBar/MenuIconBtn");
+
+		_shopIconBtn.Pressed    += OnShopIconPressed;
+		_upgradeIconBtn.Pressed += OnUpgradeIconPressed;
+		_bookIconBtn.Pressed    += OnBookIconPressed;
+		_menuIconBtn.Pressed    += OnMenuIconPressed;
 
 		// ── Build death overlay ──────────────────────────────────────────────
 		_deathOverlay              = new ColorRect();
-		_deathOverlay.Color        = new Color(0f, 0f, 0f, 0f); // bắt đầu trong suốt
+		_deathOverlay.Color        = new Color(0f, 0f, 0f, 0f);
 		_deathOverlay.AnchorLeft   = 0f;
 		_deathOverlay.AnchorTop    = 0f;
 		_deathOverlay.AnchorRight  = 1f;
@@ -76,7 +96,7 @@ public partial class HUD : CanvasLayer
 		_deathLabel.AnchorTop          = 0f;
 		_deathLabel.AnchorRight        = 1f;
 		_deathLabel.AnchorBottom       = 1f;
-		_deathLabel.Modulate           = new Color(1f, 1f, 1f, 0f); // ẩn ban đầu
+		_deathLabel.Modulate           = new Color(1f, 1f, 1f, 0f);
 		_deathLabel.AddThemeFontSizeOverride("font_size", 48);
 		_deathOverlay.AddChild(_deathLabel);
 
@@ -86,17 +106,22 @@ public partial class HUD : CanvasLayer
 		_o2Bar.AddThemeStyleboxOverride("fill", _o2FillNormal);
 
 		// ── Subscribe events ─────────────────────────────────────────────────
-		EventBus.Instance.OxygenChanged  += OnOxygenChanged;
-		EventBus.Instance.OxygenCritical += OnOxygenCritical;
+		EventBus.Instance.OxygenChanged    += OnOxygenChanged;
+		EventBus.Instance.OxygenCritical   += OnOxygenCritical;
 		EventBus.Instance.InventoryChanged += OnInventoryChanged;
-		EventBus.Instance.CoinsChanged   += OnCoinsChanged;
-		EventBus.Instance.PlayerDrowned  += OnPlayerDrowned;
+		EventBus.Instance.CoinsChanged     += OnCoinsChanged;
+		EventBus.Instance.PlayerDrowned    += OnPlayerDrowned;
 		EventBus.Instance.ResourceCaughtFx += OnResourceCaughtFx;
+		EventBus.Instance.DiveStarted      += OnDiveStarted;
+		EventBus.Instance.DiveEnded        += OnDiveEnded;
 
 		// Init
 		UpdateCoins(EconomyManager.Instance.Coins);
 		OnInventoryChanged(0f);
 		GetNode<Control>("HudPanel/VBox/O2Row").Visible = false;
+
+		// BottomIconBar bắt đầu ẩn (chờ Surface state)
+		_bottomIconBar.Visible = false;
 	}
 
 	public override void _Process(double delta)
@@ -129,14 +154,56 @@ public partial class HUD : CanvasLayer
 		}
 	}
 
+	// ── BottomIconBar visibility ──────────────────────────────────────────────
+
+	/// Hiển thị icon bar khi player lên mặt nước (Surface state).
+	private void OnDiveEnded()
+	{
+		_bottomIconBar.Visible = true;
+		Input.MouseMode = Input.MouseModeEnum.Visible;
+	}
+
+	/// Ẩn icon bar khi player lặn xuống.
+	private void OnDiveStarted()
+	{
+		_bottomIconBar.Visible = false;
+	}
+
+	// ── Icon button handlers ──────────────────────────────────────────────────
+
+	private void OnShopIconPressed()
+	{
+		var shopScreen = GetTree().Root.FindChild("ShopScreen", true, false) as ShopScreen;
+		shopScreen?.OpenSell();
+	}
+
+	private void OnUpgradeIconPressed()
+	{
+		var upgradeScreen = GetTree().Root.FindChild("UpgradeScreen", true, false) as UpgradeScreen;
+		upgradeScreen?.Show();
+	}
+
+	private void OnBookIconPressed()
+	{
+		var bookScreen = GetTree().Root.FindChild("BookScreen", true, false) as BookScreen;
+		bookScreen?.Show();
+	}
+
+	private void OnMenuIconPressed()
+	{
+		// Ẩn icon bar, mở Main Menu
+		_bottomIconBar.Visible = false;
+		var menuScreen = GetTree().Root.FindChild("MenuScreen", true, false) as MenuScreen;
+		menuScreen?.Show(isFirstLaunch: false);
+	}
+
 	// ── Death sequence ────────────────────────────────────────────────────────
 
 	private void OnPlayerDrowned()
 	{
 		_isDead = true;
-		// Tắt O2 row ngay
+		_bottomIconBar.Visible = false;
 		GetNode<Control>("HudPanel/VBox/O2Row").Visible = false;
-		// Bắt đầu coroutine
 		StartDeathSequence();
 	}
 
@@ -144,7 +211,6 @@ public partial class HUD : CanvasLayer
 	{
 		_deathOverlay.Visible = true;
 
-		// Phase 1: Fade to black (0.8s)
 		float elapsed = 0f;
 		const float FadeDuration = 0.8f;
 		while (elapsed < FadeDuration)
@@ -156,16 +222,12 @@ public partial class HUD : CanvasLayer
 		}
 		_deathOverlay.Color = new Color(0f, 0f, 0f, 1f);
 
-		// Phase 2: Hiện text "You drowned."
 		_deathLabel.Modulate = new Color(1f, 1f, 1f, 1f);
 
-		// Phase 3: Chờ 2s
 		await ToSignal(GetTree().CreateTimer(2.0), SceneTreeTimer.SignalName.Timeout);
 
-		// Phase 4: Respawn
 		DoRespawn();
 
-		// Phase 5: Fade out overlay (0.5s)
 		elapsed = 0f;
 		const float FadeOutDuration = 0.5f;
 		while (elapsed < FadeOutDuration)
@@ -183,11 +245,9 @@ public partial class HUD : CanvasLayer
 
 	private void DoRespawn()
 	{
-		// 1. Xóa inventory (mất hải sản, giữ coins)
 		var bag = GetTree().Root.FindChild("StorageBag", true, false) as StorageBag;
 		bag?.ClearInventory();
 
-		// 2. Teleport player về origin, reset velocity
 		var player = GetTree().Root.FindChild("Player", true, false) as SwimController;
 		if (player != null)
 		{
@@ -195,21 +255,16 @@ public partial class HUD : CanvasLayer
 			player.Velocity       = Vector3.Zero;
 		}
 
-		// 3. Reset O2
 		var o2 = GetTree().Root.FindChild("OxygenSystem", true, false) as OxygenSystem;
 		o2?.RefreshFromUpgrade();
 
-		// 4 Reset Coins
 		EconomyManager.Instance.ResetCoins();
 
-		// 6 Reset Tools
 		UpgradeManager.Instance.ResetTools();
 
-		// 4. Respawn resources
 		var spawner = GetTree().Root.FindChild("ResourceSpawner", true, false) as ResourceSpawner;
 		spawner?.RespawnAll();
 
-		// 5. GameManager về Surface
 		GameManager.Instance.ChangeState(GameManager.GameState.Surface);
 	}
 
@@ -217,8 +272,6 @@ public partial class HUD : CanvasLayer
 
 	private void OnOxygenCritical()
 	{
-		// Chỉ trigger heartbeat khi đang dive, không trigger liên tục
-		// AudioManager throttle bằng cách check IsPlaying
 		AudioManager.Instance.PlayHeartbeat();
 		if (!_drownWarningShown)
 		{
@@ -239,7 +292,6 @@ public partial class HUD : CanvasLayer
 		bool  wasWarn = _isWarn;
 		_isWarn     = pct < 25;
 
-		// Reset warning flag khi O2 phục hồi (sau khi respawn)
 		if (!_isWarn) _drownWarningShown = false;
 
 		_o2Bar.Value = ratio * 100f;
@@ -360,8 +412,6 @@ public partial class HUD : CanvasLayer
 		iconRect.Position           = screenStart - iconRect.Size / 2f;
 		AddChild(iconRect);
 
-		// Đích: tâm InventoryRow — đơn giản và ổn định, tránh phụ thuộc
-		// vào pill cụ thể (vì pill được rebuild toàn bộ mỗi khi InventoryChanged bắn)
 		Vector2 targetPos = _inventoryRow.GetGlobalRect().GetCenter();
 
 		var tween = CreateTween();

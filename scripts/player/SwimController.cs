@@ -104,20 +104,6 @@ public partial class SwimController : CharacterBody3D
 			);
 		}
 
-		if (@event is InputEventKey key && key.Pressed && key.Keycode == Key.Escape)
-		{
-			var state = GameManager.Instance.CurrentState;
-			if (state == GameManager.GameState.Diving || state == GameManager.GameState.Surface)
-			{
-				var shop = GetTree().Root.FindChild("ShopScreen", true, false) as ShopScreen;
-				var upgrade = GetTree().Root.FindChild("UpgradeScreen", true, false) as UpgradeScreen;
-				if (shop != null) shop.Visible = false;
-				if (upgrade != null) upgrade.Visible = false;
-				
-				var menuScreen = GetTree().Root.FindChild("MenuScreen", true, false) as MenuScreen;
-				menuScreen?.Show(isFirstLaunch: false);
-			}
-		}
 	}
 	private bool _initialDive = false;
 	private float _initialDiveTarget = -2f;
