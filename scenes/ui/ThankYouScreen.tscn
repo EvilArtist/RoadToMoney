@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://jbqrm6bihxqbc"]
+[gd_scene format=3 uid="uid://bkw1g2g0djyrs"]
 
 [ext_resource type="Script" uid="uid://n12gdsp2vm3z2" path="res://scripts/ui/ThankYouScreen.cs" id="1_credit"]
 
