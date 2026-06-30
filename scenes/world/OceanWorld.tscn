@@ -50,15 +50,15 @@ sky_material = SubResource("ShaderMaterial_5taxl")
 background_mode = 2
 sky = SubResource("Sky_ii6h3")
 ambient_light_source = 3
-ambient_light_energy = 0.3
+ambient_light_energy = 0.22
 glow_enabled = true
-glow_intensity = 0.8
-glow_bloom = 0.3
+glow_intensity = 0.85
+glow_bloom = 0.4
 fog_enabled = true
 fog_light_color = Color(0.019607844, 0.078431375, 0.14901961, 1)
-fog_sun_scatter = 0.2
-fog_density = 0.03
-fog_aerial_perspective = 0.4
+fog_sun_scatter = 0.25
+fog_density = 0.045
+fog_aerial_perspective = 0.5
 fog_sky_affect = 0.45
 fog_depth_curve = 1.6
 fog_depth_begin = 1.0
@@ -123,7 +123,7 @@ MoonLightEnergy = 0.5
 
 [node name="Sun" type="DirectionalLight3D" parent="." unique_id=406679573]
 transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 0, 0)
-light_energy = 1.2
+light_energy = 1.4
 shadow_enabled = true
 
 [node name="Moon" type="DirectionalLight3D" parent="." unique_id=1631990669]
