@@ -42,6 +42,10 @@ public partial class UpgradeScreen : CanvasLayer
 
 		_backButton.Pressed += OnBack;
 
+		var overlay = GetNode<Control>("Overlay");
+		overlay.MouseFilter = Control.MouseFilterEnum.Stop;
+		overlay.GuiInput   += OnOverlayInput;
+
 		EventBus.Instance.CoinsChanged     += _ => RefreshUpgrades();
 		EventBus.Instance.UpgradePurchased += (_, _) => RefreshUpgrades();
 
@@ -221,7 +225,13 @@ public partial class UpgradeScreen : CanvasLayer
 	private void OnBack()
 	{
 		Visible = false;
-		var menuScreen = GetTree().Root.FindChild("MenuScreen", true, false) as MenuScreen;
-		menuScreen?.Show(isFirstLaunch: false);
+		var hud = GetTree().Root.FindChild("Hud", true, false) as HUD;
+		hud?.ReturnToIdle();
+	}
+
+	private void OnOverlayInput(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mb && mb.Pressed && mb.ButtonIndex == MouseButton.Left)
+			OnBack();
 	}
 }

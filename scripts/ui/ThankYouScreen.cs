@@ -53,6 +53,10 @@ public partial class ThankYouScreen : CanvasLayer
 		_supportButton.Pressed += OnSupport;
 		_skipButton.Pressed    += OnBack;
 
+		var background = GetNode<Control>("Background");
+		background.MouseFilter = Control.MouseFilterEnum.Stop;
+		background.GuiInput   += OnBackgroundInput;
+
 		StyleSupportButton();
 		CallDeferred(nameof(StartSupportPulse)); // chờ layout xong để pivot scale đúng tâm nút
 
@@ -135,7 +139,13 @@ public partial class ThankYouScreen : CanvasLayer
 	{
 		Hide();
 		var menuScreen = GetTree().Root.FindChild("MenuScreen", true, false) as MenuScreen;
-		menuScreen?.Show(isFirstLaunch: false);
+		menuScreen?.Show();
+	}
+
+	private void OnBackgroundInput(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mb && mb.Pressed && mb.ButtonIndex == MouseButton.Left)
+			OnBack();
 	}
 
 	// ── Build nội dung crawl ───────────────────────────────────────────────────

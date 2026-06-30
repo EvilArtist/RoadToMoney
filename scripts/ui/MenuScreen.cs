@@ -1,46 +1,41 @@
 using Godot;
 
 /// <summary>
-/// MenuScreen — Main menu chỉ còn: Play/Resume, Credits, Setting, Exit.
-/// Shop / Upgrade / Book được chuyển sang icon buttons ở HUD (BottomIconBar).
+/// MenuScreen — mở từ BottomIconBar (nút Menu). Chỉ còn: Credits, Setting, Exit, Back.
+/// Không còn nút Play — game bắt đầu thẳng ở Surface state, người chơi bấm Space để lặn.
+/// Back / click ra ngoài → ẩn menu, quay về HUD idle (icon bar + "Press Space" hint).
 /// </summary>
 public partial class MenuScreen : CanvasLayer
 {
-	private Button _playButton;
-	private Button _creditsButton;
-	private Button _settingButton;
-	private Button _exitButton;
-
-	private bool _isFirstLaunchContext = true;
+	private Button  _creditsButton;
+	private Button  _settingButton;
+	private Button  _exitButton;
+	private Button  _backButton;
+	private Control _dimBackground;
 
 	public override void _Ready()
 	{
-		_playButton    = GetNode<Button>("MenuCenter/ButtonList/PlayButton");
-		_creditsButton = GetNode<Button>("MenuCenter/ButtonList/CreditsButton");
-		_settingButton = GetNode<Button>("MenuCenter/ButtonList/SettingButton");
-		_exitButton    = GetNode<Button>("MenuCenter/ButtonList/ExitButton");
+		_creditsButton = GetNode<Button> ("MenuCenter/ButtonList/CreditsButton");
+		_settingButton = GetNode<Button> ("MenuCenter/ButtonList/SettingButton");
+		_exitButton    = GetNode<Button> ("MenuCenter/ButtonList/ExitButton");
+		_backButton    = GetNode<Button> ("MenuCenter/ButtonList/BackButton");
+		_dimBackground = GetNode<Control>("DimBackground");
 
-		_playButton.Pressed    += OnPlay;
 		_creditsButton.Pressed += OnCredits;
 		_settingButton.Pressed += OnSetting;
 		_exitButton.Pressed    += OnExit;
+		_backButton.Pressed    += OnBack;
 
-		// PlayerSurfaced không còn mở MenuScreen — thay bằng BottomIconBar trong HUD
+		// Click ra ngoài (vùng dim) để đóng menu — tương đương Back.
+		_dimBackground.GuiInput += OnDimBackgroundInput;
 
 		Visible = false;
-
-		if (GameManager.Instance.CurrentState == GameManager.GameState.MainMenu)
-			Show(isFirstLaunch: true);
 	}
 
 	// ── Public entry point ──────────────────────────────────────────────────
 
-	public void Show(bool isFirstLaunch)
+	public void Show()
 	{
-		_isFirstLaunchContext = isFirstLaunch;
-		bool diving = GameManager.Instance.IsDiving();
-		_playButton.Text = diving ? Tr("RESUME") : Tr("PLAY");
-
 		Visible = true;
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 	}
@@ -50,24 +45,21 @@ public partial class MenuScreen : CanvasLayer
 		Visible = false;
 	}
 
-	public void ShowPrevious()
+	// ── Click outside to close ───────────────────────────────────────────────
+
+	private void OnDimBackgroundInput(InputEvent @event)
 	{
-		Show(_isFirstLaunchContext);
+		if (@event is InputEventMouseButton mb && mb.Pressed && mb.ButtonIndex == MouseButton.Left)
+			OnBack();
 	}
 
 	// ── Button handlers ───────────────────────────────────────────────────────
 
-	private void OnPlay()
+	private void OnBack()
 	{
 		Hide();
-
-		if (_isFirstLaunchContext)
-		{
-			FloatingMessage.Show(GetTree(), Tr("SPACE_TO_SWIM"));
-			GameManager.Instance.ChangeState(GameManager.GameState.Surface);
-		}
-
-		Input.MouseMode = Input.MouseModeEnum.Captured;
+		var hud = GetTree().Root.FindChild("Hud", true, false) as HUD;
+		hud?.ReturnToIdle();
 	}
 
 	private void OnCredits()

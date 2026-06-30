@@ -5,11 +5,12 @@ using Godot;
 ///
 /// Features:
 ///  - O2 bar, Bag bar, Depth, Coins — unchanged
-///  - BottomIconBar (góc trái dưới): Shop / Upgrade / Book / Menu
-///    * Chỉ hiện sau khi player đã dive ít nhất 1 lần VÀ đang ở Surface
-///    * Hover: modulate sáng lên
-///    * Click: mở màn hình tương ứng, giữ mouse visible
+///  - BottomIconBar + DiveHintLabel (idle UI): hiện khi đang ở Surface và không có
+///    submenu nào mở; ẩn khi Diving hoặc khi mở Shop/Upgrade/Book/Menu.
+///    * Hover trên icon: modulate sáng lên
+///    * Click icon: mở màn hình tương ứng (giữ mouse visible)
 ///    * Textures load runtime từ res://assets/textures/ui_icons/
+///  - ReturnToIdle(): public API để các submenu gọi khi Back / click ra ngoài
 /// </summary>
 public partial class HUD : CanvasLayer
 {
@@ -34,6 +35,7 @@ public partial class HUD : CanvasLayer
 	private HBoxContainer _inventoryRow;
 
 	private Control       _bottomIconBar;
+	private Label          _diveHintLabel;
 	private TextureButton _shopIconBtn;
 	private TextureButton _upgradeIconBtn;
 	private TextureButton _bookIconBtn;
@@ -52,8 +54,6 @@ public partial class HUD : CanvasLayer
 	private bool  _isWarn    = false;
 	private bool  _isDead    = false;
 	private bool  _drownWarningShown = false;
-	/// Chỉ hiện icon bar sau khi player đã lặn ít nhất 1 lần
-	private bool  _hasEverDived = false;
 
 	// ── Colors ───────────────────────────────────────────────────────────────
 	private static readonly Color ColorO2Normal  = new Color(0.31f, 0.76f, 0.97f, 1f);
@@ -73,8 +73,9 @@ public partial class HUD : CanvasLayer
 		_coinsLabel   = GetNode<Label>        ("BottomRow/CoinsLabel");
 		_inventoryRow = GetNode<HBoxContainer>("InventoryRow");
 
-		// ── Bottom icon bar ──────────────────────────────────────────────────
+		// ── Bottom icon bar + persistent dive hint ──────────────────────────
 		_bottomIconBar  = GetNode<Control>       ("BottomIconBar");
+		_diveHintLabel  = GetNode<Label>         ("DiveHintLabel");
 		_shopIconBtn    = GetNode<TextureButton> ("BottomIconBar/ShopIconBtn");
 		_upgradeIconBtn = GetNode<TextureButton> ("BottomIconBar/UpgradeIconBtn");
 		_bookIconBtn    = GetNode<TextureButton> ("BottomIconBar/BookIconBtn");
@@ -89,8 +90,6 @@ public partial class HUD : CanvasLayer
 		_upgradeIconBtn.Pressed += OnUpgradeIconPressed;
 		_bookIconBtn.Pressed    += OnBookIconPressed;
 		_menuIconBtn.Pressed    += OnMenuIconPressed;
-
-		_bottomIconBar.Visible = false;
 
 		// ── Death overlay ────────────────────────────────────────────────────
 		_deathOverlay              = new ColorRect();
@@ -134,6 +133,9 @@ public partial class HUD : CanvasLayer
 		UpdateCoins(EconomyManager.Instance.Coins);
 		OnInventoryChanged(0f);
 		GetNode<Control>("HudPanel/VBox/O2Row").Visible = false;
+
+		// Idle UI (icon bar + hint) hiện ngay nếu game khởi động ở Surface state
+		SetIdleVisible(GameManager.Instance.CurrentState == GameManager.GameState.Surface);
 	}
 
 	// ── Icon button setup ─────────────────────────────────────────────────────
@@ -190,19 +192,36 @@ public partial class HUD : CanvasLayer
 		}
 	}
 
+	// ── Idle UI (BottomIconBar + DiveHintLabel) ─────────────────────────────────
+
+	/// Hiện/ẩn đồng thời icon bar + text "Press Space to dive".
+	private void SetIdleVisible(bool visible)
+	{
+		_bottomIconBar.Visible = visible;
+		_diveHintLabel.Visible = visible;
+	}
+
+	/// Gọi bởi các submenu (Shop/Upgrade/Book/Menu) khi bấm Back hoặc click ra ngoài
+	/// — quay về trạng thái idle ban đầu (chỉ khi vẫn đang ở Surface).
+	public void ReturnToIdle()
+	{
+		if (GameManager.Instance.CurrentState == GameManager.GameState.Surface)
+		{
+			SetIdleVisible(true);
+			Input.MouseMode = Input.MouseModeEnum.Visible;
+		}
+	}
+
 	// ── Dive state ────────────────────────────────────────────────────────────
 
 	private void OnDiveStarted()
 	{
-		_hasEverDived = true;
-		_bottomIconBar.Visible = false;
+		SetIdleVisible(false);
 	}
 
 	private void OnDiveEnded()
 	{
-		// Chỉ hiện sau khi đã lặn ít nhất 1 lần (không hiện ngay khi bắt đầu game)
-		if (!_hasEverDived) return;
-		_bottomIconBar.Visible = true;
+		SetIdleVisible(true);
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 	}
 
@@ -210,27 +229,30 @@ public partial class HUD : CanvasLayer
 
 	private void OnShopIconPressed()
 	{
+		SetIdleVisible(false);
 		var shop = GetTree().Root.FindChild("ShopScreen", true, false) as ShopScreen;
 		shop?.OpenSell();
 	}
 
 	private void OnUpgradeIconPressed()
 	{
+		SetIdleVisible(false);
 		var upgrade = GetTree().Root.FindChild("UpgradeScreen", true, false) as UpgradeScreen;
 		upgrade?.Show();
 	}
 
 	private void OnBookIconPressed()
 	{
+		SetIdleVisible(false);
 		var book = GetTree().Root.FindChild("BookScreen", true, false) as BookScreen;
 		book?.Show();
 	}
 
 	private void OnMenuIconPressed()
 	{
-		_bottomIconBar.Visible = false;
+		SetIdleVisible(false);
 		var menu = GetTree().Root.FindChild("MenuScreen", true, false) as MenuScreen;
-		menu?.Show(isFirstLaunch: false);
+		menu?.Show();
 	}
 
 	// ── Death sequence ────────────────────────────────────────────────────────
@@ -238,7 +260,7 @@ public partial class HUD : CanvasLayer
 	private void OnPlayerDrowned()
 	{
 		_isDead = true;
-		_bottomIconBar.Visible = false;
+		SetIdleVisible(false);
 		GetNode<Control>("HudPanel/VBox/O2Row").Visible = false;
 		StartDeathSequence();
 	}

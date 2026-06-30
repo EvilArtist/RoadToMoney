@@ -6,7 +6,7 @@ public partial class GameManager : Node
 
 	public enum GameState { MainMenu, Surface, Diving, Shop, Paused }
 
-	public GameState CurrentState { get; private set; } = GameState.MainMenu;
+	public GameState CurrentState { get; private set; } = GameState.Surface;
 	public int   TotalDives   { get; set; } = 0;
 	public float SessionStart { get; private set; }
 

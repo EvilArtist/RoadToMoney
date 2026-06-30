@@ -55,7 +55,7 @@ public partial class SwimController : CharacterBody3D
 		_storageBag   = GetNode<StorageBag>("StorageBag");
 		_bubbleTrail = GetNode<GpuParticles3D>("CameraRig/BubbleTrail");
 
-		Input.MouseMode   = Input.MouseModeEnum.Captured;
+		Input.MouseMode   = Input.MouseModeEnum.Visible;
 		_divingLight.Visible = false;
 		_bubbleTrail.Emitting = false;
 
@@ -127,6 +127,7 @@ public partial class SwimController : CharacterBody3D
 			{
 				_initialDive = true;  // bắt đầu phase chìm xuống
 				GameManager.Instance.ChangeState(GameManager.GameState.Diving);
+				Input.MouseMode = Input.MouseModeEnum.Captured;
 			}
 			return;
 		}
@@ -222,6 +223,7 @@ public partial class SwimController : CharacterBody3D
 			GameManager.Instance.ChangeState(GameManager.GameState.Surface);
 			EventBus.Instance.EmitPlayerSurfaced();
 			AudioManager.Instance.SetUnderwater(false);
+			Input.MouseMode = Input.MouseModeEnum.Visible;
 		}
 		else if (!wasUnderwater && _isUnderwater &&
 				GameManager.Instance.CurrentState == GameManager.GameState.Diving)

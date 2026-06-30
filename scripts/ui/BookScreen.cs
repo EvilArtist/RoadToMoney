@@ -45,6 +45,10 @@ public partial class BookScreen : CanvasLayer
 
 		_closeButton.Pressed += OnBack;
 
+		var overlay = GetNode<Control>("Overlay");
+		overlay.MouseFilter = Control.MouseFilterEnum.Stop;
+		overlay.GuiInput   += OnOverlayInput;
+
 		_silhouetteShader = GD.Load<Shader>("res://assets/shaders/silhouette_grayscale.gdshader");
 
 		// Tự refresh khi vừa khám phá loài mới trong khi đang mở sổ tay (hiếm khi xảy ra
@@ -223,7 +227,13 @@ public partial class BookScreen : CanvasLayer
 	private void OnBack()
 	{
 		Hide();
-		var menuScreen = GetTree().Root.FindChild("MenuScreen", true, false) as MenuScreen;
-		menuScreen?.Show(isFirstLaunch: false);
+		var hud = GetTree().Root.FindChild("Hud", true, false) as HUD;
+		hud?.ReturnToIdle();
+	}
+
+	private void OnOverlayInput(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mb && mb.Pressed && mb.ButtonIndex == MouseButton.Left)
+			OnBack();
 	}
 }
