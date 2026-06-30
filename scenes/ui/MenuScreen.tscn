@@ -4,25 +4,37 @@
 [ext_resource type="Script" uid="uid://ds8cwatgulxxq" path="res://scripts/ui/MenuRope.cs" id="2_bwjac"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exit_normal"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 bg_color = Color(0.8, 0.18, 0.18, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exit_hover"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 bg_color = Color(0.88, 0.25, 0.25, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exit_pressed"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 bg_color = Color(0.65, 0.12, 0.12, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="MenuScreen" type="CanvasLayer" unique_id=1258737499]
 script = ExtResource("1_4bfmp")
@@ -74,6 +86,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "SETTING"
 
+[node name="BackButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1147843847]
+custom_minimum_size = Vector2(360, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "BACK"
+
 [node name="ExitButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1773363150]
 custom_minimum_size = Vector2(360, 46)
 layout_mode = 2
@@ -87,9 +105,3 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 text = "EXIT"
-
-[node name="BackButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1147843847]
-custom_minimum_size = Vector2(360, 46)
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "BACK"
