@@ -25,17 +25,12 @@ public partial class MenuScreen : CanvasLayer
 		_settingButton.Pressed += OnSetting;
 		_exitButton.Pressed    += OnExit;
 
-		EventBus.Instance.PlayerSurfaced += OnPlayerSurfaced;
+		// PlayerSurfaced không còn mở MenuScreen — thay bằng BottomIconBar trong HUD
 
 		Visible = false;
 
 		if (GameManager.Instance.CurrentState == GameManager.GameState.MainMenu)
 			Show(isFirstLaunch: true);
-	}
-
-	private void OnPlayerSurfaced()
-	{
-		Show(isFirstLaunch: false);
 	}
 
 	// ── Public entry point ──────────────────────────────────────────────────

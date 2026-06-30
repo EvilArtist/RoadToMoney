@@ -2,67 +2,75 @@ using Godot;
 
 /// <summary>
 /// HUD — Clean minimal style.
-/// Node paths khớp với HUD.tscn mới.
 ///
 /// Features:
-///  - O2 bar: fill xanh → đỏ khi < 25%, pulse animation
-///  - Bag bar: fill teal, label "x.x/yy kg"
-///  - Depth: số lớn, ẩn khi trên mặt nước
-///  - Coins: góc phải cùng row với depth
-///  - BottomIconBar: 4 icon buttons (Shop, Upgrade, Book, Menu)
-///    chỉ hiển thị khi đang trên mặt nước (Surface state)
+///  - O2 bar, Bag bar, Depth, Coins — unchanged
+///  - BottomIconBar (góc trái dưới): Shop / Upgrade / Book / Menu
+///    * Chỉ hiện sau khi player đã dive ít nhất 1 lần VÀ đang ở Surface
+///    * Hover: modulate sáng lên
+///    * Click: mở màn hình tương ứng, giữ mouse visible
+///    * Textures load runtime từ res://assets/textures/ui_icons/
 /// </summary>
 public partial class HUD : CanvasLayer
 {
+	// ── Icon sizes ───────────────────────────────────────────────────────────
+	private const int   IconSize        = 56;
+	private const float HoverBrightness = 1.35f;
+
+	// ── Icon texture paths ───────────────────────────────────────────────────
+	private const string IconDir     = "res://assets/textures/ui_icons/";
+	private const string PathShop    = IconDir + "icon_shop.png";
+	private const string PathUpgrade = IconDir + "icon_upgrade.png";
+	private const string PathBook    = IconDir + "icon_book.png";
+	private const string PathMenu    = IconDir + "icon_menu.png";
+
 	// ── Node refs ────────────────────────────────────────────────────────────
-	private ProgressBar _o2Bar;
-	private Label       _o2ValLabel;
-	private ProgressBar _bagBar;
-	private Label       _bagValLabel;
-	private Label       _depthLabel;
-	private Label       _coinsLabel;
+	private ProgressBar   _o2Bar;
+	private Label         _o2ValLabel;
+	private ProgressBar   _bagBar;
+	private Label         _bagValLabel;
+	private Label         _depthLabel;
+	private Label         _coinsLabel;
+	private HBoxContainer _inventoryRow;
 
-	// Bottom icon bar
-	private Control        _bottomIconBar;
-	private TextureButton  _shopIconBtn;
-	private TextureButton  _upgradeIconBtn;
-	private TextureButton  _bookIconBtn;
-	private TextureButton  _menuIconBtn;
+	private Control       _bottomIconBar;
+	private TextureButton _shopIconBtn;
+	private TextureButton _upgradeIconBtn;
+	private TextureButton _bookIconBtn;
+	private TextureButton _menuIconBtn;
 
-	// Death overlay nodes (tạo dynamic trong _Ready)
+	// Death overlay (dynamic)
 	private ColorRect _deathOverlay;
 	private Label     _deathLabel;
 
-	// O2 bar fill styles
+	// O2 fill styles
 	private StyleBoxFlat _o2FillNormal;
 	private StyleBoxFlat _o2FillWarn;
 
 	// ── State ────────────────────────────────────────────────────────────────
-	private float _o2Current = 1f;
-	private float _o2Max     = 1f;
 	private float _pulseTime = 0f;
 	private bool  _isWarn    = false;
 	private bool  _isDead    = false;
-	private bool _drownWarningShown = false;
+	private bool  _drownWarningShown = false;
+	/// Chỉ hiện icon bar sau khi player đã lặn ít nhất 1 lần
+	private bool  _hasEverDived = false;
 
 	// ── Colors ───────────────────────────────────────────────────────────────
 	private static readonly Color ColorO2Normal  = new Color(0.31f, 0.76f, 0.97f, 1f);
 	private static readonly Color ColorO2Warn    = new Color(0.92f, 0.30f, 0.28f, 1f);
 	private static readonly Color ColorValNormal = new Color(1f, 1f, 1f, 0.45f);
 	private static readonly Color ColorValWarn   = new Color(0.92f, 0.30f, 0.28f, 0.9f);
-	private static readonly Color ColorCoins     = new Color(1.0f, 0.85f, 0.35f, 0.85f);
-	private static readonly Color ColorPillBg  = new Color(1f, 1f, 1f, 0.0f);
-	private static readonly Color ColorPillQty = new Color(1f, 1f, 1f, 0.85f);
-	private HBoxContainer _inventoryRow;
+	private static readonly Color ColorPillBg    = new Color(1f, 1f, 1f, 0.0f);
+	private static readonly Color ColorPillQty   = new Color(1f, 1f, 1f, 0.85f);
 
 	public override void _Ready()
 	{
-		_o2Bar       = GetNode<ProgressBar>("HudPanel/VBox/O2Row/O2BarBg/O2Bar");
-		_o2ValLabel  = GetNode<Label>      ("HudPanel/VBox/O2Row/O2ValLabel");
-		_bagBar      = GetNode<ProgressBar>("HudPanel/VBox/BagRow/BagBarBg/BagBar");
-		_bagValLabel = GetNode<Label>      ("HudPanel/VBox/BagRow/BagValLabel");
-		_depthLabel  = GetNode<Label>      ("BottomRow/DepthLabel");
-		_coinsLabel  = GetNode<Label>      ("BottomRow/CoinsLabel");
+		_o2Bar        = GetNode<ProgressBar>  ("HudPanel/VBox/O2Row/O2BarBg/O2Bar");
+		_o2ValLabel   = GetNode<Label>        ("HudPanel/VBox/O2Row/O2ValLabel");
+		_bagBar       = GetNode<ProgressBar>  ("HudPanel/VBox/BagRow/BagBarBg/BagBar");
+		_bagValLabel  = GetNode<Label>        ("HudPanel/VBox/BagRow/BagValLabel");
+		_depthLabel   = GetNode<Label>        ("BottomRow/DepthLabel");
+		_coinsLabel   = GetNode<Label>        ("BottomRow/CoinsLabel");
 		_inventoryRow = GetNode<HBoxContainer>("InventoryRow");
 
 		// ── Bottom icon bar ──────────────────────────────────────────────────
@@ -72,12 +80,19 @@ public partial class HUD : CanvasLayer
 		_bookIconBtn    = GetNode<TextureButton> ("BottomIconBar/BookIconBtn");
 		_menuIconBtn    = GetNode<TextureButton> ("BottomIconBar/MenuIconBtn");
 
+		SetupIconButton(_shopIconBtn,    PathShop);
+		SetupIconButton(_upgradeIconBtn, PathUpgrade);
+		SetupIconButton(_bookIconBtn,    PathBook);
+		SetupIconButton(_menuIconBtn,    PathMenu);
+
 		_shopIconBtn.Pressed    += OnShopIconPressed;
 		_upgradeIconBtn.Pressed += OnUpgradeIconPressed;
 		_bookIconBtn.Pressed    += OnBookIconPressed;
 		_menuIconBtn.Pressed    += OnMenuIconPressed;
 
-		// ── Build death overlay ──────────────────────────────────────────────
+		_bottomIconBar.Visible = false;
+
+		// ── Death overlay ────────────────────────────────────────────────────
 		_deathOverlay              = new ColorRect();
 		_deathOverlay.Color        = new Color(0f, 0f, 0f, 0f);
 		_deathOverlay.AnchorLeft   = 0f;
@@ -88,15 +103,15 @@ public partial class HUD : CanvasLayer
 		_deathOverlay.Visible      = false;
 		AddChild(_deathOverlay);
 
-		_deathLabel                    = new Label();
-		_deathLabel.Text               = Tr("DROWNED");
+		_deathLabel                     = new Label();
+		_deathLabel.Text                = Tr("DROWNED");
 		_deathLabel.HorizontalAlignment = HorizontalAlignment.Center;
 		_deathLabel.VerticalAlignment   = VerticalAlignment.Center;
-		_deathLabel.AnchorLeft         = 0f;
-		_deathLabel.AnchorTop          = 0f;
-		_deathLabel.AnchorRight        = 1f;
-		_deathLabel.AnchorBottom       = 1f;
-		_deathLabel.Modulate           = new Color(1f, 1f, 1f, 0f);
+		_deathLabel.AnchorLeft          = 0f;
+		_deathLabel.AnchorTop           = 0f;
+		_deathLabel.AnchorRight         = 1f;
+		_deathLabel.AnchorBottom        = 1f;
+		_deathLabel.Modulate            = new Color(1f, 1f, 1f, 0f);
 		_deathLabel.AddThemeFontSizeOverride("font_size", 48);
 		_deathOverlay.AddChild(_deathLabel);
 
@@ -105,7 +120,7 @@ public partial class HUD : CanvasLayer
 		_o2FillWarn   = MakeFill(ColorO2Warn);
 		_o2Bar.AddThemeStyleboxOverride("fill", _o2FillNormal);
 
-		// ── Subscribe events ─────────────────────────────────────────────────
+		// ── Events ───────────────────────────────────────────────────────────
 		EventBus.Instance.OxygenChanged    += OnOxygenChanged;
 		EventBus.Instance.OxygenCritical   += OnOxygenCritical;
 		EventBus.Instance.InventoryChanged += OnInventoryChanged;
@@ -115,20 +130,41 @@ public partial class HUD : CanvasLayer
 		EventBus.Instance.DiveStarted      += OnDiveStarted;
 		EventBus.Instance.DiveEnded        += OnDiveEnded;
 
-		// Init
+		// Init values
 		UpdateCoins(EconomyManager.Instance.Coins);
 		OnInventoryChanged(0f);
 		GetNode<Control>("HudPanel/VBox/O2Row").Visible = false;
-
-		// BottomIconBar bắt đầu ẩn (chờ Surface state)
-		_bottomIconBar.Visible = false;
 	}
+
+	// ── Icon button setup ─────────────────────────────────────────────────────
+
+	private void SetupIconButton(TextureButton btn, string texturePath)
+	{
+		// Size cứng — không phụ thuộc vào kích thước ảnh gốc
+		btn.CustomMinimumSize = new Vector2(IconSize, IconSize);
+		btn.Size              = new Vector2(IconSize, IconSize);
+		btn.StretchMode       = TextureButton.StretchModeEnum.Scale;
+		btn.IgnoreTextureSize = true;
+
+		// Load texture, null-safe (user upload sau)
+		if (ResourceLoader.Exists(texturePath))
+		{
+			var tex = GD.Load<Texture2D>(texturePath);
+			if (tex != null) btn.TextureNormal = tex;
+		}
+
+		// Hover effect: modulate sáng lên
+		btn.MouseEntered += () => btn.Modulate = new Color(HoverBrightness, HoverBrightness, HoverBrightness, 1f);
+		btn.MouseExited  += () => btn.Modulate = Colors.White;
+	}
+
+	// ── _Process ──────────────────────────────────────────────────────────────
 
 	public override void _Process(double delta)
 	{
 		if (_isDead) return;
 
-		// ── Depth ─────────────────────────────────────────────────────────
+		// Depth label
 		var player = GetTree().Root.FindChild("Player", true, false) as SwimController;
 		if (player != null)
 		{
@@ -136,11 +172,11 @@ public partial class HUD : CanvasLayer
 			_depthLabel.Text = depth > 0.5f ? $"📏{depth:F1}m" : "—";
 		}
 
-		// ── O2 row visibility ─────────────────────────────────────────────
+		// O2 row visibility
 		bool diving = GameManager.Instance.IsDiving();
 		GetNode<Control>("HudPanel/VBox/O2Row").Visible = diving;
 
-		// ── Pulse animation ───────────────────────────────────────────────
+		// O2 pulse
 		if (_isWarn && diving)
 		{
 			_pulseTime += (float)delta * 3.5f;
@@ -154,47 +190,47 @@ public partial class HUD : CanvasLayer
 		}
 	}
 
-	// ── BottomIconBar visibility ──────────────────────────────────────────────
+	// ── Dive state ────────────────────────────────────────────────────────────
 
-	/// Hiển thị icon bar khi player lên mặt nước (Surface state).
-	private void OnDiveEnded()
-	{
-		_bottomIconBar.Visible = true;
-		Input.MouseMode = Input.MouseModeEnum.Visible;
-	}
-
-	/// Ẩn icon bar khi player lặn xuống.
 	private void OnDiveStarted()
 	{
+		_hasEverDived = true;
 		_bottomIconBar.Visible = false;
+	}
+
+	private void OnDiveEnded()
+	{
+		// Chỉ hiện sau khi đã lặn ít nhất 1 lần (không hiện ngay khi bắt đầu game)
+		if (!_hasEverDived) return;
+		_bottomIconBar.Visible = true;
+		Input.MouseMode = Input.MouseModeEnum.Visible;
 	}
 
 	// ── Icon button handlers ──────────────────────────────────────────────────
 
 	private void OnShopIconPressed()
 	{
-		var shopScreen = GetTree().Root.FindChild("ShopScreen", true, false) as ShopScreen;
-		shopScreen?.OpenSell();
+		var shop = GetTree().Root.FindChild("ShopScreen", true, false) as ShopScreen;
+		shop?.OpenSell();
 	}
 
 	private void OnUpgradeIconPressed()
 	{
-		var upgradeScreen = GetTree().Root.FindChild("UpgradeScreen", true, false) as UpgradeScreen;
-		upgradeScreen?.Show();
+		var upgrade = GetTree().Root.FindChild("UpgradeScreen", true, false) as UpgradeScreen;
+		upgrade?.Show();
 	}
 
 	private void OnBookIconPressed()
 	{
-		var bookScreen = GetTree().Root.FindChild("BookScreen", true, false) as BookScreen;
-		bookScreen?.Show();
+		var book = GetTree().Root.FindChild("BookScreen", true, false) as BookScreen;
+		book?.Show();
 	}
 
 	private void OnMenuIconPressed()
 	{
-		// Ẩn icon bar, mở Main Menu
 		_bottomIconBar.Visible = false;
-		var menuScreen = GetTree().Root.FindChild("MenuScreen", true, false) as MenuScreen;
-		menuScreen?.Show(isFirstLaunch: false);
+		var menu = GetTree().Root.FindChild("MenuScreen", true, false) as MenuScreen;
+		menu?.Show(isFirstLaunch: false);
 	}
 
 	// ── Death sequence ────────────────────────────────────────────────────────
@@ -216,16 +252,14 @@ public partial class HUD : CanvasLayer
 		while (elapsed < FadeDuration)
 		{
 			elapsed += (float)GetProcessDeltaTime();
-			float t = Mathf.Clamp(elapsed / FadeDuration, 0f, 1f);
+			float t  = Mathf.Clamp(elapsed / FadeDuration, 0f, 1f);
 			_deathOverlay.Color = new Color(0f, 0f, 0f, t);
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
-		_deathOverlay.Color = new Color(0f, 0f, 0f, 1f);
-
+		_deathOverlay.Color  = new Color(0f, 0f, 0f, 1f);
 		_deathLabel.Modulate = new Color(1f, 1f, 1f, 1f);
 
 		await ToSignal(GetTree().CreateTimer(2.0), SceneTreeTimer.SignalName.Timeout);
-
 		DoRespawn();
 
 		elapsed = 0f;
@@ -233,7 +267,7 @@ public partial class HUD : CanvasLayer
 		while (elapsed < FadeOutDuration)
 		{
 			elapsed += (float)GetProcessDeltaTime();
-			float t = Mathf.Clamp(elapsed / FadeOutDuration, 0f, 1f);
+			float t  = Mathf.Clamp(elapsed / FadeOutDuration, 0f, 1f);
 			_deathOverlay.Color  = new Color(0f, 0f, 0f, 1f - t);
 			_deathLabel.Modulate = new Color(1f, 1f, 1f, 1f - t);
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -259,7 +293,6 @@ public partial class HUD : CanvasLayer
 		o2?.RefreshFromUpgrade();
 
 		EconomyManager.Instance.ResetCoins();
-
 		UpgradeManager.Instance.ResetTools();
 
 		var spawner = GetTree().Root.FindChild("ResourceSpawner", true, false) as ResourceSpawner;
@@ -268,7 +301,7 @@ public partial class HUD : CanvasLayer
 		GameManager.Instance.ChangeState(GameManager.GameState.Surface);
 	}
 
-	// ── Heartbeat trigger ─────────────────────────────────────────────────────
+	// ── Oxygen critical ───────────────────────────────────────────────────────
 
 	private void OnOxygenCritical()
 	{
@@ -284,19 +317,14 @@ public partial class HUD : CanvasLayer
 
 	private void OnOxygenChanged(float current, float max)
 	{
-		_o2Current = current;
-		_o2Max     = max;
-
-		float ratio = max > 0 ? current / max : 0f;
-		int   pct   = (int)(ratio * 100f);
-		bool  wasWarn = _isWarn;
-		_isWarn     = pct < 25;
+		float ratio   = max > 0 ? current / max : 0f;
+		int   pct     = (int)(ratio * 100f);
+		_isWarn       = pct < 25;
 
 		if (!_isWarn) _drownWarningShown = false;
 
 		_o2Bar.Value = ratio * 100f;
 		_o2Bar.AddThemeStyleboxOverride("fill", _isWarn ? _o2FillWarn : _o2FillNormal);
-
 		_o2ValLabel.Text     = $"{pct}%";
 		_o2ValLabel.Modulate = _isWarn ? ColorValWarn : ColorValNormal;
 	}
@@ -312,11 +340,11 @@ public partial class HUD : CanvasLayer
 
 		_bagBar.Value     = ratio * 100f;
 		_bagValLabel.Text = $"{used:F1}kg";
-
 		_bagBar.AddThemeStyleboxOverride("fill",
 			ratio > 0.85f
 				? MakeFill(new Color(1.0f, 0.75f, 0.2f, 1f))
 				: MakeFill(new Color(0.5f, 0.8f, 0.75f, 1f)));
+
 		RefreshInventoryDisplay();
 	}
 
@@ -329,20 +357,19 @@ public partial class HUD : CanvasLayer
 		{
 			var res = GD.Load<SeaResource>($"res://resources/items/{kvp.Key}.tres");
 			if (res == null) continue;
-
 			_inventoryRow.AddChild(MakeInventoryPill(res.Icon, kvp.Value));
 		}
 	}
 
 	private Control MakeInventoryPill(Texture2D icon, int qty)
 	{
-		var bg = new PanelContainer();
+		var bg    = new PanelContainer();
 		var style = new StyleBoxFlat();
 		style.BgColor = ColorPillBg;
 		style.CornerRadiusTopLeft = style.CornerRadiusTopRight =
 		style.CornerRadiusBottomLeft = style.CornerRadiusBottomRight = 0;
-		style.ContentMarginLeft  = style.ContentMarginRight = 8;
-		style.ContentMarginTop   = style.ContentMarginBottom = 4;
+		style.ContentMarginLeft = style.ContentMarginRight = 8;
+		style.ContentMarginTop  = style.ContentMarginBottom = 4;
 		bg.AddThemeStyleboxOverride("panel", style);
 
 		var row = new HBoxContainer();
@@ -351,36 +378,33 @@ public partial class HUD : CanvasLayer
 		if (icon != null)
 		{
 			var iconRect = new TextureRect();
-			iconRect.Texture = icon;
+			iconRect.Texture           = icon;
 			iconRect.CustomMinimumSize = new Vector2(30, 30);
-			iconRect.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
-			iconRect.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
+			iconRect.ExpandMode        = TextureRect.ExpandModeEnum.IgnoreSize;
+			iconRect.StretchMode       = TextureRect.StretchModeEnum.KeepAspectCentered;
 			row.AddChild(iconRect);
 		}
 
-		var qtyLabel = new Label();
-		qtyLabel.Text     = qty.ToString();
-		qtyLabel.Modulate = ColorPillQty;
-		qtyLabel.AddThemeFontSizeOverride("font_size", 14);
-		qtyLabel.VerticalAlignment = VerticalAlignment.Center;
-		row.AddChild(qtyLabel);
+		var lbl = new Label();
+		lbl.Text     = qty.ToString();
+		lbl.Modulate = ColorPillQty;
+		lbl.AddThemeFontSizeOverride("font_size", 14);
+		lbl.VerticalAlignment = VerticalAlignment.Center;
+		row.AddChild(lbl);
 
 		bg.AddChild(row);
 		return bg;
 	}
 
 	private void OnCoinsChanged(int amount) => UpdateCoins(amount);
-
-	private void UpdateCoins(int amount) => _coinsLabel.Text = $"🪙{amount}₫";
+	private void UpdateCoins(int amount)    => _coinsLabel.Text = $"🪙{amount}₫";
 
 	private static StyleBoxFlat MakeFill(Color color)
 	{
 		var sb = new StyleBoxFlat();
-		sb.BgColor                 = color;
-		sb.CornerRadiusTopLeft     = 3;
-		sb.CornerRadiusTopRight    = 3;
-		sb.CornerRadiusBottomRight = 3;
-		sb.CornerRadiusBottomLeft  = 3;
+		sb.BgColor = color;
+		sb.CornerRadiusTopLeft = sb.CornerRadiusTopRight =
+		sb.CornerRadiusBottomRight = sb.CornerRadiusBottomLeft = 3;
 		return sb;
 	}
 
@@ -388,7 +412,6 @@ public partial class HUD : CanvasLayer
 	{
 		var res = GD.Load<SeaResource>($"res://resources/items/{id}.tres");
 		if (res == null || res.Icon == null) return;
-
 		SpawnFlyingIcon(res.Icon, worldPos);
 	}
 
@@ -402,21 +425,19 @@ public partial class HUD : CanvasLayer
 			: camera.UnprojectPosition(worldPos);
 
 		var iconRect = new TextureRect();
-		iconRect.Texture            = icon;
-		iconRect.CustomMinimumSize  = new Vector2(40, 40);
-		iconRect.Size               = new Vector2(40, 40);
-		iconRect.ExpandMode         = TextureRect.ExpandModeEnum.IgnoreSize;
-		iconRect.StretchMode        = TextureRect.StretchModeEnum.KeepAspectCentered;
-		iconRect.MouseFilter        = Control.MouseFilterEnum.Ignore;
-		iconRect.PivotOffset        = iconRect.Size / 2f;
-		iconRect.Position           = screenStart - iconRect.Size / 2f;
+		iconRect.Texture           = icon;
+		iconRect.CustomMinimumSize = new Vector2(40, 40);
+		iconRect.Size              = new Vector2(40, 40);
+		iconRect.ExpandMode        = TextureRect.ExpandModeEnum.IgnoreSize;
+		iconRect.StretchMode       = TextureRect.StretchModeEnum.KeepAspectCentered;
+		iconRect.MouseFilter       = Control.MouseFilterEnum.Ignore;
+		iconRect.PivotOffset       = iconRect.Size / 2f;
+		iconRect.Position          = screenStart - iconRect.Size / 2f;
 		AddChild(iconRect);
-
-		Vector2 targetPos = _inventoryRow.GetGlobalRect().GetCenter();
 
 		var tween = CreateTween();
 		tween.SetParallel(true);
-		tween.TweenProperty(iconRect, "position", targetPos - iconRect.Size / 2f, 0.5f)
+		tween.TweenProperty(iconRect, "position", _inventoryRow.GetGlobalRect().GetCenter() - iconRect.Size / 2f, 0.5f)
 			.SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
 		tween.TweenProperty(iconRect, "scale", Vector2.One * 0.35f, 0.5f);
 		tween.Chain().TweenProperty(iconRect, "modulate:a", 0f, 0.12f);
