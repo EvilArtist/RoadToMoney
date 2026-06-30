@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://cwtoxqjm4fnbb"]
+
+[ext_resource type="PackedScene" uid="uid://cnqxpq566itwy" path="res://assets/models/coral/pocillopora_meandrina.glb" id="1_45ayd"]
+[ext_resource type="PackedScene" uid="uid://b62ixiwm331pt" path="res://assets/models/coral/lazulight-coral.glb" id="1_d2np8"]
+[ext_resource type="PackedScene" uid="uid://ctnncibd5tw16" path="res://assets/models/decor/long_ledges_reef_community.glb" id="1_j8u5k"]
+[ext_resource type="PackedScene" uid="uid://chvxau4hvjh05" path="res://assets/models/coral/brown_coral_l.glb" id="2_d2v5d"]
+[ext_resource type="PackedScene" uid="uid://6g5sn2sfd3i5" path="res://assets/models/decor/grass.glb" id="2_nie3q"]
+[ext_resource type="PackedScene" uid="uid://ck4wcxwrm1xyf" path="res://assets/models/decor/sea_sponge.glb" id="3_foao1"]
+[ext_resource type="PackedScene" uid="uid://dwyvpr6lmnkhj" path="res://assets/models/coral/aurora_reef_coral.glb" id="3_nfwxe"]
+[ext_resource type="PackedScene" uid="uid://c7jxtpandu6a7" path="res://assets/models/coral/porites_lutea_fresh_sample.glb" id="5_8j65o"]
+[ext_resource type="PackedScene" uid="uid://dvya5732cfjvo" path="res://assets/models/coral/rainbow_haven_reef_coral.glb" id="6_j8u5k"]
+[ext_resource type="PackedScene" uid="uid://b8510nfuvr3gv" path="res://assets/models/decor/staghorn_coral.glb" id="10_32h5g"]
+
+[node name="BigCoralGroup" type="Node3D" unique_id=1304513969]
+
+[node name="Sketchfab_Scene10" parent="." unique_id=202159028 instance=ExtResource("1_j8u5k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.001297, 0, 1.8187313)
+visible = false
+
+[node name="Sketchfab_Scene9" parent="." unique_id=171721285 instance=ExtResource("2_nie3q")]
+transform = Transform3D(0.6000001, 0, 0, 0, 0.6000001, 0, 0, 0, 0.6000001, 11.040001, 0, -9.200002)
+
+[node name="Sketchfab_Scene8" parent="." unique_id=2024781467 instance=ExtResource("3_foao1")]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 17.172062, 0, 1.4897442)
+
+[node name="Sketchfab_Scene4" parent="." unique_id=140214789 instance=ExtResource("1_45ayd")]
+transform = Transform3D(0.4, 0, 0, 0, 0.39894992, 0.0289651, 0, -0.0289651, 0.39894992, 3.7104335, 1.746522, 12.646873)
+
+[node name="Sketchfab_Scene3" parent="." unique_id=1243769683 instance=ExtResource("2_d2v5d")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 8.694768)
+
+[node name="Sketchfab_Scene2" parent="." unique_id=1958542627 instance=ExtResource("3_nfwxe")]
+transform = Transform3D(4.941101, 0, 4.958379, 0, 7, 0, -4.958379, 0, 4.941101, 9.646715, -2, 0.525)
+
+[node name="Sketchfab_Scene" parent="." unique_id=572420313 instance=ExtResource("1_d2np8")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -1.1833, 0, -8.399716)
+
+[node name="Sketchfab_Scene5" parent="." unique_id=193585936 instance=ExtResource("5_8j65o")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 2.6012669, 0, 1.0495062)
+
+[node name="Sketchfab_Scene6" parent="." unique_id=587600084 instance=ExtResource("6_j8u5k")]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 19.098366, 0, -2.209732)
+
+[node name="Sketchfab_Scene7" parent="." unique_id=323386042 instance=ExtResource("1_45ayd")]
+transform = Transform3D(0.2439302, 0.01279009, -0.1741679, 0, 0.29919434, 0.021971459, 0.17463689, -0.01786501, 0.24327515, 7.381031, 1.2958069, -8.569737)
+
+[node name="Sketchfab_Scene11" parent="." unique_id=2091927990 instance=ExtResource("10_32h5g")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 8.5635605, 0, 7.277198)
+
+[node name="Sketchfab_Scene12" parent="." unique_id=1877001686 instance=ExtResource("1_d2np8")]
+transform = Transform3D(1.3891858, 0, 7.878462, 0, 8, 0, -7.878462, 0, 1.3891858, 18.971355, 0, 10.803426)
+
+[node name="Sketchfab_Scene13" parent="." unique_id=2101518745 instance=ExtResource("6_j8u5k")]
+transform = Transform3D(5.8535204, 0, 3.8387883, 0, 7, 0, -3.8387883, 0, 5.8535204, -4.516304, 0, 5.2293215)
