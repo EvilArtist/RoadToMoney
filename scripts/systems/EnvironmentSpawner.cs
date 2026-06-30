@@ -58,6 +58,16 @@ public partial class EnvironmentSpawner : Node3D
 	private Vector2 PlayerSpawnXZ = Vector2.Zero;
 	[Export] public float SafeZoneRadius = 25.0f;
 
+	[ExportGroup("Visibility Culling")]
+	// Godot 4 MultiMeshInstance3D ke thua GeometryInstance3D.VisibilityRangeFar:
+	// instance se bi cull (khong render) khi camera xa hon khoang cach nay.
+	// Large coral (to, chi tiet cao) can thay tu xa -> cull distance lon hon.
+	// Small decor (nho, it chi tiet) chi hien thi gan -> cull distance nho de tiet kiem.
+	[Export] public float CullDistanceLarge   = 150.0f;
+	[Export] public float CullDistanceMedium  = 80.0f;
+	[Export] public float CullDistanceSmall   = 40.0f;
+	[Export] public float CullDistanceSeaweed = 30.0f;
+
 	[ExportGroup("World Bounds")]
 	[Export] public float WorldHalfSizeX = 400f;
 	[Export] public float WorldHalfSizeZ = 400f;
@@ -254,12 +264,42 @@ public partial class EnvironmentSpawner : Node3D
 			multiMesh.SetInstanceTransform(i, transforms[i]);
 		}
 
+		// Dat VisibilityRangeFar de Godot tu dong cull node nay khi camera xa hon
+		// nguong. Voi MultiMesh co AABB trai rong toan map, Godot se dung khoang
+		// cach tu camera toi AABB center cua node (khong phai den tung instance) --
+		// nen day la giai phap xap xi nhung van hieu qua hon la khong co gi.
+		// Giai phap chinh xac hon (per-instance distance culling) can custom shader
+		// hoac chia MultiMesh thanh nhieu chunk nho theo grid -- de danh cho task sau.
+		float cullDist = CullDistanceForTier(def.Tier);
+		mmInstance.VisibilityRangeFar = cullDist;
+		mmInstance.VisibilityRangeFarMargin = cullDist * 0.1f; // fade 10% truoc khi bien mat
+
 		if (spawned < count)
 		{
 			GD.Print($"[EnvironmentSpawner] {def.Name}: chi spawn duoc {spawned}/{count} " +
 				"(het luot thu, co the do mat do qua day hoac vung hop le qua nho).");
 		}
 	}
+
+	private static void SetVisibilityRangeOnChildren(Node root, float cullDist)
+	{
+		if (root is GeometryInstance3D geo)
+		{
+			geo.VisibilityRangeFar = cullDist;
+			geo.VisibilityRangeFarMargin = cullDist * 0.1f;
+		}
+		foreach (Node child in root.GetChildren())
+		{
+			SetVisibilityRangeOnChildren(child, cullDist);
+		}
+	}
+
+	private float CullDistanceForTier(PropTier tier) => tier switch
+	{
+		PropTier.Large  => CullDistanceLarge,
+		PropTier.Medium => CullDistanceMedium,
+		_                => CullDistanceSmall,
+	};
 
 	// Seaweed giu nguyen logic cu (Instantiate Node3D), vi SeaweedGroup.cs can
 	// _Process() rieng cho tung instance de sway animation - khong tuong thich MultiMesh.
@@ -311,6 +351,11 @@ public partial class EnvironmentSpawner : Node3D
 
 			AddChild(prop);
 			CreatureSpawner.PlayFirstAnimation(prop);
+
+			// Seaweed Instantiate: tim MeshInstance3D con de set VisibilityRangeFar.
+			// Khong set tren node root (Node3D khong co property nay), phai tim
+			// GeometryInstance3D con ben trong.
+			SetVisibilityRangeOnChildren(prop, CullDistanceSeaweed);
 
 			_occupied.Add((pos2D, MinSpacingSmall * 0.5f));
 			spawned++;
