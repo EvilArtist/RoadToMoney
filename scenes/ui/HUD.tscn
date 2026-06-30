@@ -148,3 +148,111 @@ theme_override_colors/font_color = Color(1, 1, 1, 0.45)
 theme_override_font_sizes/font_size = 16
 text = "0.5kg"
 horizontal_alignment = 2
+
+[node name="DiveHintLabel" type="Label" parent="." unique_id=222000001]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 26
+text = "SPACE_TO_SWIM"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible = false
+
+[node name="BottomIconBar" type="HBoxContainer" parent="." unique_id=111000001]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -106.0
+offset_right = 16.0
+offset_bottom = -16.0
+grow_vertical = 0
+theme_override_constants/separation = 14
+visible = false
+
+[node name="ShopIconWrap" type="VBoxContainer" parent="BottomIconBar" unique_id=111000010]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="ShopIconBtn" type="TextureButton" parent="BottomIconBar/ShopIconWrap" unique_id=111000002]
+custom_minimum_size = Vector2(56, 56)
+custom_maximum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+stretch_mode = 0
+
+[node name="ShopIconLabel" type="Label" parent="BottomIconBar/ShopIconWrap" unique_id=111000011]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 13
+text = "SHOP"
+horizontal_alignment = 1
+
+[node name="UpgradeIconWrap" type="VBoxContainer" parent="BottomIconBar" unique_id=111000012]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="UpgradeIconBtn" type="TextureButton" parent="BottomIconBar/UpgradeIconWrap" unique_id=111000003]
+custom_minimum_size = Vector2(56, 56)
+custom_maximum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+stretch_mode = 0
+
+[node name="UpgradeIconLabel" type="Label" parent="BottomIconBar/UpgradeIconWrap" unique_id=111000013]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 13
+text = "UPGRADE"
+horizontal_alignment = 1
+
+[node name="BookIconWrap" type="VBoxContainer" parent="BottomIconBar" unique_id=111000014]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="BookIconBtn" type="TextureButton" parent="BottomIconBar/BookIconWrap" unique_id=111000004]
+custom_minimum_size = Vector2(56, 56)
+custom_maximum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+stretch_mode = 0
+
+[node name="BookIconLabel" type="Label" parent="BottomIconBar/BookIconWrap" unique_id=111000015]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 13
+text = "FIELD_GUIDE"
+horizontal_alignment = 1
+
+[node name="MenuIconWrap" type="VBoxContainer" parent="BottomIconBar" unique_id=111000016]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="MenuIconBtn" type="TextureButton" parent="BottomIconBar/MenuIconWrap" unique_id=111000005]
+custom_minimum_size = Vector2(56, 56)
+custom_maximum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+stretch_mode = 0
+
+[node name="MenuIconLabel" type="Label" parent="BottomIconBar/MenuIconWrap" unique_id=111000017]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 13
+text = "MENU"
+horizontal_alignment = 1

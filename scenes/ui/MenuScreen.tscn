@@ -2,9 +2,39 @@
 
 [ext_resource type="Script" uid="uid://bca8a3usdsw00" path="res://scripts/ui/MenuScreen.cs" id="1_4bfmp"]
 [ext_resource type="Script" uid="uid://ds8cwatgulxxq" path="res://scripts/ui/MenuRope.cs" id="2_bwjac"]
-[ext_resource type="Texture2D" uid="uid://btcyfljhuumpv" path="res://assets/textures/ui_deco/starfish.png" id="3_su6af"]
-[ext_resource type="Texture2D" uid="uid://rb5mprufwyah" path="res://assets/textures/ui_deco/shells.png" id="4_3xr2d"]
-[ext_resource type="Texture2D" uid="uid://cqj8y24wnb30i" path="res://assets/textures/ui_deco/crab.png" id="5_ynbsk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exit_normal"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.8, 0.18, 0.18, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exit_hover"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.88, 0.25, 0.25, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exit_pressed"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.65, 0.12, 0.12, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="MenuScreen" type="CanvasLayer" unique_id=1258737499]
 script = ExtResource("1_4bfmp")
@@ -13,24 +43,13 @@ script = ExtResource("1_4bfmp")
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.2)
 
-[node name="TitleLabel" type="Label" parent="." unique_id=1176196031]
-custom_minimum_size = Vector2(0, 67)
-offset_left = 1105.0
-offset_top = 404.0
-offset_right = 1455.0
-offset_bottom = 481.0
-grow_horizontal = 2
-theme_override_colors/font_outline_color = Color(0.88768137, 0.4693535, 0.28289723, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 56
-text = "GAME_TITLE"
-horizontal_alignment = 1
-
 [node name="MenuCenter" type="CenterContainer" parent="." unique_id=1066721779]
+mouse_filter = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -45,77 +64,44 @@ layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 2
 
-[node name="PlayButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1147843847]
-custom_minimum_size = Vector2(360, 46)
+[node name="TitleLabel" type="Label" parent="MenuCenter/ButtonList" unique_id=1176196031]
+custom_minimum_size = Vector2(0, 67)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "PLAY"
-
-[node name="ShopButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1916755998]
-z_index = 2
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "SHOP"
-
-[node name="UpgradeButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1321023337]
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "UPGRADE"
-
-[node name="BookButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1321023338]
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "FIELD_GUIDE"
+theme_override_colors/font_outline_color = Color(0.88768137, 0.4693535, 0.28289723, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 40
+text = "GAME_TITLE"
+horizontal_alignment = 1
 
 [node name="CreditsButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1321023339]
+custom_minimum_size = Vector2(360, 46)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "CREDITS"
 
 [node name="SettingButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1537051848]
 z_index = 2
+custom_minimum_size = Vector2(360, 46)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "SETTING"
 
-[node name="ExitButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1773363150]
-custom_minimum_size = Vector2(200, 0)
+[node name="BackButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1147843847]
+custom_minimum_size = Vector2(360, 46)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
+text = "BACK"
+
+[node name="ExitButton" type="Button" parent="MenuCenter/ButtonList" unique_id=1773363150]
+custom_minimum_size = Vector2(360, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_exit_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_exit_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exit_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_exit_normal")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 text = "EXIT"
-
-[node name="DecoStarfish" type="TextureRect" parent="." unique_id=1253282679]
-custom_minimum_size = Vector2(96, 96)
-offset_left = 20.0
-offset_top = 70.0
-offset_right = 116.0
-offset_bottom = 166.0
-texture = ExtResource("3_su6af")
-
-[node name="DecoShell" type="TextureRect" parent="." unique_id=152012929]
-custom_minimum_size = Vector2(80, 80)
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 51.0
-offset_top = -299.0
-offset_right = 314.0
-offset_bottom = -37.0
-grow_vertical = 0
-texture = ExtResource("4_3xr2d")
-expand_mode = 1
-
-[node name="DecoCoral" type="TextureRect" parent="." unique_id=616833387]
-custom_minimum_size = Vector2(100, 100)
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -120.0
-offset_top = -110.0
-offset_right = -20.0
-offset_bottom = -10.0
-grow_horizontal = 0
-grow_vertical = 0
-texture = ExtResource("5_ynbsk")

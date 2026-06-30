@@ -55,7 +55,7 @@ public partial class SwimController : CharacterBody3D
 		_storageBag   = GetNode<StorageBag>("StorageBag");
 		_bubbleTrail = GetNode<GpuParticles3D>("CameraRig/BubbleTrail");
 
-		Input.MouseMode   = Input.MouseModeEnum.Captured;
+		Input.MouseMode   = Input.MouseModeEnum.Visible;
 		_divingLight.Visible = false;
 		_bubbleTrail.Emitting = false;
 
@@ -104,20 +104,6 @@ public partial class SwimController : CharacterBody3D
 			);
 		}
 
-		if (@event is InputEventKey key && key.Pressed && key.Keycode == Key.Escape)
-		{
-			var state = GameManager.Instance.CurrentState;
-			if (state == GameManager.GameState.Diving || state == GameManager.GameState.Surface)
-			{
-				var shop = GetTree().Root.FindChild("ShopScreen", true, false) as ShopScreen;
-				var upgrade = GetTree().Root.FindChild("UpgradeScreen", true, false) as UpgradeScreen;
-				if (shop != null) shop.Visible = false;
-				if (upgrade != null) upgrade.Visible = false;
-				
-				var menuScreen = GetTree().Root.FindChild("MenuScreen", true, false) as MenuScreen;
-				menuScreen?.Show(isFirstLaunch: false);
-			}
-		}
 	}
 	private bool _initialDive = false;
 	private float _initialDiveTarget = -2f;
@@ -141,6 +127,7 @@ public partial class SwimController : CharacterBody3D
 			{
 				_initialDive = true;  // bắt đầu phase chìm xuống
 				GameManager.Instance.ChangeState(GameManager.GameState.Diving);
+				Input.MouseMode = Input.MouseModeEnum.Captured;
 			}
 			return;
 		}
@@ -236,6 +223,7 @@ public partial class SwimController : CharacterBody3D
 			GameManager.Instance.ChangeState(GameManager.GameState.Surface);
 			EventBus.Instance.EmitPlayerSurfaced();
 			AudioManager.Instance.SetUnderwater(false);
+			Input.MouseMode = Input.MouseModeEnum.Visible;
 		}
 		else if (!wasUnderwater && _isUnderwater &&
 				GameManager.Instance.CurrentState == GameManager.GameState.Diving)
