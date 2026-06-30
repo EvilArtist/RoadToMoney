@@ -76,10 +76,10 @@ public partial class HUD : CanvasLayer
 		// ── Bottom icon bar + persistent dive hint ──────────────────────────
 		_bottomIconBar  = GetNode<Control>       ("BottomIconBar");
 		_diveHintLabel  = GetNode<Label>         ("DiveHintLabel");
-		_shopIconBtn    = GetNode<TextureButton> ("BottomIconBar/ShopIconBtn");
-		_upgradeIconBtn = GetNode<TextureButton> ("BottomIconBar/UpgradeIconBtn");
-		_bookIconBtn    = GetNode<TextureButton> ("BottomIconBar/BookIconBtn");
-		_menuIconBtn    = GetNode<TextureButton> ("BottomIconBar/MenuIconBtn");
+		_shopIconBtn    = GetNode<TextureButton> ("BottomIconBar/ShopIconWrap/ShopIconBtn");
+		_upgradeIconBtn = GetNode<TextureButton> ("BottomIconBar/UpgradeIconWrap/UpgradeIconBtn");
+		_bookIconBtn    = GetNode<TextureButton> ("BottomIconBar/BookIconWrap/BookIconBtn");
+		_menuIconBtn    = GetNode<TextureButton> ("BottomIconBar/MenuIconWrap/MenuIconBtn");
 
 		SetupIconButton(_shopIconBtn,    PathShop);
 		SetupIconButton(_upgradeIconBtn, PathUpgrade);
