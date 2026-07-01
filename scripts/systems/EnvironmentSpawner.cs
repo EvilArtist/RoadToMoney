@@ -262,6 +262,8 @@ public partial class EnvironmentSpawner : Node3D
 		job.MaxAttempts = job.Count * MaxAttemptsPerProp;
 
 		float cullDist = CullDistanceForTier(job.Def.Tier);
+		job.MmInstance.VisibilityRangeBegin = 0f;       // dam bao khong bi cull khi lai gan
+		job.MmInstance.VisibilityRangeBeginMargin = 0f;
 		job.MmInstance.VisibilityRangeEnd = cullDist;
 		job.MmInstance.VisibilityRangeEndMargin = cullDist * 0.1f;
 	}
@@ -371,6 +373,8 @@ public partial class EnvironmentSpawner : Node3D
 	{
 		if (root is GeometryInstance3D geo)
 		{
+			geo.VisibilityRangeBegin = 0f;
+			geo.VisibilityRangeBeginMargin = 0f;
 			geo.VisibilityRangeEnd = cullDist;
 			geo.VisibilityRangeEndMargin = cullDist * 0.1f;
 		}
