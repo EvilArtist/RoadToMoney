@@ -32,6 +32,16 @@ public partial class EnvironmentSpawner : Node3D
 	private static readonly string GrassScene        = "res://scenes/props/GrassGroup.tscn";
 	private static readonly string SeabedDetailScene = "res://scenes/props/SeabedDetailGroup.tscn";
 
+	// Cau hinh 1 loai prop can spawn: scene, so luong, va tieu chi loc theo noise.
+	private struct PropSpawnConfig
+	{
+		public string Scene;
+		public int Count;
+		public FastNoiseLite Noise;    // null = khong loc theo noise
+		public float Threshold;
+		public bool Invert;
+	}
+
 	public override void _Ready()
 	{
 		_rng.Randomize();
@@ -53,16 +63,23 @@ public partial class EnvironmentSpawner : Node3D
 		// cho mọi loại prop, không cần sửa riêng từng SpawnProps call.
 		_occupied.Add(PlayerSpawnXZ);
 
-		SpawnProps(CoralScene,   CoralGroupCount,   null,        0f,    false);
-		SpawnProps(RockScene,    RockGroupCount,    _rockNoise,    -0.05f, true);
-		SpawnProps(SeaweedScene, SeaweedGroupCount, _seaweedNoise,  0.05f, false);
-		SpawnProps(GrassScene,        GrassGroupCount,        _grassNoise,   0.05f, false);
-		SpawnProps(SeabedDetailScene, SeabedDetailGroupCount, null,         0f,    false);
+		// Khai bao toan bo cau hinh prop can spawn trong 1 mang struct duy nhat.
+		PropSpawnConfig[] propConfigs = new PropSpawnConfig[]
+		{
+			new PropSpawnConfig { Scene = CoralScene,        Count = CoralGroupCount,        Noise = null,          Threshold = 0f,     Invert = false },
+			new PropSpawnConfig { Scene = RockScene,         Count = RockGroupCount,         Noise = _rockNoise,    Threshold = -0.05f, Invert = true  },
+			new PropSpawnConfig { Scene = SeaweedScene,      Count = SeaweedGroupCount,      Noise = _seaweedNoise, Threshold = 0.05f,  Invert = false },
+			new PropSpawnConfig { Scene = GrassScene,        Count = GrassGroupCount,        Noise = _grassNoise,   Threshold = 0.05f,  Invert = false },
+			new PropSpawnConfig { Scene = SeabedDetailScene, Count = SeabedDetailGroupCount, Noise = null,          Threshold = 0f,     Invert = false },
+		};
+
+		foreach (var config in propConfigs)
+			SpawnProps(config);
 	}
 
-	private void SpawnProps(string scenePath, int count, FastNoiseLite noiseField, float threshold, bool invert)
+	private void SpawnProps(PropSpawnConfig config)
 	{
-		var scene = GD.Load<PackedScene>(scenePath);
+		var scene = GD.Load<PackedScene>(config.Scene);
 		if (scene == null)
 		{
 			return;
@@ -70,19 +87,19 @@ public partial class EnvironmentSpawner : Node3D
 
 		int spawned = 0;
 		int totalAttempts = 0;
-		int maxTotalAttempts = count * MaxAttemptsPerProp;
+		int maxTotalAttempts = config.Count * MaxAttemptsPerProp;
 
-		while (spawned < count && totalAttempts < maxTotalAttempts)
+		while (spawned < config.Count && totalAttempts < maxTotalAttempts)
 		{
 			totalAttempts++;
 
 			float x = _rng.RandfRange(-400f, 400f);
 			float z = _rng.RandfRange(-400f, 400f);
 
-			if (noiseField != null)
+			if (config.Noise != null)
 			{
-				float n = noiseField.GetNoise2D(x, z);
-				bool reject = invert ? (n > threshold) : (n < threshold);
+				float n = config.Noise.GetNoise2D(x, z);
+				bool reject = config.Invert ? (n > config.Threshold) : (n < config.Threshold);
 				if (reject) continue;
 			}
 
