@@ -14,6 +14,11 @@ public partial class EnvironmentSpawner : Node3D
 	[Export] public float NoiseFrequency     = 0.015f;
 	[Export] public int   MaxAttemptsPerProp = 30;
 
+	// Seabed nghieng +-8 deg quanh truc X (xem OceanRightFloor/OceanLeftFloor trong
+	// OceanWorld.tscn va cong thuc Utils.GetFloorY: 0.1405 ~= tan(8deg)).
+	// Right (z > 0) nghieng -8deg, Left (z < 0) nghieng +8deg.
+	[Export] public float SeabedTiltDegrees = 8.0f;
+
 	private Vector2 PlayerSpawnXZ   = Vector2.Zero;
 	// Bán kính loại trừ — phải đủ lớn để chứa cả bounding radius của RockGroup/CoralGroup
 	// (vì 1 group có nhiều mesh con rải quanh tâm, không chỉ 1 điểm).
@@ -125,12 +130,22 @@ public partial class EnvironmentSpawner : Node3D
 
 			float floorY = Utils.GetFloorY(x, z);
 
-			var prop = scene.Instantiate<Node3D>();
-			prop.Position = new Vector3(x, floorY, z);
-			prop.RotateY(_rng.RandfRange(0f, Mathf.Pi * 2f));
+			// Nghieng prop theo dung do doc cua seabed tai vi tri z:
+			// Right (z > 0) -> -SeabedTiltDegrees, Left (z < 0) -> +SeabedTiltDegrees,
+			// khop voi rotation cua OceanRightFloor/OceanLeftFloor trong scene.
+			float tiltAngle = -Mathf.Sign(z) * Mathf.DegToRad(SeabedTiltDegrees);
+			float rotY   = _rng.RandfRange(0f, Mathf.Pi * 2f);
+			float scale  = _rng.RandfRange(0.8f, 1.3f);
 
-			float scale = _rng.RandfRange(0.8f, 1.3f);
-			prop.Scale   = Vector3.One * scale;
+			// Yaw ap dung truoc (xoay quanh truc len cua chinh prop), sau do tilt
+			// ap dung sau cung de "up" cua prop khop voi phap tuyen mat doc —
+			// neu doi thu tu nhan, tilt se bi xoay theo yaw va sai huong.
+			Basis tiltBasis = new Basis(Vector3.Right, tiltAngle);
+			Basis yawBasis  = new Basis(Vector3.Up, rotY);
+			Basis basis = (tiltBasis * yawBasis).Scaled(Vector3.One * scale);
+
+			var prop = scene.Instantiate<Node3D>();
+			prop.Transform = new Transform3D(basis, new Vector3(x, floorY, z));
 
 			AddChild(prop);
 			CreatureSpawner.PlayFirstAnimation(prop);
