@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://d2l3yxivntxa"]
-
-[ext_resource type="PackedScene" uid="uid://dl5hjvbj48fvd" path="res://assets/models/decor/bare_island_flat_rock.glb" id="1_7yntb"]
-
-[node name="BareIslandRock" type="Node3D" unique_id=404266623]
-
-[node name="Sketchfab_Scene" parent="." unique_id=811753983 instance=ExtResource("1_7yntb")]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 16, 0)

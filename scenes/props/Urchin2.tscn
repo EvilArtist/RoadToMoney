@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://boyvde0xwh3ra"]
 
-[ext_resource type="PackedScene" uid="uid://0i40hsnou1lg" path="res://assets/models/decor/urchin2.glb" id="1_8u11w"]
+[ext_resource type="PackedScene" path="res://assets/models/decor/urchin2.glb" id="1_8u11w"]
 
 [node name="Urchin2" type="Node3D" unique_id=907365253]
 

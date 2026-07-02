@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://0f4a8sfh18fg"]
+
+[ext_resource type="PackedScene" uid="uid://cnqxpq566itwy" path="res://assets/models/coral/pocillopora_meandrina.glb" id="1_svqjc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_abgpw"]
+size = Vector3(10.0896, 7.847107, 12.232788)
+
+[node name="Coral1" type="Node3D" unique_id=1796166280]
+
+[node name="Node3D7" type="Node3D" parent="." unique_id=1442665865]
+
+[node name="Sketchfab_Scene" parent="Node3D7" unique_id=140214789 instance=ExtResource("1_svqjc")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -1.902, 2.4, 3.436)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D7" unique_id=946360102]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D7/StaticBody3D" unique_id=10975577]
+transform = Transform3D(0.9998477, 0, 0.017452406, 0, 1, 0, -0.017452406, 0, 0.9998477, 0.042543888, 3.6915588, -0.10164908)
+shape = SubResource("BoxShape3D_abgpw")

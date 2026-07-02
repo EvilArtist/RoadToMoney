@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public partial class EnvironmentSpawner : Node3D
 {
-	[Export] public int CoralGroupCount   = 50;
+	[Export] public int CoralGroupCount   = 150;
 	[Export] public int RockGroupCount    = 50;
 	[Export] public int SeaweedGroupCount = 200;
 	[Export] public int GrassGroupCount       = 150;
@@ -32,6 +32,9 @@ public partial class EnvironmentSpawner : Node3D
 	private List<Vector2> _occupied = new();
 
 	private static readonly string CoralScene   = "res://scenes/props/CoralGroup.tscn";
+	private static readonly string Coral1Scene   = "res://scenes/props/Coral/Coral1.tscn";
+	private static readonly string Coral2Scene   = "res://scenes/props/Coral/Coral2.tscn";
+	private static readonly string Coral3Scene   = "res://scenes/props/Coral/Coral3.tscn";
 	private static readonly string RockScene    = "res://scenes/props/RockGroup.tscn";
 	private static readonly string SeaweedScene = "res://scenes/props/SeaweedGroup.tscn";
 	private static readonly string GrassScene        = "res://scenes/props/GrassGroup.tscn";
@@ -72,10 +75,13 @@ public partial class EnvironmentSpawner : Node3D
 		PropSpawnConfig[] propConfigs = new PropSpawnConfig[]
 		{
 			new PropSpawnConfig { Scene = CoralScene,        Count = CoralGroupCount,        Noise = null,          Threshold = 0f,     Invert = false },
-			new PropSpawnConfig { Scene = RockScene,         Count = RockGroupCount,         Noise = _rockNoise,    Threshold = -0.05f, Invert = true  },
+			// new PropSpawnConfig { Scene = RockScene,         Count = RockGroupCount,         Noise = _rockNoise,    Threshold = -0.05f, Invert = true  },
 			new PropSpawnConfig { Scene = SeaweedScene,      Count = SeaweedGroupCount,      Noise = _seaweedNoise, Threshold = 0.05f,  Invert = false },
 			new PropSpawnConfig { Scene = GrassScene,        Count = GrassGroupCount,        Noise = _grassNoise,   Threshold = 0.05f,  Invert = false },
 			new PropSpawnConfig { Scene = SeabedDetailScene, Count = SeabedDetailGroupCount, Noise = null,          Threshold = 0f,     Invert = false },
+			new PropSpawnConfig { Scene = Coral1Scene, Count = 50, Noise = null,          Threshold = 0f,     Invert = false },
+			new PropSpawnConfig { Scene = Coral2Scene, Count = 50, Noise = null,          Threshold = 0f,     Invert = false },
+			new PropSpawnConfig { Scene = Coral3Scene, Count = 50, Noise = null,          Threshold = 0f,     Invert = false },
 		};
 
 		foreach (var config in propConfigs)
