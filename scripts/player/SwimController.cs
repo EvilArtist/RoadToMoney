@@ -17,7 +17,7 @@ public partial class SwimController : CharacterBody3D
 	[Export] public float DepthFalloffPerBand = 5.0f;  // trừ bán kính mỗi band (m)
 	[Export] public float NearVisibilityEnergy = 10f; // tăng từ 3.5 — vẫn còn yếu ở bán kính 5-25m
 	[Export] public float NearVisibilityAttenuation = 1.0f; // giảm từ 1.4 — sáng đều hơn, không tối nhanh ở rìa range
-	private Color NearVisibilityColor = new Color(0.65f, 0.85f, 1.0f);
+	[Export] public Color NearVisibilityColor = new Color(0.65f, 0.85f, 1.0f);
 
 	[ExportGroup("Underwater Sun")]
 	// Mặt trời chiếu chéo (DirectionalLight3D) tạo vệt sáng dài phi lý trên đáy biển khi
