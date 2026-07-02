@@ -3,6 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://crlvmknfcc3gs" path="res://assets/models/creatures/rock.glb" id="1_edcca"]
 [ext_resource type="PackedScene" uid="uid://87eq60kh24m2" path="res://assets/models/creatures/rock_1.glb" id="2_ay314"]
 [ext_resource type="PackedScene" uid="uid://bree31g1b2x6t" path="res://assets/models/creatures/rock_2.glb" id="3_ps13x"]
+[ext_resource type="PackedScene" uid="uid://chvxau4hvjh05" path="res://assets/models/coral/brown_coral_l.glb" id="4_5qjdj"]
+[ext_resource type="PackedScene" uid="uid://b62ixiwm331pt" path="res://assets/models/coral/lazulight-coral.glb" id="5_cg1fy"]
+[ext_resource type="PackedScene" uid="uid://cnqxpq566itwy" path="res://assets/models/coral/pocillopora_meandrina.glb" id="6_dpgbo"]
+[ext_resource type="PackedScene" uid="uid://dvya5732cfjvo" path="res://assets/models/coral/rainbow_haven_reef_coral.glb" id="7_ij1wq"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_edcca"]
 size = Vector3(22, 13, 8)
@@ -39,7 +43,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -4)
 shape = SubResource("BoxShape3D_ay314")
 
 [node name="Node3D3" type="Node3D" parent="." unique_id=337419662]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.111, 0, 12.59)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.111, 0, 21.698849)
 
 [node name="Sketchfab_Scene3" parent="Node3D3" unique_id=1663282965 instance=ExtResource("3_ps13x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
@@ -47,5 +51,52 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 [node name="StaticBody3D" type="StaticBody3D" parent="Node3D3" unique_id=697241930]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D3/StaticBody3D" unique_id=1453314745]
+transform = Transform3D(0.9998477, 0, 0.017452406, 0, 1, 0, -0.017452406, 0, 0.9998477, -0.5, 3, -1.5)
+shape = SubResource("BoxShape3D_ps13x")
+
+[node name="Node3D4" type="Node3D" parent="." unique_id=1454383441]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.192215, 0, -15.421728)
+
+[node name="Sketchfab_Scene" parent="Node3D4" unique_id=1243769683 instance=ExtResource("4_5qjdj")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D4" unique_id=1114122226]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D4/StaticBody3D" unique_id=648574913]
+transform = Transform3D(0.9998477, 0, 0.017452406, 0, 1, 0, -0.017452406, 0, 0.9998477, -0.5, 3, -1.5)
+shape = SubResource("BoxShape3D_ps13x")
+
+[node name="Node3D5" type="Node3D" parent="." unique_id=292875491]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.497795, 0, -20.757824)
+
+[node name="Sketchfab_Scene2" parent="Node3D5" unique_id=572420313 instance=ExtResource("5_cg1fy")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D5" unique_id=468582714]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D5/StaticBody3D" unique_id=1594305386]
+transform = Transform3D(0.9998477, 0, 0.017452406, 0, 1, 0, -0.017452406, 0, 0.9998477, -0.5, 3, -1.5)
+shape = SubResource("BoxShape3D_ps13x")
+
+[node name="Node3D6" type="Node3D" parent="." unique_id=781102498]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.118362, 0, 21.47381)
+
+[node name="Sketchfab_Scene" parent="Node3D6" unique_id=140214789 instance=ExtResource("6_dpgbo")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D6" unique_id=2094776922]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D6/StaticBody3D" unique_id=521529427]
+transform = Transform3D(0.9998477, 0, 0.017452406, 0, 1, 0, -0.017452406, 0, 0.9998477, -0.5, 3, -1.5)
+shape = SubResource("BoxShape3D_ps13x")
+
+[node name="Node3D7" type="Node3D" parent="." unique_id=927046934]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.234177, 0, 32.694855)
+
+[node name="Sketchfab_Scene2" parent="Node3D7" unique_id=587600084 instance=ExtResource("7_ij1wq")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D7" unique_id=1224780490]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D7/StaticBody3D" unique_id=1403499987]
 transform = Transform3D(0.9998477, 0, 0.017452406, 0, 1, 0, -0.017452406, 0, 0.9998477, -0.5, 3, -1.5)
 shape = SubResource("BoxShape3D_ps13x")

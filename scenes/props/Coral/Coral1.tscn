@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dhw5bpns8xo0o"]
+
+[ext_resource type="PackedScene" uid="uid://dvya5732cfjvo" path="res://assets/models/coral/rainbow_haven_reef_coral.glb" id="1_1hl3t"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_abgpw"]
+size = Vector3(10.0896, 7.847107, 12.232788)
+
+[node name="Coral1" type="Node3D" unique_id=1796166280]
+
+[node name="Node3D7" type="Node3D" parent="." unique_id=1442665865]
+
+[node name="Sketchfab_Scene2" parent="Node3D7" unique_id=587600084 instance=ExtResource("1_1hl3t")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D7" unique_id=946360102]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D7/StaticBody3D" unique_id=10975577]
+transform = Transform3D(0.9998477, 0, 0.017452406, 0, 1, 0, -0.017452406, 0, 0.9998477, 0.042543888, 3.6915588, -0.10164908)
+shape = SubResource("BoxShape3D_abgpw")

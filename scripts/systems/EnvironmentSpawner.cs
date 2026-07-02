@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public partial class EnvironmentSpawner : Node3D
 {
-	[Export] public int CoralGroupCount   = 50;
+	[Export] public int CoralGroupCount   = 150;
 	[Export] public int RockGroupCount    = 50;
 	[Export] public int SeaweedGroupCount = 200;
 	[Export] public int GrassGroupCount       = 150;
@@ -13,6 +13,11 @@ public partial class EnvironmentSpawner : Node3D
 	[Export] public float MinSpacing         = 8.0f;
 	[Export] public float NoiseFrequency     = 0.015f;
 	[Export] public int   MaxAttemptsPerProp = 30;
+
+	// Seabed nghieng +-8 deg quanh truc X (xem OceanRightFloor/OceanLeftFloor trong
+	// OceanWorld.tscn va cong thuc Utils.GetFloorY: 0.1405 ~= tan(8deg)).
+	// Right (z > 0) nghieng -8deg, Left (z < 0) nghieng +8deg.
+	[Export] public float SeabedTiltDegrees = 8.0f;
 
 	private Vector2 PlayerSpawnXZ   = Vector2.Zero;
 	// Bán kính loại trừ — phải đủ lớn để chứa cả bounding radius của RockGroup/CoralGroup
@@ -27,10 +32,23 @@ public partial class EnvironmentSpawner : Node3D
 	private List<Vector2> _occupied = new();
 
 	private static readonly string CoralScene   = "res://scenes/props/CoralGroup.tscn";
+	private static readonly string Coral1Scene   = "res://scenes/props/Coral/Coral1.tscn";
+	private static readonly string Coral2Scene   = "res://scenes/props/Coral/Coral2.tscn";
+	private static readonly string Coral3Scene   = "res://scenes/props/Coral/Coral3.tscn";
 	private static readonly string RockScene    = "res://scenes/props/RockGroup.tscn";
 	private static readonly string SeaweedScene = "res://scenes/props/SeaweedGroup.tscn";
 	private static readonly string GrassScene        = "res://scenes/props/GrassGroup.tscn";
 	private static readonly string SeabedDetailScene = "res://scenes/props/SeabedDetailGroup.tscn";
+
+	// Cau hinh 1 loai prop can spawn: scene, so luong, va tieu chi loc theo noise.
+	private struct PropSpawnConfig
+	{
+		public string Scene;
+		public int Count;
+		public FastNoiseLite Noise;    // null = khong loc theo noise
+		public float Threshold;
+		public bool Invert;
+	}
 
 	public override void _Ready()
 	{
@@ -53,16 +71,26 @@ public partial class EnvironmentSpawner : Node3D
 		// cho mọi loại prop, không cần sửa riêng từng SpawnProps call.
 		_occupied.Add(PlayerSpawnXZ);
 
-		SpawnProps(CoralScene,   CoralGroupCount,   null,        0f,    false);
-		SpawnProps(RockScene,    RockGroupCount,    _rockNoise,    -0.05f, true);
-		SpawnProps(SeaweedScene, SeaweedGroupCount, _seaweedNoise,  0.05f, false);
-		SpawnProps(GrassScene,        GrassGroupCount,        _grassNoise,   0.05f, false);
-		SpawnProps(SeabedDetailScene, SeabedDetailGroupCount, null,         0f,    false);
+		// Khai bao toan bo cau hinh prop can spawn trong 1 mang struct duy nhat.
+		PropSpawnConfig[] propConfigs = new PropSpawnConfig[]
+		{
+			new PropSpawnConfig { Scene = CoralScene,        Count = CoralGroupCount,        Noise = null,          Threshold = 0f,     Invert = false },
+			// new PropSpawnConfig { Scene = RockScene,         Count = RockGroupCount,         Noise = _rockNoise,    Threshold = -0.05f, Invert = true  },
+			new PropSpawnConfig { Scene = SeaweedScene,      Count = SeaweedGroupCount,      Noise = _seaweedNoise, Threshold = 0.05f,  Invert = false },
+			new PropSpawnConfig { Scene = GrassScene,        Count = GrassGroupCount,        Noise = _grassNoise,   Threshold = 0.05f,  Invert = false },
+			new PropSpawnConfig { Scene = SeabedDetailScene, Count = SeabedDetailGroupCount, Noise = null,          Threshold = 0f,     Invert = false },
+			new PropSpawnConfig { Scene = Coral1Scene, Count = 50, Noise = null,          Threshold = 0f,     Invert = false },
+			new PropSpawnConfig { Scene = Coral2Scene, Count = 50, Noise = null,          Threshold = 0f,     Invert = false },
+			new PropSpawnConfig { Scene = Coral3Scene, Count = 50, Noise = null,          Threshold = 0f,     Invert = false },
+		};
+
+		foreach (var config in propConfigs)
+			SpawnProps(config);
 	}
 
-	private void SpawnProps(string scenePath, int count, FastNoiseLite noiseField, float threshold, bool invert)
+	private void SpawnProps(PropSpawnConfig config)
 	{
-		var scene = GD.Load<PackedScene>(scenePath);
+		var scene = GD.Load<PackedScene>(config.Scene);
 		if (scene == null)
 		{
 			return;
@@ -70,19 +98,19 @@ public partial class EnvironmentSpawner : Node3D
 
 		int spawned = 0;
 		int totalAttempts = 0;
-		int maxTotalAttempts = count * MaxAttemptsPerProp;
+		int maxTotalAttempts = config.Count * MaxAttemptsPerProp;
 
-		while (spawned < count && totalAttempts < maxTotalAttempts)
+		while (spawned < config.Count && totalAttempts < maxTotalAttempts)
 		{
 			totalAttempts++;
 
 			float x = _rng.RandfRange(-400f, 400f);
 			float z = _rng.RandfRange(-400f, 400f);
 
-			if (noiseField != null)
+			if (config.Noise != null)
 			{
-				float n = noiseField.GetNoise2D(x, z);
-				bool reject = invert ? (n > threshold) : (n < threshold);
+				float n = config.Noise.GetNoise2D(x, z);
+				bool reject = config.Invert ? (n > config.Threshold) : (n < config.Threshold);
 				if (reject) continue;
 			}
 
@@ -108,12 +136,22 @@ public partial class EnvironmentSpawner : Node3D
 
 			float floorY = Utils.GetFloorY(x, z);
 
-			var prop = scene.Instantiate<Node3D>();
-			prop.Position = new Vector3(x, floorY, z);
-			prop.RotateY(_rng.RandfRange(0f, Mathf.Pi * 2f));
+			// Nghieng prop theo dung do doc cua seabed tai vi tri z:
+			// Right (z > 0) -> -SeabedTiltDegrees, Left (z < 0) -> +SeabedTiltDegrees,
+			// khop voi rotation cua OceanRightFloor/OceanLeftFloor trong scene.
+			float tiltAngle = -Mathf.Sign(z) * Mathf.DegToRad(SeabedTiltDegrees);
+			float rotY   = _rng.RandfRange(0f, Mathf.Pi * 2f);
+			float scale  = _rng.RandfRange(0.8f, 1.3f);
 
-			float scale = _rng.RandfRange(0.8f, 1.3f);
-			prop.Scale   = Vector3.One * scale;
+			// Yaw ap dung truoc (xoay quanh truc len cua chinh prop), sau do tilt
+			// ap dung sau cung de "up" cua prop khop voi phap tuyen mat doc —
+			// neu doi thu tu nhan, tilt se bi xoay theo yaw va sai huong.
+			Basis tiltBasis = new Basis(Vector3.Right, tiltAngle);
+			Basis yawBasis  = new Basis(Vector3.Up, rotY);
+			Basis basis = (tiltBasis * yawBasis).Scaled(Vector3.One * scale);
+
+			var prop = scene.Instantiate<Node3D>();
+			prop.Transform = new Transform3D(basis, new Vector3(x, floorY, z));
 
 			AddChild(prop);
 			CreatureSpawner.PlayFirstAnimation(prop);
