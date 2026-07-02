@@ -3,7 +3,8 @@ using Godot;
 /// <summary>
 /// SkyController — xoay Sun/Moon, đổi màu sky + mặt biển theo giờ.
 /// KHÔNG đụng Sun.LightEnergy / AmbientLightEnergy (SwimController vẫn làm chủ 2 cái
-/// đó theo độ sâu) và KHÔNG đụng view_depth của water shader (SwimController cũng giữ).
+/// đó — chỉ theo chu kỳ ngày/đêm, KHÔNG theo độ sâu player, xem UpdateDepthEffects())
+/// và KHÔNG đụng view_depth của water shader (SwimController cũng giữ).
 /// Chỉ chỉnh: rotation Sun/Moon, SkyMode (ẩn disc khi quá tối), màu sky, màu nước.
 /// </summary>
 public partial class SkyController : Node3D

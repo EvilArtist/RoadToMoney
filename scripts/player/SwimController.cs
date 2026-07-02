@@ -299,26 +299,23 @@ public partial class SwimController : CharacterBody3D
 		_worldEnv.FogDepthEnd   = atSurface ? 150.0f : dynamicNearRadius + 6.0f;
 		_worldEnv.FogSunScatter = Mathf.Lerp(_worldEnv.FogSunScatter, Mathf.Lerp(0.2f, 0.0f, Mathf.Clamp(depth / 5.0f, 0f, 1f)), 0.1f);
 
-		// ── Mặt trời tắt hẳn sau 5m độ sâu ───────────────────────────────────
-		// Sun không chỉ ảnh hưởng ambient mà còn gây glow/specular phản chiếu
-		// (qua Glow/Bloom, mặt nước, bubble...) — nếu giữ sàn năng lượng như
-		// ambient, dưới sâu vẫn thấy quầng sáng "nắng" rất phi lý. Nên ở đây
-		// dùng ngưỡng cứng riêng (5m) và cho về thẳng 0, KHÁC với ambientCurve
-		// (vẫn dùng MaxDepthInvisible=75 cho việc tối dần tổng thể).
+		// ── Mặt trời & Ambient: CHỈ theo chu kỳ ngày/đêm, KHÔNG theo độ sâu player ──
+		// Trước đây 2 giá trị này lerp theo `depth` của player (GetDepth() = -GlobalPosition.Y
+		// của CHÍNH player), nghĩa là 1 vật thể đứng yên dưới đáy sẽ tự nhiên sáng/tối theo
+		// việc player đang nổi hay đang lặn — sai bản chất (ánh sáng phải phụ thuộc vị trí
+		// vật thể, không phụ thuộc vị trí người quan sát). Sun/Ambient là nguồn sáng TOÀN
+		// CỤC (áp dụng đều cho cả scene) nên không thể tự nhiên biết vị trí Y của từng vật;
+		// cách an toàn nhất là bỏ hẳn yếu tố "depth player" ở đây, để 2 giá trị này ổn định
+		// bất kể player đang ở đâu. Cảm giác "tối dần khi lặn sâu" giờ chỉ còn đến từ fog
+		// (theo khoảng cách camera — hợp lý, không phải bug) và NearVisibilityLight (đèn
+		// cục bộ quanh player, chủ đích thiết kế, không phải nguồn sáng toàn cục).
 		var sun = GetTree().Root.FindChild("Sun", true, false) as DirectionalLight3D;
-		float ambientCurve = Mathf.Pow(deepT, 0.6f);   // giảm nhanh hơn ở nửa đầu, mượt dần khi gần đáy
-		const float SunCutoffDepth = 5.0f; // sau ngưỡng này, sun tắt hoàn toàn — không còn phản chiếu
-		float sunT = Mathf.Clamp(depth / SunCutoffDepth, 0f, 1f);
 		if (sun != null)
 		{
-			// float targetSunEnergy = Mathf.Lerp(1.2f, 0.0f, sunT); // về thẳng 0, không có sàn
 			float dayBaseSunEnergy = DayNightManager.Instance?.GetSunEnergyForTime() ?? 1.2f;
-			float targetSunEnergy  = Mathf.Lerp(dayBaseSunEnergy, 0.0f, sunT);
-			sun.LightEnergy = Mathf.Lerp(sun.LightEnergy, targetSunEnergy, 0.08f);
+			sun.LightEnergy = Mathf.Lerp(sun.LightEnergy, dayBaseSunEnergy, 0.08f);
 		}
 
-		// ── Ambient tối dần nhưng có sàn — đảm bảo vùng NearVisibilityRadius
-		// luôn nhìn rõ được bất kể độ sâu (ambient khuếch tán, không gây glow) ──
 		// QUAN TRỌNG: AmbientLightEnergy/Color CHỈ có tác dụng khi AmbientLightSource
 		// = Color (hoặc Sky). Nếu resource Environment gốc đang để Source = Disabled
 		// (giá trị default khi tạo mới trong Inspector), mọi dòng set Energy ở trên
@@ -327,7 +324,7 @@ public partial class SwimController : CharacterBody3D
 		_worldEnv.AmbientLightSource = Godot.Environment.AmbientSource.Color;
 		_worldEnv.AmbientLightColor  = new Color(0.55f, 0.75f, 0.9f);
 		float dayBaseAmbient = DayNightManager.Instance?.GetAmbientEnergyForTime() ?? 0.85f;
-		_worldEnv.AmbientLightEnergy = Mathf.Lerp(dayBaseAmbient, 0.35f, ambientCurve); 
+		_worldEnv.AmbientLightEnergy = Mathf.Lerp(_worldEnv.AmbientLightEnergy, dayBaseAmbient, 0.08f);
 
 		// ── Background: ẩn Sky procedural khi lặn xuống ─────────────────────
 		// Sky không bị fog-theo-khoảng-cách chi phối, nên dù density cao,
