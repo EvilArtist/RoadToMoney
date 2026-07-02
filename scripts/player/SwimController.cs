@@ -15,7 +15,7 @@ public partial class SwimController : CharacterBody3D
 	// riêng nào khác) - DepthFalloffPerBand mỗi DepthBandSize mét độ sâu (tối thiểu 0).
 	[Export] public float DepthBandSize       = 10.0f; // mỗi band độ sâu (m)
 	[Export] public float DepthFalloffPerBand = 5.0f;  // trừ bán kính mỗi band (m)
-	[Export] public float NearVisibilityEnergy = 3.5f; // tăng từ 1.3 — 1.3 quá yếu để thấy rõ trong bán kính 5-25m
+	[Export] public float NearVisibilityEnergy = 10f; // tăng từ 3.5 — vẫn còn yếu ở bán kính 5-25m
 	[Export] public float NearVisibilityAttenuation = 1.0f; // giảm từ 1.4 — sáng đều hơn, không tối nhanh ở rìa range
 	private Color NearVisibilityColor = new Color(0.65f, 0.85f, 1.0f);
 
@@ -59,19 +59,8 @@ public partial class SwimController : CharacterBody3D
 		_divingLight.Visible = false;
 		_bubbleTrail.Emitting = false;
 
-		// Fill light luôn bật quanh Player — đảm bảo nhìn rõ trong NearVisibilityRadius
-		// bất kể độ sâu hay đã nâng cấp đèn hay chưa. Tạo bằng code để không cần
-		// chỉnh tay trong scene .tscn.
-		_nearVisibilityLight = new OmniLight3D();
-		_nearVisibilityLight.Name          = "NearVisibilityLight";
-		_nearVisibilityLight.LightColor    = NearVisibilityColor;
-		_nearVisibilityLight.LightEnergy   = NearVisibilityEnergy;
-		float initialRadius = UpgradeManager.Instance?.GetLightRange() ?? 5.0f; // fallback nếu Autoload chưa kịp _Ready
-		_nearVisibilityLight.OmniRange = initialRadius; // sẽ được tính lại mỗi frame trong UpdateDepthEffects
-		_nearVisibilityLight.OmniAttenuation = NearVisibilityAttenuation; // fade tự nhiên, không cắt cụt
-		_nearVisibilityLight.Visible       = true;
-		_cameraRig.AddChild(_nearVisibilityLight);
-		_nearVisibilityLight.Position = Vector3.Zero; // đặt ngay tại vị trí camera
+		InitNearVisibilityLight();
+
 		// Bắt đầu ở surface state
 		// GameManager.Instance.ChangeState(GameManager.GameState.Surface);
 		var worldEnv = GetTree().Root.FindChild("WorldEnvironment", true, false) as WorldEnvironment;
@@ -84,6 +73,23 @@ public partial class SwimController : CharacterBody3D
 		var waterPlane = GetTree().Root.FindChild("WaterPlane", true, false) as MeshInstance3D;
 		if (waterPlane != null)
 			_waterMaterial = waterPlane.GetSurfaceOverrideMaterial(0) as ShaderMaterial;
+	}
+
+	// Fill light luôn bật quanh Player — đảm bảo nhìn rõ trong NearVisibilityRadius
+	// bất kể độ sâu hay đã nâng cấp đèn hay chưa. Tạo bằng code để không cần
+	// chỉnh tay trong scene .tscn.
+	private void InitNearVisibilityLight()
+	{
+		_nearVisibilityLight = new OmniLight3D();
+		_nearVisibilityLight.Name          = "NearVisibilityLight";
+		_nearVisibilityLight.LightColor    = NearVisibilityColor;
+		_nearVisibilityLight.LightEnergy   = NearVisibilityEnergy;
+		float initialRadius = UpgradeManager.Instance?.GetLightRange() ?? 5.0f; // fallback nếu Autoload chưa kịp _Ready
+		_nearVisibilityLight.OmniRange = initialRadius; // sẽ được tính lại mỗi frame trong UpdateDepthEffects
+		_nearVisibilityLight.OmniAttenuation = NearVisibilityAttenuation; // fade tự nhiên, không cắt cụt
+		_nearVisibilityLight.Visible       = true;
+		_cameraRig.AddChild(_nearVisibilityLight);
+		_nearVisibilityLight.Position = Vector3.Zero; // đặt ngay tại vị trí camera
 	}
 
 	public override void _Input(InputEvent @event)
