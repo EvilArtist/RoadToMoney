@@ -19,6 +19,14 @@ public partial class SwimController : CharacterBody3D
 	[Export] public float NearVisibilityAttenuation = 1.0f; // giảm từ 1.4 — sáng đều hơn, không tối nhanh ở rìa range
 	private Color NearVisibilityColor = new Color(0.65f, 0.85f, 1.0f);
 
+	[ExportGroup("Underwater Sun")]
+	// Mặt trời chiếu chéo (DirectionalLight3D) tạo vệt sáng dài phi lý trên đáy biển khi
+	// lặn — hạ năng lượng xuống thấp ngay khi chuyển state Diving (KHÔNG theo depth liên
+	// tục của player, tránh lặp lại lỗi "sáng theo vị trí player" — đây chỉ là 1 mức bật/
+	// tắt theo trạng thái Surface/Diving, giống nhau ở mọi độ sâu khi đã lặn).
+	[Export] public float UnderwaterSunEnergyFactor = 0.15f; // % còn lại của dayBaseSunEnergy khi Diving
+	[Export] public float SunEnergyLerpSpeed        = 0.2f;  // tăng từ 0.08 — chuyển nhanh hơn ngay khi lặn
+
 
 
 	private const float BaseFogDensity = 0.25f;   // density cho tầm nhìn ~5-7m — tinh chỉnh tay trong editor
@@ -299,21 +307,31 @@ public partial class SwimController : CharacterBody3D
 		_worldEnv.FogDepthEnd   = atSurface ? 150.0f : dynamicNearRadius + 6.0f;
 		_worldEnv.FogSunScatter = Mathf.Lerp(_worldEnv.FogSunScatter, Mathf.Lerp(0.2f, 0.0f, Mathf.Clamp(depth / 5.0f, 0f, 1f)), 0.1f);
 
-		// ── Mặt trời & Ambient: CHỈ theo chu kỳ ngày/đêm, KHÔNG theo độ sâu player ──
+		// ── Mặt trời & Ambient: theo ngày/đêm (+ state Surface/Diving cho sun),
+		// KHÔNG theo depth liên tục của player ─────────────────────────────
 		// Trước đây 2 giá trị này lerp theo `depth` của player (GetDepth() = -GlobalPosition.Y
 		// của CHÍNH player), nghĩa là 1 vật thể đứng yên dưới đáy sẽ tự nhiên sáng/tối theo
 		// việc player đang nổi hay đang lặn — sai bản chất (ánh sáng phải phụ thuộc vị trí
 		// vật thể, không phụ thuộc vị trí người quan sát). Sun/Ambient là nguồn sáng TOÀN
-		// CỤC (áp dụng đều cho cả scene) nên không thể tự nhiên biết vị trí Y của từng vật;
-		// cách an toàn nhất là bỏ hẳn yếu tố "depth player" ở đây, để 2 giá trị này ổn định
-		// bất kể player đang ở đâu. Cảm giác "tối dần khi lặn sâu" giờ chỉ còn đến từ fog
-		// (theo khoảng cách camera — hợp lý, không phải bug) và NearVisibilityLight (đèn
-		// cục bộ quanh player, chủ đích thiết kế, không phải nguồn sáng toàn cục).
+		// CỤC (áp dụng đều cho cả scene) nên không thể tự nhiên biết vị trí Y của từng vật.
+		// Ambient: bỏ hẳn yếu tố depth, chỉ theo ngày/đêm.
+		// Sun: nắng chiếu chéo (DirectionalLight3D) tạo vệt sáng dài phi lý trên đáy khi lặn,
+		// nên vẫn cần hạ xuống — nhưng dùng atSurface (bật/tắt theo STATE) thay vì lerp liên
+		// tục theo GetDepth(), nên không còn thay đổi theo việc player đang nông hay sâu khi
+		// đã ở trạng thái Diving (giống nhau ở mọi độ sâu).
+		// Cảm giác "tối dần khi lặn sâu" còn lại đến từ fog (theo khoảng cách camera — hợp
+		// lý) và NearVisibilityLight (đèn cục bộ quanh player, chủ đích thiết kế).
 		var sun = GetTree().Root.FindChild("Sun", true, false) as DirectionalLight3D;
 		if (sun != null)
 		{
 			float dayBaseSunEnergy = DayNightManager.Instance?.GetSunEnergyForTime() ?? 1.2f;
-			sun.LightEnergy = Mathf.Lerp(sun.LightEnergy, dayBaseSunEnergy, 0.08f);
+			// atSurface: giữ nguyên nắng thật. Diving: hạ xuống 1 mức thấp cố định
+			// (UnderwaterSunEnergyFactor) — giống nhau ở MỌI độ sâu, không phải lerp
+			// liên tục theo GetDepth() của player như code cũ.
+			float targetSunEnergy = atSurface
+				? dayBaseSunEnergy
+				: dayBaseSunEnergy * UnderwaterSunEnergyFactor;
+			sun.LightEnergy = Mathf.Lerp(sun.LightEnergy, targetSunEnergy, SunEnergyLerpSpeed);
 		}
 
 		// QUAN TRỌNG: AmbientLightEnergy/Color CHỈ có tác dụng khi AmbientLightSource
